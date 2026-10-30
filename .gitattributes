@@ -1,0 +1,3 @@
+# Preserve upstream compliance materials verbatim, including their whitespace.
+third-party-licenses/** -whitespace
+third-party-sources/** -whitespace

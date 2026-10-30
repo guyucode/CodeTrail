@@ -1,0 +1,3254 @@
+{
+  "overview": {
+    "summary": "CodeTrail 把分散的源码组织成可阅读的功能。Agent 维护功能关联和运行路径，人沿着证据理解实现并确认版本；代码变化后再检查需要重读的部分。 右侧用自然语言展示 Agent 动态；阅读问题自动保存为批注，可手动导出 Markdown 继续协作。",
+    "modules": [
+      {
+        "id": "ui",
+        "name": "阅读界面",
+        "responsibility": "选功能、读代码，右侧了解工作动态并记录问题，确认读过的版本。 在运行记录中先看实际结果，再进入代码。"
+      },
+      {
+        "id": "desktop",
+        "name": "桌面接口",
+        "responsibility": "选择工程，固定访问边界，把操作交给核心。"
+      },
+      {
+        "id": "core",
+        "name": "核心引擎",
+        "responsibility": "扫描符号、比较差异，校验关联和版本。"
+      },
+      {
+        "id": "cli",
+        "name": "Agent CLI",
+        "responsibility": "维护功能证据和概览，执行交付校验。"
+      },
+      {
+        "id": "records",
+        "name": "项目记录",
+        "responsibility": "隔离保存 Agent 交付、工作动态、人工阅读确认和批注。 运行采集按当时源码版本独立保存。"
+      }
+    ],
+    "paths": [
+      {
+        "id": "open-display",
+        "name": "打开与展示",
+        "description": "工程目录怎样变成可阅读的功能与代码？",
+        "steps": [
+          {
+            "id": "choose",
+            "title": "选择工程",
+            "description": "从原生目录选择器进入真实工程。",
+            "moduleId": "ui",
+            "featureId": "codetrail-project-open",
+            "evidenceId": "e-b9bcbe1b23617f058383"
+          },
+          {
+            "id": "boundary",
+            "title": "固定访问边界",
+            "description": "后续读取使用已打开的工程根目录。",
+            "moduleId": "desktop",
+            "featureId": "codetrail-project-open",
+            "evidenceId": "e-1da9f1f18ed0e4e50b6a"
+          },
+          {
+            "id": "scan",
+            "title": "扫描文件与符号",
+            "description": "读取受限源码，为后续定位建立索引。",
+            "moduleId": "core",
+            "featureId": "codetrail-project-open",
+            "evidenceId": "e-3213a1f6b001ad582f3b"
+          },
+          {
+            "id": "merge",
+            "title": "合并功能与人工记录",
+            "description": "按稳定身份组合证据、备注与审阅状态。",
+            "moduleId": "records",
+            "featureId": "codetrail-agent-delivery",
+            "evidenceId": "e-ad5b5de12c5144c5dd27"
+          },
+          {
+            "id": "display",
+            "title": "展示阅读结果",
+            "description": "从功能说明进入代码与差异阅读。",
+            "moduleId": "ui",
+            "featureId": "codetrail-map-export",
+            "evidenceId": "e-bcd091f8d0682a6d5fc2"
+          }
+        ]
+      },
+      {
+        "id": "change-deliver",
+        "name": "修改与交付",
+        "description": "实现改变后，Agent 如何同步关联并验证？",
+        "steps": [
+          {
+            "id": "inspect",
+            "title": "读取当前状态",
+            "description": "取得现有身份、源码哈希和版本令牌。",
+            "moduleId": "cli",
+            "featureId": "codetrail-agent-delivery",
+            "evidenceId": "overview-inspect"
+          },
+          {
+            "id": "report",
+            "title": "报告工作进展",
+            "description": "只向实际被修改项目报告，声明该项目根目录与文件；不把阅读器自身开发或运行结果写进其他项目。",
+            "moduleId": "cli",
+            "featureId": "codetrail-agent-activity",
+            "evidenceId": "activity-cli"
+          },
+          {
+            "id": "draft",
+            "title": "准备更新草稿",
+            "description": "改代码后核对说明、职责及完整证据。",
+            "moduleId": "cli",
+            "featureId": "codetrail-delivery-workflow",
+            "evidenceId": "overview-draft"
+          },
+          {
+            "id": "deliver",
+            "title": "原子交付关联",
+            "description": "检查版本、源码和步骤引用后保存。",
+            "moduleId": "core",
+            "featureId": "codetrail-agent-delivery",
+            "evidenceId": "e-2d1e2419e3e9f0669101"
+          },
+          {
+            "id": "coverage",
+            "title": "处理遗漏关联",
+            "description": "定位未覆盖改动，说明必要的例外。",
+            "moduleId": "cli",
+            "featureId": "codetrail-delivery-workflow",
+            "evidenceId": "overview-coverage"
+          },
+          {
+            "id": "validate",
+            "title": "执行统一校验",
+            "description": "运行明确测试并复查源码和记录。",
+            "moduleId": "cli",
+            "featureId": "codetrail-delivery-workflow",
+            "evidenceId": "overview-validate"
+          }
+        ]
+      },
+      {
+        "id": "read-review",
+        "name": "阅读与复核",
+        "description": "人如何理解功能，变化后为什么要重读？",
+        "steps": [
+          {
+            "id": "select",
+            "title": "选择一个功能",
+            "description": "从功能列表进入首个有效证据。",
+            "moduleId": "ui",
+            "featureId": "codetrail-reader-navigation",
+            "evidenceId": "overview-App-selectFeature"
+          },
+          {
+            "id": "runtime",
+            "title": "回看一次实际运行",
+            "description": "选择运行编号，查看真实结果、变量和分支原因；版本相同才跳到当前代码。",
+            "moduleId": "ui",
+            "featureId": "codetrail-runtime-records",
+            "evidenceId": "trace-ui-steps"
+          },
+          {
+            "id": "navigate",
+            "title": "逐处阅读证据",
+            "description": "按职责跨文件跳转，保留功能上下文。",
+            "moduleId": "ui",
+            "featureId": "codetrail-reader-navigation",
+            "evidenceId": "e-c5dd85a6e65ac9125a67"
+          },
+          {
+            "id": "annotate",
+            "title": "随时记录问题",
+            "description": "冻结阅读上下文，停笔自动保存，不替人确认阅读。",
+            "moduleId": "ui",
+            "featureId": "codetrail-reading-annotations",
+            "evidenceId": "ui-NoteEditor"
+          },
+          {
+            "id": "feedback",
+            "title": "导出批注给 Agent",
+            "description": "生成项目内 Markdown，由使用者手动发送反馈。",
+            "moduleId": "records",
+            "featureId": "codetrail-reading-annotations",
+            "evidenceId": "journal-export_file"
+          },
+          {
+            "id": "diff",
+            "title": "核对本次改动",
+            "description": "用 Git 基线与最终磁盘源码比较。",
+            "moduleId": "core",
+            "featureId": "codetrail-git-diff",
+            "evidenceId": "e-8f61b86a6cfe1ef3e2b1"
+          },
+          {
+            "id": "confirm",
+            "title": "确认读过的版本",
+            "description": "人工操作保存当前摘要及确认时间。",
+            "moduleId": "records",
+            "featureId": "codetrail-human-review",
+            "evidenceId": "e-e99c908a898ec2e32da2"
+          },
+          {
+            "id": "recheck",
+            "title": "刷新并判断需重读",
+            "description": "重新计算说明、职责和证据的摘要。",
+            "moduleId": "core",
+            "featureId": "codetrail-human-review",
+            "evidenceId": "e-dafdec6e04146d3c27dc"
+          }
+        ]
+      }
+    ]
+  },
+  "schemaVersion": 1,
+  "features": {
+    "codetrail-agent-activity": {
+      "name": "13 · 当前项目 Agent 修改动态",
+      "description": "只展示当前加载项目的 Agent 修改报告，声明规范根目录和具体项目文件；跨项目、运行结果、纯 .reader 维护和未声明归属的旧记录不作为修改动态展示。没有匹配报告时显示暂无修改动态；程序执行另看运行记录。",
+      "anchors": [
+        {
+          "id": "journal-Activity",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/journal.rs::Activity",
+          "symbolName": "Activity",
+          "range": {
+            "file": "crates/reader-core/src/journal.rs",
+            "startLine": 5,
+            "endLine": 24
+          },
+          "contentHash": "e6b618ce07e1f42ab5c28bb75944a3c1b66ce18d8aecd343f1a077233de65655",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "定义、读取并约束独立记录，兼容没有记录的旧项目。"
+        },
+        {
+          "id": "journal-report",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/journal.rs::report",
+          "symbolName": "report",
+          "range": {
+            "file": "crates/reader-core/src/journal.rs",
+            "startLine": 127,
+            "endLine": 173
+          },
+          "contentHash": "3e3ab2b9139dfa65d411800748694b9e8a871bdfe8788638a08136e5bac0ba67",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "写入前验证声明根目录、projectChange 类型和具体文件范围；拒绝跨项目、元数据、运行回执与符号链接路径。"
+        },
+        {
+          "id": "journal-now",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/journal.rs::now",
+          "symbolName": "now",
+          "range": {
+            "file": "crates/reader-core/src/journal.rs",
+            "startLine": 174,
+            "endLine": 180
+          },
+          "contentHash": "a49ac753971464b65d6f692a4173ddb8c49b17302c2f68a6a488f4ed2cc41d17",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "定义、读取并约束独立记录，兼容没有记录的旧项目。"
+        },
+        {
+          "id": "journal-read",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/journal.rs::read",
+          "symbolName": "read",
+          "range": {
+            "file": "crates/reader-core/src/journal.rs",
+            "startLine": 117,
+            "endLine": 126
+          },
+          "contentHash": "91bb3d4eb4e21a0f947539c0b8db9e2f33e53f92d2cb4fe6bd97f72645c51c26",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "读取后仅返回属于当前规范根目录的项目修改报告，兼容保留旧记录；人工批注单独读取不改写。"
+        },
+        {
+          "id": "journal-load",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/journal.rs::load",
+          "symbolName": "load",
+          "range": {
+            "file": "crates/reader-core/src/journal.rs",
+            "startLine": 70,
+            "endLine": 78
+          },
+          "contentHash": "57a13ad7473c32dd5afcae73463ae5d95a36b28f1a1f859ccc78ec22f4161322",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "定义、读取并约束独立记录，兼容没有记录的旧项目。"
+        },
+        {
+          "id": "journal-lock",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/journal.rs::lock",
+          "symbolName": "lock",
+          "range": {
+            "file": "crates/reader-core/src/journal.rs",
+            "startLine": 53,
+            "endLine": 69
+          },
+          "contentHash": "77f3d1303b3dad85e1aa6e2edd3b0009268082239e186cf1f33ddd42acd29013",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "用独占文件锁串行跨进程写入，不混写 Agent 与人工文件。"
+        },
+        {
+          "id": "journal-id",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/journal.rs::id",
+          "symbolName": "id",
+          "range": {
+            "file": "crates/reader-core/src/journal.rs",
+            "startLine": 79,
+            "endLine": 89
+          },
+          "contentHash": "303654bf3688d59ce7033954121919ec701d77a373c5795737d4e64330ec4572",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "定义、读取并约束独立记录，兼容没有记录的旧项目。"
+        },
+        {
+          "id": "journal-text",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/journal.rs::text",
+          "symbolName": "text",
+          "range": {
+            "file": "crates/reader-core/src/journal.rs",
+            "startLine": 90,
+            "endLine": 96
+          },
+          "contentHash": "d0430f3f2259cc7cd525305487a6593838938bb7cf953d2ebc89995c11c0b99b",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "定义、读取并约束独立记录，兼容没有记录的旧项目。"
+        },
+        {
+          "id": "ui-ActivityCards",
+          "kind": "symbol",
+          "symbolId": "src/components/WorkPanel.tsx::ActivityCards",
+          "symbolName": "ActivityCards",
+          "range": {
+            "file": "src/components/WorkPanel.tsx",
+            "startLine": 16,
+            "endLine": 22
+          },
+          "contentHash": "6994cb1ed36aee1d1c28cf86e34ebc22afd7675e28acaedd8bb439eee72504a2",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "分别展示改动位置、影响、预期效果与 Agent 自述验证结果。"
+        },
+        {
+          "id": "ui-WorkPanel",
+          "kind": "symbol",
+          "symbolId": "src/components/WorkPanel.tsx::WorkPanel",
+          "symbolName": "WorkPanel",
+          "range": {
+            "file": "src/components/WorkPanel.tsx",
+            "startLine": 65,
+            "endLine": 113
+          },
+          "contentHash": "fcb1996ae7cb5583d3bfaa2e5f1baea6b871e2a6e92baf6d7c2e3e1fe4ab41d5",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "按当前打开根目录轮询并过滤修改报告，无匹配时显示暂无修改动态；批注仍独立自动保存。"
+        },
+        {
+          "id": "desktop-journal",
+          "kind": "symbol",
+          "symbolId": "src-tauri/src/lib.rs::journal_action",
+          "symbolName": "journal_action",
+          "range": {
+            "file": "src-tauri/src/lib.rs",
+            "startLine": 178,
+            "endLine": 225
+          },
+          "contentHash": "fbe870b6ec05ba690892d57e8872983e52e00d9966f53acfc64b55cde69b6ea7",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "以当前已打开工程为边界执行记录读写；迟到请求不能写入新工程。"
+        },
+        {
+          "id": "journal-tests",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "crates/reader-core/tests/journal.rs",
+            "startLine": 1,
+            "endLine": 242
+          },
+          "contentHash": "f86c177b0d66e4f0b26f543981b5dbc954e876a7f247db1445beb287dbe51106",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "回归验证当前项目/外来项目、旧格式、运行事件、元数据、越界及符号链接过滤；人工记录保持不变。"
+        },
+        {
+          "id": "sidebar-layout",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "src/styles.css",
+            "startLine": 3245,
+            "endLine": 3262
+          },
+          "contentHash": "ef85eead59106dc5b833bac73a196b1ee4e575dcd82734a9516839c77e6ca54d",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "右侧持久面板的阅读布局、滚动和窄屏尺寸。"
+        },
+        {
+          "id": "activity-ui-test",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "tests/work-panel.test.ts",
+            "startLine": 1,
+            "endLine": 24
+          },
+          "contentHash": "35a1f11ad16c0755b296445adde430bf7d00d3007dec6f7d896755e5ea1d6cdc",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "回归验证当前项目/外来项目、旧格式、运行事件、元数据、越界及符号链接过滤；人工记录保持不变。"
+        },
+        {
+          "id": "activity-cli",
+          "kind": "symbol",
+          "symbolId": "crates/reader-cli/src/main.rs::run_agent",
+          "symbolName": "run_agent",
+          "range": {
+            "file": "crates/reader-cli/src/main.rs",
+            "startLine": 122,
+            "endLine": 192
+          },
+          "contentHash": "b9393720283f106ad69058c25ead6bba9943cf24f68f6aca023335f8849ee411",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "接收 report JSON 并调用仅写 Agent 动态的接口。"
+        },
+        {
+          "id": "rules-AGENT_DELIVERY",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "docs/AGENT_DELIVERY.md",
+            "startLine": 194,
+            "endLine": 226
+          },
+          "contentHash": "8ed51950fceb6dc5bed322b3b32bb2c2740a15c9dee7469cd841accc1b9ffcf2",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "约定 projectRoot、projectChange、files 的作用域及旧数据兼容，区分运行回执、阅读器维护和项目修改。"
+        },
+        {
+          "id": "rules-AGENTS",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "AGENTS.md",
+            "startLine": 70,
+            "endLine": 77
+          },
+          "contentHash": "4227e7ec8d4b58f3886cd32a56cda990d2064732fef21a2c4f98d34ddd72ea83",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "约定真实动态报告、批注自动保存、历史版本和人工手动反馈边界。"
+        },
+        {
+          "id": "rules-USER_GUIDE",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "docs/USER_GUIDE.md",
+            "startLine": 284,
+            "endLine": 290
+          },
+          "contentHash": "28338fe7da3a6fa23435a3e2e93d91dde02195c18e9d6f195ea3c898fed51f3a",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "约定真实动态报告、批注自动保存、历史版本和人工手动反馈边界。"
+        },
+        {
+          "id": "shared-Journal",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/journal.rs::Journal",
+          "symbolName": "Journal",
+          "range": {
+            "file": "crates/reader-core/src/journal.rs",
+            "startLine": 40,
+            "endLine": 45
+          },
+          "contentHash": "891447e71ca081d9be9a0c614d156328fc1eb9e7037b1a4ad8ae98b682e6ab82",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "定义分别读取动态和人工批注的只读快照，互不混写。"
+        },
+        {
+          "id": "shared-Lock-as-Drop-drop",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/journal.rs::<Lock as Drop>::drop",
+          "symbolName": "drop",
+          "range": {
+            "file": "crates/reader-core/src/journal.rs",
+            "startLine": 49,
+            "endLine": 51
+          },
+          "contentHash": "cf1b8d0cd964898694c24f3d1c1624a114af7813f34e82588bed8345e69f284a",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "写入结束或失败时释放进程间锁，避免正常错误残留锁。"
+        },
+        {
+          "id": "shared-command",
+          "kind": "symbol",
+          "symbolId": "src/components/WorkPanel.tsx::command",
+          "symbolName": "command",
+          "range": {
+            "file": "src/components/WorkPanel.tsx",
+            "startLine": 23,
+            "endLine": 23
+          },
+          "contentHash": "2a79477379b72525f270bc87cb7e2e2331b87ee8ad43552a20f38b0aa874ef3f",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "把记录请求显式绑定当前工程根路径，避免延迟请求越过工程边界。"
+        },
+        {
+          "id": "scope-activity_path",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/journal.rs::activity_path",
+          "symbolName": "activity_path",
+          "range": {
+            "file": "crates/reader-core/src/journal.rs",
+            "startLine": 97,
+            "endLine": 108
+          },
+          "contentHash": "b9d6242a7cbc8b4af66f9bb59437ecbef27c9f1a80fe8f8d0eb223142395f6ce",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "仅允许具体项目文件；拒绝内部 .reader/.git、越界或通配符。"
+        },
+        {
+          "id": "scope-belongs_to_project",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/journal.rs::belongs_to_project",
+          "symbolName": "belongs_to_project",
+          "range": {
+            "file": "crates/reader-core/src/journal.rs",
+            "startLine": 110,
+            "endLine": 116
+          },
+          "contentHash": "b4f7fbc685c47e373ea74e2da8ba9a88cbf0b064043f218ebb2f96fd490ea68c",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "按明确项目根目录、事件类型和文件范围匹配；不根据标题或存储位置猜归属。"
+        },
+        {
+          "id": "scope-Activity",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/journal.rs::Activity",
+          "symbolName": "Activity",
+          "range": {
+            "file": "crates/reader-core/src/journal.rs",
+            "startLine": 5,
+            "endLine": 24
+          },
+          "contentHash": "e6b618ce07e1f42ab5c28bb75944a3c1b66ce18d8aecd343f1a077233de65655",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "为旧记录保留可缺省范围字段，但新上报必须声明范围后才写入。"
+        },
+        {
+          "id": "scope-ui-filter",
+          "kind": "symbol",
+          "symbolId": "src/components/WorkPanel.tsx::projectActivities",
+          "symbolName": "projectActivities",
+          "range": {
+            "file": "src/components/WorkPanel.tsx",
+            "startLine": 9,
+            "endLine": 15
+          },
+          "contentHash": "cb2a9d4ce5610e4bc54ea3765cdc5a75e354e3e5b729afae01bd600e26d8eac3",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "前端再次过滤当前项目修改报告，切换项目时不展示复制来的外来事件或无归属旧记录。"
+        },
+        {
+          "id": "scope-ui-model",
+          "kind": "symbol",
+          "symbolId": "src/components/WorkPanel.tsx::Activity",
+          "symbolName": "Activity",
+          "range": {
+            "file": "src/components/WorkPanel.tsx",
+            "startLine": 4,
+            "endLine": 4
+          },
+          "contentHash": "c52bc28e3451b3f0baeb5f1b7af91a0bf9661cf04834e9c948a9c3f4e98a3673",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "旧记录范围字段可缺省读取，前端只展示有完整 projectRoot、projectChange、files 声明的当前项目修改。"
+        }
+      ],
+      "delivery": {
+        "deliveryId": "mac-preview-release-20261031",
+        "summary": "Mac preview release: reviewed existing behavior and evidence; no business logic changes.",
+        "evidenceDigest": "6c4be404ec0ffef65f2cf36eaa9bc93855bf1dffd065b73531c047101ac7ff7b",
+        "matchesSource": true
+      }
+    },
+    "codetrail-agent-delivery": {
+      "name": "01 · Agent 交付与人工隔离",
+      "description": "建议从这里开始：CLI 接收稳定功能 ID 和带职责证据，校验源码及版本后原子交付。声明和人工确认分别存储；Agent 无权通过交付字段标记已确认。",
+      "anchors": [
+        {
+          "id": "e-e2f870f2201039e66060",
+          "kind": "symbol",
+          "symbolId": "crates/reader-cli/src/main.rs::run_agent",
+          "symbolName": "run_agent",
+          "range": {
+            "file": "crates/reader-cli/src/main.rs",
+            "startLine": 122,
+            "endLine": 192
+          },
+          "contentHash": "b9393720283f106ad69058c25ead6bba9943cf24f68f6aca023335f8849ee411",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "分派功能交付、统一校验与独立 report 动态命令；拒绝未知参数并输出 JSON。"
+        },
+        {
+          "id": "e-2d1e2419e3e9f0669101",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/agent.rs::deliver",
+          "symbolName": "deliver",
+          "range": {
+            "file": "crates/reader-core/src/agent.rs",
+            "startLine": 139,
+            "endLine": 307
+          },
+          "contentHash": "949ebb9577410ec74a89a44426f4a90b9552740eec7d0d108111309462bf8c92",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "校验存储 revision、功能摘要、文件哈希、符号与范围，整批保存至 agent.json。"
+        },
+        {
+          "id": "e-ad5b5de12c5144c5dd27",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/agent.rs::merge",
+          "symbolName": "merge",
+          "range": {
+            "file": "crates/reader-core/src/agent.rs",
+            "startLine": 317,
+            "endLine": 356
+          },
+          "contentHash": "9b529c243c97fc9fbe4757a6907fbb4ff8872b965dc8464026ed0c908cf83ca4",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "按稳定 ID 合并 Agent 声明与人工状态，并按证据 ID 保留人工备注。"
+        },
+        {
+          "id": "e-740bcb12bc4a5319d758",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/agent.rs::check_delivery",
+          "symbolName": "check_delivery",
+          "range": {
+            "file": "crates/reader-core/src/agent.rs",
+            "startLine": 387,
+            "endLine": 401
+          },
+          "contentHash": "53175a45dabf2495d57b082f086507c1cb5e84e6ea80a31f302823f0b5a07628",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "独立计算交付证据是否仍匹配当前源码；不自动产生人工确认。"
+        },
+        {
+          "id": "e-cdf2d249a8c8edaea44e",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/lib.rs::atomic_json",
+          "symbolName": "atomic_json",
+          "range": {
+            "file": "crates/reader-core/src/lib.rs",
+            "startLine": 739,
+            "endLine": 763
+          },
+          "contentHash": "51939efbfebd17d3c2c97a613563a9edb6e0d467abffe27779d4f9a88c092ae2",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "先写临时文件再原子替换，拒绝符号链接，避免保存半份交付。"
+        },
+        {
+          "id": "e-78b3096e204eae86c714",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/tests/agent_delivery.rs::delivery_is_separate_atomic_stable_and_preserves_human_confirmation",
+          "symbolName": "delivery_is_separate_atomic_stable_and_preserves_human_confirmation",
+          "range": {
+            "file": "crates/reader-core/tests/agent_delivery.rs",
+            "startLine": 52,
+            "endLine": 84
+          },
+          "contentHash": "9e0d03f85f958cb20b8a1fddfa3027288144625fcfe48e52d98e52b7ac91d38a",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "验证同一 ID 更新、人工确认字段保持、行为说明变化触发待复核。"
+        },
+        {
+          "id": "e-b77d55ef25ca34af4790",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "docs/AGENT_DELIVERY.md",
+            "startLine": 1,
+            "endLine": 35
+          },
+          "contentHash": "c3908c8cd3c5fc18e48a64f3e3851c6de06945aa91499ad79b17cd491671ec6a",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "Agent 使用步骤、CLI 约定和请求结构的阅读入口。"
+        },
+        {
+          "id": "overview-validate_overview",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/agent.rs::validate_overview",
+          "symbolName": "validate_overview",
+          "range": {
+            "file": "crates/reader-core/src/agent.rs",
+            "startLine": 404,
+            "endLine": 456
+          },
+          "contentHash": "a9677ef7da1164453d47a8b4db67696f0361be38adb27e3b2d4d43ba2e2a9e21",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "约束模块与路径结构、身份唯一性及交付后有效的功能/证据引用，错误时拒绝整批交付。"
+        },
+        {
+          "id": "overview-project_overview",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/agent.rs::project_overview",
+          "symbolName": "project_overview",
+          "range": {
+            "file": "crates/reader-core/src/agent.rs",
+            "startLine": 459,
+            "endLine": 477
+          },
+          "contentHash": "bb2582220b915c3604b3a90c2311d1dae0b0ab1ca593321db731f36a4a161c57",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "加载并验证已保存概览；损坏说明转为警告，保留源码阅读。"
+        },
+        {
+          "id": "overview-inspect",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/agent.rs::inspect",
+          "symbolName": "inspect",
+          "range": {
+            "file": "crates/reader-core/src/agent.rs",
+            "startLine": 117,
+            "endLine": 129
+          },
+          "contentHash": "a505dd1ee2f5a0f33e2e5b741dd7af551bfa58bd421e3cc2f42d94e9d610fe1c",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "提供当前功能、源码哈希、存储 revision 和项目概览。"
+        },
+        {
+          "id": "overview-core-tests",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "crates/reader-core/tests/agent_delivery.rs",
+            "startLine": 1,
+            "endLine": 338
+          },
+          "contentHash": "a7daf47c733dec9d2a76df7e13eb9e3b28d195bd8a065e8d106fd372b4e659e1",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "验证概览原子交付、旧请求保留、无效目标拒绝、损坏概览降级及人工隔离。"
+        },
+        {
+          "id": "overview-cli-tests",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "crates/reader-cli/tests/agent_cli.rs",
+            "startLine": 1,
+            "endLine": 224
+          },
+          "contentHash": "34d5ef35e583a1a389ccbe485c5072b39a2bf54352dd627d83060e8624ebca3b",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "验证 CLI 草稿保留概览，且 check 拒绝损坏的步骤引用；兼容旧交付流程。"
+        },
+        {
+          "id": "overview-Delivery",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/agent.rs::Delivery",
+          "symbolName": "Delivery",
+          "range": {
+            "file": "crates/reader-core/src/agent.rs",
+            "startLine": 4,
+            "endLine": 13
+          },
+          "contentHash": "8567839b98037007e2f75699863eae59e77049cc70abe6f6c93f9b8fd76ba168",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "交付请求接受可选概览，继续拒绝未知字段及人工审阅字段。"
+        },
+        {
+          "id": "overview-Store",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/agent.rs::Store",
+          "symbolName": "Store",
+          "range": {
+            "file": "crates/reader-core/src/agent.rs",
+            "startLine": 39,
+            "endLine": 46
+          },
+          "contentHash": "26439b71421279275b70a8ab82b445599f1814766e80f014a7d3ff26443e5524",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "在原有独立 Agent 存储中可选保存概览，旧数据缺省兼容。"
+        }
+      ],
+      "delivery": {
+        "deliveryId": "mac-preview-release-20261031",
+        "summary": "Mac preview release: reviewed existing behavior and evidence; no business logic changes.",
+        "evidenceDigest": "e4eb6107ce9ca2b0bb48c255f07590defe033c9eda882cbb4543ac2b3c0b25a2",
+        "matchesSource": true
+      }
+    },
+    "codetrail-delivery-workflow": {
+      "name": "12 · 交付草稿、遗漏检查与统一校验",
+      "description": "基于 Git 基线生成带稳定身份的交付草稿，逐行提示遗漏关联。必要理由绑定当前差异，统一执行明确测试并复核源码及元数据稳定性；不代替人工阅读确认。",
+      "anchors": [
+        {
+          "id": "workflow-crates-reader-cli-src-workflow-rs",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "crates/reader-cli/src/workflow.rs",
+            "startLine": 1,
+            "endLine": 190
+          },
+          "contentHash": "0b6ba5d95b445f79298544062aa77aff67e44c482b0ec504ee7ffbe1c0f8b722",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "实现草稿生成、严格检查计划、逐行遗漏检测与差异摘要，以及统一校验执行前后快照保护。"
+        },
+        {
+          "id": "workflow-run_agent",
+          "kind": "symbol",
+          "symbolId": "crates/reader-cli/src/main.rs::run_agent",
+          "symbolName": "run_agent",
+          "range": {
+            "file": "crates/reader-cli/src/main.rs",
+            "startLine": 122,
+            "endLine": 192
+          },
+          "contentHash": "b9393720283f106ad69058c25ead6bba9943cf24f68f6aca023335f8849ee411",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "分派功能交付、统一校验与独立 report 动态命令；拒绝未知参数并输出 JSON。"
+        },
+        {
+          "id": "workflow-crates-reader-cli-tests-agent_cli-rs",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "crates/reader-cli/tests/agent_cli.rs",
+            "startLine": 1,
+            "endLine": 224
+          },
+          "contentHash": "34d5ef35e583a1a389ccbe485c5072b39a2bf54352dd627d83060e8624ebca3b",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "真实 CLI 与临时 Git 仓库回归：身份保留、同文件漏关联、理由过期、失败命令、源码变化和二进制资源边界。"
+        },
+        {
+          "id": "workflow-docs-AGENT_DELIVERY-md",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "docs/AGENT_DELIVERY.md",
+            "startLine": 98,
+            "endLine": 154
+          },
+          "contentHash": "caedbb3792bbd90941f154357533f0a7f8a707652616af05930daae56376ee68",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "定义草稿人工核对、基线选择、遗漏理由摘要、明确检查计划与统一退出码。"
+        },
+        {
+          "id": "workflow-AGENTS-md",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "AGENTS.md",
+            "startLine": 54,
+            "endLine": 61
+          },
+          "contentHash": "7092f3821f98b9ce5cdacebd7688960c5b71005d15738c436093bd9c8d1571de",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "要求未来 Agent 记录基线、同步维护证据并在最终交付前执行统一校验。"
+        },
+        {
+          "id": "overview-draft",
+          "kind": "symbol",
+          "symbolId": "crates/reader-cli/src/workflow.rs::draft",
+          "symbolName": "draft",
+          "range": {
+            "file": "crates/reader-cli/src/workflow.rs",
+            "startLine": 9,
+            "endLine": 43
+          },
+          "contentHash": "887d02ef862c5478fbb44bd5a5979f66e4b7e006277b2fcf3dd606f87d1efaae",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "保留概览并生成带最新版本令牌的功能更新草稿。"
+        },
+        {
+          "id": "overview-coverage",
+          "kind": "symbol",
+          "symbolId": "crates/reader-cli/src/workflow.rs::coverage",
+          "symbolName": "coverage",
+          "range": {
+            "file": "crates/reader-cli/src/workflow.rs",
+            "startLine": 68,
+            "endLine": 111
+          },
+          "contentHash": "f4b32342ed64e56f9a4678738563db4f05cf5dc8d7e78138a923f2daaa164ded",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "检查 Git 基线到工作区的新增行遗漏与当前差异说明。"
+        },
+        {
+          "id": "overview-validate",
+          "kind": "symbol",
+          "symbolId": "crates/reader-cli/src/workflow.rs::validate",
+          "symbolName": "validate",
+          "range": {
+            "file": "crates/reader-cli/src/workflow.rs",
+            "startLine": 122,
+            "endLine": 178
+          },
+          "contentHash": "6ba6b97e54b7faeb478253969abbc85cbc18f0bd8aa72f94880007da274345d8",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "明确执行检查计划，再核对源码、概览和人工状态的稳定性。"
+        },
+        {
+          "id": "release-commercial-license-md",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "COMMERCIAL-LICENSE.md",
+            "startLine": 1,
+            "endLine": 11
+          },
+          "contentHash": "01593dfc3e6cd6b49c0573f84cc73f4311ed26388bb08b6b81b803d2ac61356c",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "Defines commercial authorization boundaries and preserves third-party and historical license rights."
+        },
+        {
+          "id": "release-readme-md",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "README.md",
+            "startLine": 1,
+            "endLine": 247
+          },
+          "contentHash": "18674aa01dd6a982b7ccf5786a894aa18f0a1223319934c4eda57a3f3679e68f",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "Explains Mac preview installation, architecture, optional dependencies and licensing."
+        },
+        {
+          "id": "release-src-tauri-tauri-conf-json",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "src-tauri/tauri.conf.json",
+            "startLine": 1,
+            "endLine": 50
+          },
+          "contentHash": "13ea4731bfd7cfed6b671ffd3befc902925bdf3c3418e208fbe2e3ef96082930",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "Bundles production assets, third-party license texts and MPL source packages."
+        },
+        {
+          "id": "release-agents-md",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "AGENTS.md",
+            "startLine": 1,
+            "endLine": 94
+          },
+          "contentHash": "2c272febf21f2d92811b0c5503e3ef7d0bec1a30dd26ddf4ca30581c051929d7",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "Requires verified delivery, private-data exclusion and accurate release compatibility claims."
+        }
+      ],
+      "delivery": {
+        "deliveryId": "mac-preview-release-20261031",
+        "summary": "Mac preview release: reviewed existing behavior and evidence; no business logic changes.",
+        "evidenceDigest": "17572125328606637d8ea1059089aa58b0bf6639e3a0fa929aeaa1cb35da06a0",
+        "matchesSource": true
+      }
+    },
+    "codetrail-demo-boundary": {
+      "name": "11 · 内置演示与真实项目隔离",
+      "description": "启动默认展示演示数据；演示标注只存 localStorage，真实项目通过 Tauri 使用 .reader。浏览器演示不能访问真实磁盘或 Git。",
+      "anchors": [
+        {
+          "id": "e-8c932823c332019394ce",
+          "kind": "symbol",
+          "symbolId": "src/api.ts::openProject",
+          "symbolName": "openProject",
+          "range": {
+            "file": "src/api.ts",
+            "startLine": 17,
+            "endLine": 22
+          },
+          "contentHash": "f24bab287c2d6c05f0d2025e3db206ea637594053f50e890c0ee4efd22e6ffd4",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "只允许桌面打开真实项目，并在成功后切换 demoMode 路由。"
+        },
+        {
+          "id": "e-6415dca701bfc4bf11ef",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "src/api.ts",
+            "startLine": 8,
+            "endLine": 34
+          },
+          "contentHash": "775127d07c77fb94d567ac3afdd181c0f45b719174314004110dce394a57a87f",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "统一 API 根据 demoMode 分流演示与原生 IPC；真实读取不降级为假数据。"
+        },
+        {
+          "id": "e-0f5e8d8784c856c96861",
+          "kind": "symbol",
+          "symbolId": "src/demo.ts::persist",
+          "symbolName": "persist",
+          "range": {
+            "file": "src/demo.ts",
+            "startLine": 57,
+            "endLine": 61
+          },
+          "contentHash": "11f7c0e7a913deec0990347e6349fda5605e02abe9a105c21e1a92ce2a6f2685",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "演示阅读标注保存在本机 localStorage，不写入真实项目。"
+        },
+        {
+          "id": "e-1711dbcc7cfef67fe454",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "tests/demo.test.ts",
+            "startLine": 1,
+            "endLine": 109
+          },
+          "contentHash": "b8f5627aa02b5f4f4375efd33c818a79ba8e0576018440479410e2ed16e2782a",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "覆盖演示标注持久化、摘要确认、差异关联及关系边界；不代替原生仓库验收。"
+        }
+      ],
+      "delivery": {
+        "deliveryId": "mac-preview-release-20261031",
+        "summary": "Mac preview release: reviewed existing behavior and evidence; no business logic changes.",
+        "evidenceDigest": "2486a61e2552f3ff14f7d685d83f4139bfda9fc4fb480644886a877a89e63ec1",
+        "matchesSource": true
+      }
+    },
+    "codetrail-git-diff": {
+      "name": "06 · Git 快照与代码差异",
+      "description": "以提交和最终磁盘内容比较，包含暂存、未暂存和未跟踪变化。Diff 关联功能证据；读取工作区不运行仓库自定义 clean/textconv 过滤器。",
+      "anchors": [
+        {
+          "id": "e-c8280e229819eb6471a0",
+          "kind": "symbol",
+          "symbolId": "src-tauri/src/lib.rs::get_changes",
+          "symbolName": "get_changes",
+          "range": {
+            "file": "src-tauri/src/lib.rs",
+            "startLine": 129,
+            "endLine": 140
+          },
+          "contentHash": "3c7ef3f69974aa6d27f331ac1559e90c23761fd23f5ed662639342828322128b",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "桌面 IPC 获取当前工程的差异和功能关联。"
+        },
+        {
+          "id": "e-6d0de3031eacc89440d9",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/git.rs::compare",
+          "symbolName": "compare",
+          "range": {
+            "file": "crates/reader-core/src/git.rs",
+            "startLine": 441,
+            "endLine": 581
+          },
+          "contentHash": "a79820c4343c637b71dd5e1ebb0d1c4608e0aba1bec52e84aaeb1964c6e715ce",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "构造历史提交或工作区快照，识别文件变化和重命名线索。"
+        },
+        {
+          "id": "e-8f61b86a6cfe1ef3e2b1",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/git.rs::changes",
+          "symbolName": "changes",
+          "range": {
+            "file": "crates/reader-core/src/git.rs",
+            "startLine": 629,
+            "endLine": 758
+          },
+          "contentHash": "7e31fe07338fb3c8862f72b79e8af65c4699a4ece57c544954b7e795b6a2f61e",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "生成行级 hunks、变化符号与相关功能列表。"
+        },
+        {
+          "id": "e-ec0a50b194993c426aaf",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/git.rs::git",
+          "symbolName": "git",
+          "range": {
+            "file": "crates/reader-core/src/git.rs",
+            "startLine": 42,
+            "endLine": 72
+          },
+          "contentHash": "2391c168d3922254c89ad9853cc6147cddd948e225489b75e6a35643f7543d6b",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "关闭 fsmonitor、hooks、外部 diff 等可能执行项目配置的 Git 扩展入口。"
+        },
+        {
+          "id": "e-60a57c57b75c5f40bd2c",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/git.rs::tests::final_worktree_combines_staged_unstaged_and_untracked",
+          "symbolName": "final_worktree_combines_staged_unstaged_and_untracked",
+          "range": {
+            "file": "crates/reader-core/src/git.rs",
+            "startLine": 854,
+            "endLine": 903
+          },
+          "contentHash": "bfcfc2d040ef5b34bc7b4c2db1be6665c0538add4d0bc7d98506aa68231ab0af",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "验证默认 diff 是基线到最终工作区，涵盖三类变化。"
+        },
+        {
+          "id": "git-blob_bytes",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/git.rs::blob_bytes",
+          "symbolName": "blob_bytes",
+          "range": {
+            "file": "crates/reader-core/src/git.rs",
+            "startLine": 243,
+            "endLine": 250
+          },
+          "contentHash": "98d7cccc685681c1dd74eb22add0845a3f8e9f1d35d781deaf0b7885a952ea9f",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "以大小限制读取 Git 对象原始字节，不运行仓库文本过滤器。"
+        },
+        {
+          "id": "git-blob",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/git.rs::blob",
+          "symbolName": "blob",
+          "range": {
+            "file": "crates/reader-core/src/git.rs",
+            "startLine": 252,
+            "endLine": 254
+          },
+          "contentHash": "c4da913c420034894609a2b416868674650c672fcf41d391e2a124edbf5a9153",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "为文本差异调用方严格解码 Git 原始对象。"
+        },
+        {
+          "id": "git-worktree_bytes",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/git.rs::worktree_bytes",
+          "symbolName": "worktree_bytes",
+          "range": {
+            "file": "crates/reader-core/src/git.rs",
+            "startLine": 263,
+            "endLine": 311
+          },
+          "contentHash": "948bebe79479c5c82c7f262bddbbc69614da6fd9544a61d62e26fbcf65ea88b4",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "在路径与符号链接边界内读取磁盘字节和执行模式。"
+        },
+        {
+          "id": "git-worktree_file",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/git.rs::worktree_file",
+          "symbolName": "worktree_file",
+          "range": {
+            "file": "crates/reader-core/src/git.rs",
+            "startLine": 313,
+            "endLine": 317
+          },
+          "contentHash": "82314a297bdc2f7dc1cf30ad4e8f262ca1c4d291564611cfd2dc18d817443a63",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "为文本阅读调用方保留严格 UTF-8 解码。"
+        }
+      ],
+      "delivery": {
+        "deliveryId": "mac-preview-release-20261031",
+        "summary": "Mac preview release: reviewed existing behavior and evidence; no business logic changes.",
+        "evidenceDigest": "3fc60750c847ffcf2a4091b2c81bb139bf5ce5ca2634958bb03246bedfadea51",
+        "matchesSource": true
+      }
+    },
+    "codetrail-human-review": {
+      "name": "05 · 版本摘要与人工审阅",
+      "description": "已确认表示人读过指定功能说明和代码证据，不表示测试通过。内容或职责改变后，旧确认保留但显示待复核；确认时还要防止界面快照过期。",
+      "anchors": [
+        {
+          "id": "e-dd86f5f897fdc56fab27",
+          "kind": "symbol",
+          "symbolId": "src/App.tsx::App::updateReview",
+          "symbolName": "updateReview",
+          "range": {
+            "file": "src/App.tsx",
+            "startLine": 949,
+            "endLine": 966
+          },
+          "contentHash": "beb8f2072276a54a44d676814ad408c77c0c9f26a405890b9f0772f183984158",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "将界面持有的 currentDigest 随人工确认请求发送，避免确认另一个版本。"
+        },
+        {
+          "id": "e-e99c908a898ec2e32da2",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/lib.rs::set_review",
+          "symbolName": "set_review",
+          "range": {
+            "file": "crates/reader-core/src/lib.rs",
+            "startLine": 298,
+            "endLine": 354
+          },
+          "contentHash": "052fbba48dab962ec5d5810565f20af1480c0937b8c624060518a97f48a05041",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "校验预期摘要与当前证据，再保存人工确认时间和摘要。"
+        },
+        {
+          "id": "e-dafdec6e04146d3c27dc",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/lib.rs::review_digest",
+          "symbolName": "review_digest",
+          "range": {
+            "file": "crates/reader-core/src/lib.rs",
+            "startLine": 914,
+            "endLine": 944
+          },
+          "contentHash": "40ca3fa5175b8ec48218463a34680ad2205347d033ea81f25ea1a68e00af99fb",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "摘要覆盖功能说明、代码内容、人工备注及 Agent 职责；保留旧格式算法兼容。"
+        },
+        {
+          "id": "e-900b249d387203fb629d",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/tests/core_behaviors.rs::stale_ui_snapshot_cannot_confirm_changed_code",
+          "symbolName": "stale_ui_snapshot_cannot_confirm_changed_code",
+          "range": {
+            "file": "crates/reader-core/tests/core_behaviors.rs",
+            "startLine": 489,
+            "endLine": 509
+          },
+          "contentHash": "6eede939246f16c4101ece1ace56834abf336c595e312e9f4071855a4b653c8e",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "验证阅读后源码发生变化时，旧界面摘要不能确认新代码。"
+        },
+        {
+          "id": "e-42e35948623d26fbad4a",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/tests/agent_delivery.rs::current_source_is_checked_independently_of_human_review",
+          "symbolName": "current_source_is_checked_independently_of_human_review",
+          "range": {
+            "file": "crates/reader-core/tests/agent_delivery.rs",
+            "startLine": 131,
+            "endLine": 189
+          },
+          "contentHash": "c297da91f29ef36da841fb721faead6a07601db0976b6d948a63a66e726fd6d5",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "验证 Agent 交付一致性与人工确认分别计算，移动不误报、修改/删除可检测。"
+        },
+        {
+          "id": "simple-review-labels",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "src/App.tsx",
+            "startLine": 97,
+            "endLine": 102
+          },
+          "contentHash": "4a1755b3fec61cd7fccbfb1452c9bfbc760c0279233898333a8dc6edfc291f2f",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "仅简化未读、已读、需重读文案；底层审阅状态与摘要协议不变。"
+        }
+      ],
+      "delivery": {
+        "deliveryId": "mac-preview-release-20261031",
+        "summary": "Mac preview release: reviewed existing behavior and evidence; no business logic changes.",
+        "evidenceDigest": "480545e055ee827eddb17a5b1a6a7d41d8ad0cbeff9a89f5123b5102cf1195a1",
+        "matchesSource": true
+      }
+    },
+    "codetrail-manual-association": {
+      "name": "04 · 人工功能索引与锚点修复",
+      "description": "保留旧工作流：创建功能、绑定整个符号或选中行、唯一内容迁移和人工重绑。Agent 管理的功能改用 CLI 维护，旧人工数据继续可读可写。",
+      "anchors": [
+        {
+          "id": "e-81df6b8947c3c054ffc7",
+          "kind": "symbol",
+          "symbolId": "src/App.tsx::App::beginBinding",
+          "symbolName": "beginBinding",
+          "range": {
+            "file": "src/App.tsx",
+            "startLine": 850,
+            "endLine": 881
+          },
+          "contentHash": "d8047fb4e8802e18b8b66cd9bf1e7eec169256cc7226ebaf6c7e3d2fce4b503a",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "从光标所在符号或选中行生成绑定预览，选择目标功能。"
+        },
+        {
+          "id": "e-db0e0de9b6cf1269cdd4",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/lib.rs::save_feature",
+          "symbolName": "save_feature",
+          "range": {
+            "file": "crates/reader-core/src/lib.rs",
+            "startLine": 114,
+            "endLine": 165
+          },
+          "contentHash": "a87735fe0314490e4fdfe60624348f72b8af1f438eebd525c11c84726b9db9ba",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "校验并保存人工功能说明、颜色与层级，拒绝编辑 Agent 管理的声明。"
+        },
+        {
+          "id": "e-237907a0e9d3563a8ddb",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/lib.rs::bind_anchor",
+          "symbolName": "bind_anchor",
+          "range": {
+            "file": "crates/reader-core/src/lib.rs",
+            "startLine": 191,
+            "endLine": 278
+          },
+          "contentHash": "4e43bdc02780319d60e8a7bc9068c3a4b998ea24db67006f4a7035896a614a72",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "核对索引、范围、符号和重复绑定，保存锚点与人工备注。"
+        },
+        {
+          "id": "e-3b38bb7ba228ed31f50d",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/lib.rs::resolve_anchor",
+          "symbolName": "resolve_anchor",
+          "range": {
+            "file": "crates/reader-core/src/lib.rs",
+            "startLine": 820,
+            "endLine": 912
+          },
+          "contentHash": "4cd1423979f3ba89528ed73abe1029e7b00d3d891fbd6aef7d001e4d335f9875",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "读取时重定位符号或唯一片段，区分正常、移动、变化、失效和歧义。"
+        },
+        {
+          "id": "e-973c5d696c2b612762aa",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/tests/core_behaviors.rs::partial_range_never_migrates_into_another_symbol_with_identical_text",
+          "symbolName": "partial_range_never_migrates_into_another_symbol_with_identical_text",
+          "range": {
+            "file": "crates/reader-core/tests/core_behaviors.rs",
+            "startLine": 435,
+            "endLine": 467
+          },
+          "contentHash": "4fa70cfc4fcdbcf785b86ccc67a6ff0524121a5225477a2ecc64ac09ef5a2302",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "防止片段因为内容相同而误迁移到另一个符号。"
+        },
+        {
+          "id": "e-88ff5bdf988d44a3a44b",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/tests/agent_delivery.rs::legacy_files_read_unchanged_and_explicit_adoption_keeps_notes",
+          "symbolName": "legacy_files_read_unchanged_and_explicit_adoption_keeps_notes",
+          "range": {
+            "file": "crates/reader-core/tests/agent_delivery.rs",
+            "startLine": 191,
+            "endLine": 239
+          },
+          "contentHash": "98c3188eb28e5cd47be16fe3613c3cef25551da4d61ab28b5fdf08d58163c903",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "验证旧人工文件无需迁移，显式接管时仍保留人工备注。"
+        },
+        {
+          "id": "simple-secondary-inspector",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "src/App.tsx",
+            "startLine": 1579,
+            "endLine": 1872
+          },
+          "contentHash": "033df699ae7a855c170de5959f66dd77a428ee44cb9c7f69598a0651b334ee88",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "详情按需显示；旧人工编辑、重绑及反向定位仍保留，Agent 管理功能不展示不可用维护按钮。"
+        }
+      ],
+      "delivery": {
+        "deliveryId": "mac-preview-release-20261031",
+        "summary": "Mac preview release: reviewed existing behavior and evidence; no business logic changes.",
+        "evidenceDigest": "0738f5f563c033c1c53b08ae7dc37aab738260804ee99ef9f346b96fc46d121a",
+        "matchesSource": true
+      }
+    },
+    "codetrail-map-export": {
+      "name": "10 · 项目概览与功能阅读",
+      "description": "先了解模块职责及打开、交付、复核三条运行路径，再点击步骤进入对应功能和源码。保留直接功能阅读及阅读记录导出。概览是有源码证据的解释性材料，不声称验证动态调用图。",
+      "anchors": [
+        {
+          "id": "e-bcd091f8d0682a6d5fc2",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "src/App.tsx",
+            "startLine": 1291,
+            "endLine": 1551
+          },
+          "contentHash": "666508907d8f9b8878cae4858bf21839a1089199004dd759b4b1abd565e16213",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "统一阅读区展示功能说明、证据职责、确认入口及代码/差异切换；更多菜单保留低频操作。"
+        },
+        {
+          "id": "e-cdf75b7ed9c31e759934",
+          "kind": "symbol",
+          "symbolId": "src/App.tsx::App::exportReport",
+          "symbolName": "exportReport",
+          "range": {
+            "file": "src/App.tsx",
+            "startLine": 968,
+            "endLine": 970
+          },
+          "contentHash": "6c544de35078201ff726dd282485170f5135d4e60f77d044e99db3506157da0a",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "向当前后端请求阅读记录并供预览/复制。"
+        },
+        {
+          "id": "e-6b8c4f9850196535c4af",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/lib.rs::export_review",
+          "symbolName": "export_review",
+          "range": {
+            "file": "crates/reader-core/src/lib.rs",
+            "startLine": 356,
+            "endLine": 427
+          },
+          "contentHash": "1c3228793d9e01970701415aa0d7965aeff9388d36729857a9e89ec4c96b32eb",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "生成带真实范围、人工状态和 Agent 交付/职责的 Markdown 阅读记录。"
+        },
+        {
+          "id": "e-35297719bec53566a7cb",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/tests/core_behaviors.rs::review_export_has_actual_anchors_and_status",
+          "symbolName": "review_export_has_actual_anchors_and_status",
+          "range": {
+            "file": "crates/reader-core/tests/core_behaviors.rs",
+            "startLine": 375,
+            "endLine": 384
+          },
+          "contentHash": "77c457561d6bfc54c3d919f3206462f188e4ce30bdd4a0b0c07c089452372d5c",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "检查导出含实际锚点与人工阅读状态。"
+        },
+        {
+          "id": "simple-reading-guide",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "docs/USER_GUIDE.md",
+            "startLine": 27,
+            "endLine": 43
+          },
+          "contentHash": "5aea96f9c3d6f8f5a58e4b046153ac0d0af90a5a54b2d6a178a7bbdec7b0cafc",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "说明最短阅读路径与次级入口，明确保留原有数据与人工记录。"
+        },
+        {
+          "id": "overview-component",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "src/components/ProjectOverview.tsx",
+            "startLine": 1,
+            "endLine": 43
+          },
+          "contentHash": "70820e4cc343a869e73ea29170ed59cbfae2972eedee099e3ffd871392f7d6eb",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "展示项目目的、模块职责与运行路径；精确解析步骤对应的功能和证据，不回退到其他代码。"
+        },
+        {
+          "id": "overview-ui-tests",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "tests/overview.test.ts",
+            "startLine": 1,
+            "endLine": 39
+          },
+          "contentHash": "eab76d0a9ebd0f9b7275b97eb88d071532777dda31d0075a1ad4e1e3aefef0c7",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "核验精确目标解析、失效证据禁用、变化提示及安全渲染，且不修改人工状态。"
+        },
+        {
+          "id": "overview-core-models",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "crates/reader-core/src/types.rs",
+            "startLine": 1,
+            "endLine": 362
+          },
+          "contentHash": "dc7d85140534ef62829f990a6276d640e1ff88962ea501748b8b1dbbf9db3b3b",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "定义项目概览、模块、路径和步骤的严格数据契约，并使项目快照可选携带概览。"
+        },
+        {
+          "id": "overview-ui-models",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "src/types.ts",
+            "startLine": 1,
+            "endLine": 55
+          },
+          "contentHash": "69fa089bdbf6c33709d73b49ffaee429fad60752acc96ae04e3a84c6b52784ce",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "前端保持与核心一致的可选概览和步骤引用类型，兼容无概览项目。"
+        },
+        {
+          "id": "overview-user-guide",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "docs/USER_GUIDE.md",
+            "startLine": 1,
+            "endLine": 276
+          },
+          "contentHash": "8e0f24a7d908e590e8660b7c9b3ccb1d1ab3e59e42404bd6b1846413276606ac",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "说明概览到功能代码的阅读方式、次级入口和旧项目兼容行为。"
+        },
+        {
+          "id": "overview-protocol",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "docs/AGENT_DELIVERY.md",
+            "startLine": 1,
+            "endLine": 192
+          },
+          "contentHash": "9322cb1abf7def0bafd8a58131cb59e98d6c7cf73e3f424a83e40ae70d296028",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "规定概览可选扩展、版本兼容、精确步骤引用与解释性路径边界。"
+        },
+        {
+          "id": "overview-maintenance",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "AGENTS.md",
+            "startLine": 1,
+            "endLine": 68
+          },
+          "contentHash": "aacdb809bee201e1c0cbb3e82b1e1f05cfc715c305143dec8bbd4ef958c82045",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "要求后续 Agent 修改模块或入口时同步维护概览并交付校验。"
+        }
+      ],
+      "delivery": {
+        "deliveryId": "mac-preview-release-20261031",
+        "summary": "Mac preview release: reviewed existing behavior and evidence; no business logic changes.",
+        "evidenceDigest": "dc478d08a0b7cea6ce7863b70ff1046e060f287c2df6b2302f30a07438667314",
+        "matchesSource": true
+      }
+    },
+    "codetrail-project-open": {
+      "name": "02 · 打开工程与只读边界",
+      "description": "从原生目录选择进入真实工程。Tauri 会话固定根目录，Rust 扫描受限文本；仅阅读和刷新不写源码或阅读元数据。",
+      "anchors": [
+        {
+          "id": "e-b9bcbe1b23617f058383",
+          "kind": "symbol",
+          "symbolId": "src/App.tsx::App::openProject",
+          "symbolName": "openProject",
+          "range": {
+            "file": "src/App.tsx",
+            "startLine": 933,
+            "endLine": 947
+          },
+          "contentHash": "f8ef9583bb9725ddb64f004d8387fd5d7a0dafc4b6d928b79a1eb273197929b3",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "前端触发目录选择，接纳真实项目快照并退出内置演示。"
+        },
+        {
+          "id": "e-9144a050bb2a02434663",
+          "kind": "symbol",
+          "symbolId": "src/api.ts::chooseProject",
+          "symbolName": "chooseProject",
+          "range": {
+            "file": "src/api.ts",
+            "startLine": 11,
+            "endLine": 16
+          },
+          "contentHash": "ec33bd09a4aec7eb827a5a4dc286b51f1ebae05d6dfb8f922a684caa4fc903e7",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "浏览器模式拒绝真实仓库读取，桌面模式使用原生目录选择。"
+        },
+        {
+          "id": "e-1da9f1f18ed0e4e50b6a",
+          "kind": "symbol",
+          "symbolId": "src-tauri/src/lib.rs::with_root",
+          "symbolName": "with_root",
+          "range": {
+            "file": "src-tauri/src/lib.rs",
+            "startLine": 17,
+            "endLine": 33
+          },
+          "contentHash": "3ab5c1e31fc9401ec10ce6e2b0513ef78a4465b6112807edbb3bdcf28856f001",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "后端只操作明确打开的根目录，并在阻塞线程中串行执行会话操作。"
+        },
+        {
+          "id": "e-a11509c8d1abbe2e5de0",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/lib.rs::open_project",
+          "symbolName": "open_project",
+          "range": {
+            "file": "crates/reader-core/src/lib.rs",
+            "startLine": 47,
+            "endLine": 99
+          },
+          "contentHash": "f677eb3d1663f2e5c6276ec8f87918a695aa7feb9449bbf234ff088e675b33b4",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "扫描文件、解析符号、合并功能并重新计算审阅状态。"
+        },
+        {
+          "id": "e-3213a1f6b001ad582f3b",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/lib.rs::scan_repository",
+          "symbolName": "scan_repository",
+          "range": {
+            "file": "crates/reader-core/src/lib.rs",
+            "startLine": 501,
+            "endLine": 595
+          },
+          "contentHash": "40298370945614018de009a4fac84f4fac53bbb71da708b21fc5b74e28d09888",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "遵守忽略规则和数量/大小预算，排除生成目录和二进制资源。"
+        },
+        {
+          "id": "e-10fd13a0ebb13b023d28",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/lib.rs::safe_source_path",
+          "symbolName": "safe_source_path",
+          "range": {
+            "file": "crates/reader-core/src/lib.rs",
+            "startLine": 459,
+            "endLine": 471
+          },
+          "contentHash": "6a5ecfba77a7db2f37f685d9406ed770e29e32ec24b5e18eba08c4faf373c708",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "逐层拒绝符号链接，并核对规范化路径仍在仓库内。"
+        },
+        {
+          "id": "e-30ad68c5fd6f09ed0167",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/tests/core_behaviors.rs::opens_are_deterministic_and_create_no_metadata",
+          "symbolName": "opens_are_deterministic_and_create_no_metadata",
+          "range": {
+            "file": "crates/reader-core/tests/core_behaviors.rs",
+            "startLine": 99,
+            "endLine": 107
+          },
+          "contentHash": "c6e0fff61f99f5c599db1e2f6f359183a77441f0245f5ccd3e0e7b416d7c519a",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "检查只读打开的确定性以及不会隐式创建 .reader。"
+        }
+      ],
+      "delivery": {
+        "deliveryId": "mac-preview-release-20261031",
+        "summary": "Mac preview release: reviewed existing behavior and evidence; no business logic changes.",
+        "evidenceDigest": "bde0f7297ec6f642937430e1b320d4acf7800461c60fce5048904628430c33eb",
+        "matchesSource": true
+      }
+    },
+    "codetrail-pyright": {
+      "name": "08 · Pyright 语义增强与隔离",
+      "description": "仅对捕获的 Python 源码运行受限语言服务，核验定义和引用；不读取项目解释器配置、不执行项目 Python。不可用时保留静态结果。",
+      "anchors": [
+        {
+          "id": "e-3c325271c763529d0eec",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/semantic.rs::enrich_with_policy",
+          "symbolName": "enrich_with_policy",
+          "range": {
+            "file": "crates/reader-core/src/semantic.rs",
+            "startLine": 82,
+            "endLine": 113
+          },
+          "contentHash": "e8a350a061c36f1acb06a9afebc3fe3910a073822ea2e16cd53e9b1c737c7085",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "核对临时目录边界并发现受信任 Node/Pyright，失败时返回可解释的降级报告。"
+        },
+        {
+          "id": "e-a42f4ed9eeb0026852b7",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/semantic.rs::Snapshot::new",
+          "symbolName": "new",
+          "range": {
+            "file": "crates/reader-core/src/semantic.rs",
+            "startLine": 340,
+            "endLine": 404
+          },
+          "contentHash": "85c46ed9fad7ec9a880b57c946e4fc5296aef55626b22903ab5eeec3915ff010",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "复制受预算限制的源码快照，构造独立 pyrightconfig。"
+        },
+        {
+          "id": "e-00b340b7f41f9a2697ed",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/semantic.rs::ServerCommand::command",
+          "symbolName": "command",
+          "range": {
+            "file": "crates/reader-core/src/semantic.rs",
+            "startLine": 180,
+            "endLine": 208
+          },
+          "contentHash": "564c83e9da624feb83ca02648c08dfea2c04a724590382082cf4739eb09304c6",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "清理继承环境，限制 Node 文件访问，且不授予子进程或原生插件能力。"
+        },
+        {
+          "id": "e-5c06f65739242c00315e",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/semantic.rs::enrich_using_policy",
+          "symbolName": "enrich_using_policy",
+          "range": {
+            "file": "crates/reader-core/src/semantic.rs",
+            "startLine": 1136,
+            "endLine": 1390
+          },
+          "contentHash": "df8aa6405a07592c753979fa3657733ea15ffaee43ef27e997aea8866eb130b3",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "发送 LSP 定义/引用请求，将精确位置匹配到已捕获的 AST 证据。"
+        },
+        {
+          "id": "e-216fbc4e48efed809746",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/semantic_tests.rs::real_pyright_resolves_cross_file_method_and_function_value_without_running_source",
+          "symbolName": "real_pyright_resolves_cross_file_method_and_function_value_without_running_source",
+          "range": {
+            "file": "crates/reader-core/src/semantic_tests.rs",
+            "startLine": 563,
+            "endLine": 634
+          },
+          "contentHash": "74b57701f67a6e0e9fe86d7ab0c6bd1e9ec919017ad906b96a45b39ee81f785f",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "用真实 Pyright 验证方法/函数值引用，并通过 tripwire 确认不执行项目源码。"
+        },
+        {
+          "id": "stream-d25223385712fbfb",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/relations.rs::analyze",
+          "symbolName": "analyze",
+          "range": {
+            "file": "crates/reader-core/src/relations.rs",
+            "startLine": 15,
+            "endLine": 196
+          },
+          "contentHash": "060f0b1e624a4759cc05eb24183a1ee66ec92f1079daa85a6eba9b468c1a7513",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "语言服务结果与静态截断状态合并，已知不完整的静态证据不能显示成完整就绪。"
+        }
+      ],
+      "delivery": {
+        "deliveryId": "mac-preview-release-20261031",
+        "summary": "Mac preview release: reviewed existing behavior and evidence; no business logic changes.",
+        "evidenceDigest": "5e135a19cc72f2d4b7287755717b6c4cd43ecfa2e2ab4d1b77f1a6ce9111c5b0",
+        "matchesSource": true
+      }
+    },
+    "codetrail-python-relations": {
+      "name": "07 · Python 相关逻辑与影响线索",
+      "description": "围绕 Python 符号查看直接调用方、被调用方和函数值引用。先保留跨文件声明与改写，再逐文件处理关系位置，独立保留当前符号及一跳变更影响；单文件或结果截断明确提示，不把未显示关系当成不存在。",
+      "anchors": [
+        {
+          "id": "e-dc7a8ae1f8fa81b88751",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/relations.rs::analyze",
+          "symbolName": "analyze",
+          "range": {
+            "file": "crates/reader-core/src/relations.rs",
+            "startLine": 15,
+            "endLine": 196
+          },
+          "contentHash": "060f0b1e624a4759cc05eb24183a1ee66ec92f1079daa85a6eba9b468c1a7513",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "捕获当前工作区，构建静态图并按需请求语义增强。"
+        },
+        {
+          "id": "e-c385e4d86260ac88a8e6",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/relations.rs::PythonGraph<'a>::resolve",
+          "symbolName": "resolve",
+          "range": {
+            "file": "crates/reader-core/src/relations.rs",
+            "startLine": 527,
+            "endLine": 680
+          },
+          "contentHash": "6196a2c2f836d42b7358c3e79eff7739919eebeb8ac6f2b74faced8e6f69c945",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "逐文件解析位置，独立保留当前符号及一跳影响；可选语义候选另行有界，避免无关文件挤占查询。"
+        },
+        {
+          "id": "e-61fc8a1acdb5c6f1090f",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/relations.rs::feature_impacts",
+          "symbolName": "feature_impacts",
+          "range": {
+            "file": "crates/reader-core/src/relations.rs",
+            "startLine": 219,
+            "endLine": 272
+          },
+          "contentHash": "b46c16dc35c111f690e6dba47921401960db7465052e152e39df016b0ef884c3",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "区分功能直接改动与已解析直接依赖的可能影响。"
+        },
+        {
+          "id": "e-aa461e87e2390a270b05",
+          "kind": "symbol",
+          "symbolId": "src/components/RelationsPane.tsx::RelationsPane::navigate",
+          "symbolName": "navigate",
+          "range": {
+            "file": "src/components/RelationsPane.tsx",
+            "startLine": 194,
+            "endLine": 228
+          },
+          "contentHash": "3ce10ece51c1fbd64a33fadaf5ff76d2e4fcc57033e61ac797ce5f72f12b33dc",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "跳转前重新核对文件哈希，拒绝使用过期调用证据位置。"
+        },
+        {
+          "id": "e-357c7ca3391b778b1a88",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/tests/relations.rs::changed_middle_function_impacts_only_its_direct_caller_feature",
+          "symbolName": "changed_middle_function_impacts_only_its_direct_caller_feature",
+          "range": {
+            "file": "crates/reader-core/tests/relations.rs",
+            "startLine": 88,
+            "endLine": 162
+          },
+          "contentHash": "436c51fa877d1159355749ec8a92bc05806149782b88fecabb622ceabdb051e8",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "验证 B 改动只提示直接调用方 A，不向远端或未改动被调用方扩散。"
+        },
+        {
+          "id": "stream-67cadca5d929d86b",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/relations.rs::PythonGraph<'a>::capture",
+          "symbolName": "capture",
+          "range": {
+            "file": "crates/reader-core/src/relations.rs",
+            "startLine": 372,
+            "endLine": 423
+          },
+          "contentHash": "06caafe194d08bd333f763047bdbb417035de5a2404bbf8f723723c31f0eee93",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "先对所有 Python 文件建立完整声明和属性改写绑定，不消耗调用位置预算。"
+        },
+        {
+          "id": "stream-30549fdcc423afd1",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/relations.rs::capture_module",
+          "symbolName": "capture_module",
+          "range": {
+            "file": "crates/reader-core/src/relations.rs",
+            "startLine": 975,
+            "endLine": 1024
+          },
+          "contentHash": "3a138478a145413580f715fe7e1e5bda5221867da09a44303c9d071c27d40835",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "共享确定性的声明与位置提取过程，每次只保留一个文件的 AST 关系批次。"
+        },
+        {
+          "id": "stream-93be3735c20dd5fd",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/relations.rs::Builder<'_>::usage",
+          "symbolName": "usage",
+          "range": {
+            "file": "crates/reader-core/src/relations.rs",
+            "startLine": 1581,
+            "endLine": 1614
+          },
+          "contentHash": "83d37856e2bbf65eed2d43976148d4a7471d3a245cf1153cd9449429ac954e17",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "分别控制单文件位置收集及声明扫描，不把预算耗尽误报为语法错误。"
+        },
+        {
+          "id": "stream-758bcfb1cdcb24ca",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/tests/relations.rs::unrelated_files_cannot_exhaust_a_late_symbols_relationships",
+          "symbolName": "unrelated_files_cannot_exhaust_a_late_symbols_relationships",
+          "range": {
+            "file": "crates/reader-core/tests/relations.rs",
+            "startLine": 559,
+            "endLine": 593
+          },
+          "contentHash": "0c3ff7314b43d3b5b5b0fa8b746d07af1da66df511cea78af189d7293ca122d6",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "超过全项目旧预算仍保留后置业务符号、导入别名调用和函数引用。"
+        },
+        {
+          "id": "stream-2df929bffab48ee8",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/tests/relations.rs::one_oversized_file_is_reported_without_starving_other_files",
+          "symbolName": "one_oversized_file_is_reported_without_starving_other_files",
+          "range": {
+            "file": "crates/reader-core/tests/relations.rs",
+            "startLine": 595,
+            "endLine": 626
+          },
+          "contentHash": "bb294bdfd67f5553f6b531c3392ec8fd68d7846ebacc0e71f0105894e49832ce",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "单个文件超过位置预算只产生该文件限制提示，其他调用方继续保留。"
+        },
+        {
+          "id": "stream-88fec60bae0fc135",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/tests/relations.rs::actual_query_results_still_have_an_explicit_bounded_limit",
+          "symbolName": "actual_query_results_still_have_an_explicit_bounded_limit",
+          "range": {
+            "file": "crates/reader-core/tests/relations.rs",
+            "startLine": 628,
+            "endLine": 648
+          },
+          "contentHash": "df2b8ac725ce9b8491bae8127f97bd95c35ad06d4fe7152fc9b1a28b97966f0e",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "当前查询真实结果超过预算时保持资源上限并明确标记不完整。"
+        },
+        {
+          "id": "stream-relations-guide",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "docs/USER_GUIDE.md",
+            "startLine": 278,
+            "endLine": 282
+          },
+          "contentHash": "830f5fefb25051bea160195e5b33e02b23ac9849c6a1e11850707306fc9deab5",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "说明大工程逐文件分析、真实截断范围及未显示关系不能判定不存在。"
+        },
+        {
+          "id": "stream-grouped-symbols",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/relations.rs::grouped_symbols",
+          "symbolName": "grouped_symbols",
+          "range": {
+            "file": "crates/reader-core/src/relations.rs",
+            "startLine": 962,
+            "endLine": 973
+          },
+          "contentHash": "23ea3764c2f7719606aa3368ea4980bd43a5351f2e451d18e31988838549581e",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "两次 AST 提取使用同一完整符号表分组，保留重复声明和作用域的一致性。"
+        }
+      ],
+      "delivery": {
+        "deliveryId": "mac-preview-release-20261031",
+        "summary": "Mac preview release: reviewed existing behavior and evidence; no business logic changes.",
+        "evidenceDigest": "d9d4c476bab149853e7c7a57761b515f9d84dbce38613186e4249103604204ee",
+        "matchesSource": true
+      }
+    },
+    "codetrail-reader-navigation": {
+      "name": "09 · 代码阅读与双向导航",
+      "description": "Monaco 只读展示源码和差异，从功能证据定位代码，也从代码位置反查所属功能。关系视图返回源码时保留证据上下文。",
+      "anchors": [
+        {
+          "id": "e-7a3fe1d1be16e229a8cc",
+          "kind": "symbol",
+          "symbolId": "src/App.tsx::App::onEditorMount",
+          "symbolName": "onEditorMount",
+          "range": {
+            "file": "src/App.tsx",
+            "startLine": 696,
+            "endLine": 729
+          },
+          "contentHash": "c04cc7fde77a5d30e3dc0ed3b2616a915707e91bec93e5a2e364cdfdaa231eb2",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "注册只读编辑器、光标与选区事件，维护当前行和选择范围。"
+        },
+        {
+          "id": "e-e7e479a26ea54d367897",
+          "kind": "symbol",
+          "symbolId": "src/App.tsx::App::onDiffMount",
+          "symbolName": "onDiffMount",
+          "range": {
+            "file": "src/App.tsx",
+            "startLine": 731,
+            "endLine": 749
+          },
+          "contentHash": "7537789725946e82b569db5b16f4ed1cc374089650344c087b62f44de15460f1",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "管理 Monaco 原始/修改两侧编辑器与差异阅读交互。"
+        },
+        {
+          "id": "e-c5dd85a6e65ac9125a67",
+          "kind": "symbol",
+          "symbolId": "src/App.tsx::App::goToAnchor",
+          "symbolName": "goToAnchor",
+          "range": {
+            "file": "src/App.tsx",
+            "startLine": 763,
+            "endLine": 777
+          },
+          "contentHash": "6ea9580282482e129537fa789bf31a78bb435eda67dcdf64ea97d0c9a8845f92",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "从功能证据跳到已解析范围，失效锚点提示重绑。"
+        },
+        {
+          "id": "e-aef7981834ff4e5b47b0",
+          "kind": "symbol",
+          "symbolId": "src/App.tsx::featureAt",
+          "symbolName": "featureAt",
+          "range": {
+            "file": "src/App.tsx",
+            "startLine": 175,
+            "endLine": 185
+          },
+          "contentHash": "486fff1f0547dc1dd64ef22592d1c8355e52d6e514670453c69e2e79e7e71452",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "依据当前位置找出关联功能，实现代码到功能的反向提示。"
+        },
+        {
+          "id": "e-f57b57601cfecd29df96",
+          "kind": "symbol",
+          "symbolId": "src/App.tsx::App::navigateRelation",
+          "symbolName": "navigateRelation",
+          "range": {
+            "file": "src/App.tsx",
+            "startLine": 821,
+            "endLine": 839
+          },
+          "contentHash": "8e77792e54dbf8a36f5d8a9f8d69915220914b02a4784add942df8ba9135e11f",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "承接已核验的关系导航目标，切换文件并记录返回上下文。"
+        },
+        {
+          "id": "simple-reading-state",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "src/App.tsx",
+            "startLine": 277,
+            "endLine": 330
+          },
+          "contentHash": "9dcf8dae0e9b5ca46a403ada212f65a37903f225fc39ea6f50a0e437b86207fb",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "保留原导航和编辑状态；详情默认收起、默认统一差异；项目重置时可重新选择阅读模式。"
+        },
+        {
+          "id": "simple-navigation-ui",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "src/App.tsx",
+            "startLine": 1030,
+            "endLine": 1290
+          },
+          "contentHash": "1fbb4f5e8520f4fad6be6b354e67d0b09fa68d36aacc907c0a86f166ff07d15b",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "左侧直接选择功能；文件、改动和筛选位于次级入口，已有人工功能仍可打开。"
+        },
+        {
+          "id": "simple-default-diff",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "src/App.tsx",
+            "startLine": 425,
+            "endLine": 449
+          },
+          "contentHash": "09ce22e7bfe098e131a2240862d10aa812a96f1e5cf0f40cebe4b30ae84b2b4a",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "工程差异加载后仅初始化一次默认阅读模式，避免刷新覆盖用户主动切换。"
+        },
+        {
+          "id": "simple-reading-layout",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "src/styles.css",
+            "startLine": 3177,
+            "endLine": 3243
+          },
+          "contentHash": "c3e544aa5b7b90739a9b7b822e55568c20bb9d2f9228c7e99543525ceb6b279e",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "收敛为两栏阅读布局，压缩头部并把次级工具和差异设置折叠；保留响应式阅读。"
+        },
+        {
+          "id": "simple-reading-ui-test",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "scripts/smoke-ui.mjs",
+            "startLine": 1,
+            "endLine": 476
+          },
+          "contentHash": "7f486e2d0e0810d15ecee9f83a19e935d63dda0986d6a3ea9bc4c70d8534528d",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "验证默认简约入口、真实 Monaco、旧人工维护、演示确认持久化、差异切换和相关逻辑。"
+        },
+        {
+          "id": "simple-native-regression",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "scripts/smoke-native.mjs",
+            "startLine": 1,
+            "endLine": 240
+          },
+          "contentHash": "fdf5bfd212d949b4789b9d3ee5ad3949ac37d98f8decf19cb3a2289748a39169",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "保留原生驱动脚本的差异与相关逻辑回归，更新折叠菜单入口及精简后的标签；Linux 专用脚本不代替 Mac 实测。"
+        },
+        {
+          "id": "overview-App-selectFeature",
+          "kind": "symbol",
+          "symbolId": "src/App.tsx::App::selectFeature",
+          "symbolName": "selectFeature",
+          "range": {
+            "file": "src/App.tsx",
+            "startLine": 779,
+            "endLine": 786
+          },
+          "contentHash": "c513ca28900ddc6134e8444dc70919c488c33b4d59e056870db0167ba5170e18",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "选择稳定功能并定位首个可用证据，离开概览进入阅读区。"
+        },
+        {
+          "id": "example-paragraph-layout",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "src/styles.css",
+            "startLine": 3264,
+            "endLine": 3265
+          },
+          "contentHash": "fffb8b6669b0b477f12f6a3673df45e44f65cb20ca3f8732582034498ea6a6b3",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "按原有 description 中的换行展示具体讲解，并让过长说明在独立区域滚动，保留源码阅读位置。"
+        }
+      ],
+      "delivery": {
+        "deliveryId": "mac-preview-release-20261031",
+        "summary": "Mac preview release: reviewed existing behavior and evidence; no business logic changes.",
+        "evidenceDigest": "b8c26934f931d023b10ae0db4366af0b985103fa7e645c943f54addf79c485a0",
+        "matchesSource": true
+      }
+    },
+    "codetrail-reading-annotations": {
+      "name": "14 · 阅读批注与 Markdown 反馈",
+      "description": "阅读时随时记录问题，冻结当时上下文、源码位置和哈希；停笔自动保存、失败保留本机草稿，手动导出 Markdown 发给 Agent，保留人工反馈与阅读确认隔离。",
+      "anchors": [
+        {
+          "id": "journal-Annotation",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/journal.rs::Annotation",
+          "symbolName": "Annotation",
+          "range": {
+            "file": "crates/reader-core/src/journal.rs",
+            "startLine": 25,
+            "endLine": 39
+          },
+          "contentHash": "20ea1080705711e08b6c59a995b0bbba51fdc0e3be5feceacb78d785cf9b2057",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "定义、读取并约束独立记录，兼容没有记录的旧项目。"
+        },
+        {
+          "id": "journal-save_annotation",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/journal.rs::save_annotation",
+          "symbolName": "save_annotation",
+          "range": {
+            "file": "crates/reader-core/src/journal.rs",
+            "startLine": 181,
+            "endLine": 226
+          },
+          "contentHash": "b787dd02520b78a6b2f05694fb233aac3b272c628449770e9f7d203796c35ce5",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "按每条版本令牌保存人工批注，拒绝覆盖并发编辑。"
+        },
+        {
+          "id": "journal-delete_annotation",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/journal.rs::delete_annotation",
+          "symbolName": "delete_annotation",
+          "range": {
+            "file": "crates/reader-core/src/journal.rs",
+            "startLine": 227,
+            "endLine": 241
+          },
+          "contentHash": "418b47fc755b07eee0219d9fe0dd0e073a26a5f046243d04d792599131de6b7a",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "仅删除版本相符的人工批注。"
+        },
+        {
+          "id": "journal-export_markdown",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/journal.rs::export_markdown",
+          "symbolName": "export_markdown",
+          "range": {
+            "file": "crates/reader-core/src/journal.rs",
+            "startLine": 242,
+            "endLine": 256
+          },
+          "contentHash": "4e891a5640dd0fa69155d23d82287b012c2913faf62f0a31a7c781abcbbe0382",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "将历史上下文、位置、哈希和正文组织成可手动交给 Agent 的 Markdown。"
+        },
+        {
+          "id": "journal-export_file",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/journal.rs::export_file",
+          "symbolName": "export_file",
+          "range": {
+            "file": "crates/reader-core/src/journal.rs",
+            "startLine": 258,
+            "endLine": 281
+          },
+          "contentHash": "a26da6423ba2c12ffac5f8f01fe0ccc775fb721e90507f11e5beb56a31fceb6c",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "只原子导出到固定 annotations.md，拒绝符号链接，保护源码。"
+        },
+        {
+          "id": "journal-load",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/journal.rs::load",
+          "symbolName": "load",
+          "range": {
+            "file": "crates/reader-core/src/journal.rs",
+            "startLine": 70,
+            "endLine": 78
+          },
+          "contentHash": "57a13ad7473c32dd5afcae73463ae5d95a36b28f1a1f859ccc78ec22f4161322",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "定义、读取并约束独立记录，兼容没有记录的旧项目。"
+        },
+        {
+          "id": "journal-lock",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/journal.rs::lock",
+          "symbolName": "lock",
+          "range": {
+            "file": "crates/reader-core/src/journal.rs",
+            "startLine": 53,
+            "endLine": 69
+          },
+          "contentHash": "77f3d1303b3dad85e1aa6e2edd3b0009268082239e186cf1f33ddd42acd29013",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "用独占文件锁串行跨进程写入，不混写 Agent 与人工文件。"
+        },
+        {
+          "id": "ui-NoteEditor",
+          "kind": "symbol",
+          "symbolId": "src/components/WorkPanel.tsx::NoteEditor",
+          "symbolName": "NoteEditor",
+          "range": {
+            "file": "src/components/WorkPanel.tsx",
+            "startLine": 26,
+            "endLine": 64
+          },
+          "contentHash": "0e595d630f9aaff4a76eba70bed6a56e92af2b4be9689e6b4f25b17c26a8b278",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "串行自动保存、即时恢复草稿、失败提示与版本冲突保护。"
+        },
+        {
+          "id": "ui-WorkPanel",
+          "kind": "symbol",
+          "symbolId": "src/components/WorkPanel.tsx::WorkPanel",
+          "symbolName": "WorkPanel",
+          "range": {
+            "file": "src/components/WorkPanel.tsx",
+            "startLine": 65,
+            "endLine": 113
+          },
+          "contentHash": "fcb1996ae7cb5583d3bfaa2e5f1baea6b871e2a6e92baf6d7c2e3e1fe4ab41d5",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "读取右侧记录、隔离当前工程，保持编辑器挂载并提供批注和导出入口。"
+        },
+        {
+          "id": "ui-draftKey",
+          "kind": "symbol",
+          "symbolId": "src/components/WorkPanel.tsx::draftKey",
+          "symbolName": "draftKey",
+          "range": {
+            "file": "src/components/WorkPanel.tsx",
+            "startLine": 24,
+            "endLine": 24
+          },
+          "contentHash": "dbbdc9b56fe3e0276ad9e218603fb8cb2cce860fb1ed28576b6b1d96b5f7ba22",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "按编码后的完整工程路径隔离本机草稿。"
+        },
+        {
+          "id": "ui-remember",
+          "kind": "symbol",
+          "symbolId": "src/components/WorkPanel.tsx::remember",
+          "symbolName": "remember",
+          "range": {
+            "file": "src/components/WorkPanel.tsx",
+            "startLine": 25,
+            "endLine": 25
+          },
+          "contentHash": "aef6044a63df53485f984d0861a47d5b6e6f077ee44d14caa7a58675171b5530",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "输入时立即保存本机恢复草稿，成功写入项目后清除。"
+        },
+        {
+          "id": "desktop-journal",
+          "kind": "symbol",
+          "symbolId": "src-tauri/src/lib.rs::journal_action",
+          "symbolName": "journal_action",
+          "range": {
+            "file": "src-tauri/src/lib.rs",
+            "startLine": 178,
+            "endLine": 225
+          },
+          "contentHash": "fbe870b6ec05ba690892d57e8872983e52e00d9966f53acfc64b55cde69b6ea7",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "以当前已打开工程为边界执行记录读写；迟到请求不能写入新工程。"
+        },
+        {
+          "id": "journal-tests",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "crates/reader-core/tests/journal.rs",
+            "startLine": 1,
+            "endLine": 130
+          },
+          "contentHash": "3b0cd12ca134a75e52d473a8c22a18c91e5015c5b7b8a17610c8165b3097ce79",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "验证读写隔离、并发版本冲突、损坏保留、历史上下文导出及符号链接防护。"
+        },
+        {
+          "id": "sidebar-layout",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "src/styles.css",
+            "startLine": 3245,
+            "endLine": 3262
+          },
+          "contentHash": "ef85eead59106dc5b833bac73a196b1ee4e575dcd82734a9516839c77e6ca54d",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "右侧持久面板的阅读布局、滚动和窄屏尺寸。"
+        },
+        {
+          "id": "annotation-entry",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "src/App.tsx",
+            "startLine": 1569,
+            "endLine": 1578
+          },
+          "contentHash": "0642f0ee6b53736c74288287a10a488c895f0d67b4c4ca4865578672ef952418",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "概览、代码与运行页面捕获当前阅读上下文；运行批注包含名称和运行编号，不写入其他记录。"
+        },
+        {
+          "id": "rules-AGENT_DELIVERY",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "docs/AGENT_DELIVERY.md",
+            "startLine": 194,
+            "endLine": 226
+          },
+          "contentHash": "8ed51950fceb6dc5bed322b3b32bb2c2740a15c9dee7469cd841accc1b9ffcf2",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "约定真实动态报告、批注自动保存、历史版本和人工手动反馈边界。"
+        },
+        {
+          "id": "rules-AGENTS",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "AGENTS.md",
+            "startLine": 70,
+            "endLine": 77
+          },
+          "contentHash": "4227e7ec8d4b58f3886cd32a56cda990d2064732fef21a2c4f98d34ddd72ea83",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "约定真实动态报告、批注自动保存、历史版本和人工手动反馈边界。"
+        },
+        {
+          "id": "rules-USER_GUIDE",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "docs/USER_GUIDE.md",
+            "startLine": 284,
+            "endLine": 290
+          },
+          "contentHash": "28338fe7da3a6fa23435a3e2e93d91dde02195c18e9d6f195ea3c898fed51f3a",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "约定真实动态报告、批注自动保存、历史版本和人工手动反馈边界。"
+        },
+        {
+          "id": "shared-Journal",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/journal.rs::Journal",
+          "symbolName": "Journal",
+          "range": {
+            "file": "crates/reader-core/src/journal.rs",
+            "startLine": 40,
+            "endLine": 45
+          },
+          "contentHash": "891447e71ca081d9be9a0c614d156328fc1eb9e7037b1a4ad8ae98b682e6ab82",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "定义分别读取动态和人工批注的只读快照，互不混写。"
+        },
+        {
+          "id": "shared-Lock-as-Drop-drop",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/journal.rs::<Lock as Drop>::drop",
+          "symbolName": "drop",
+          "range": {
+            "file": "crates/reader-core/src/journal.rs",
+            "startLine": 49,
+            "endLine": 51
+          },
+          "contentHash": "cf1b8d0cd964898694c24f3d1c1624a114af7813f34e82588bed8345e69f284a",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "写入结束或失败时释放进程间锁，避免正常错误残留锁。"
+        },
+        {
+          "id": "shared-command",
+          "kind": "symbol",
+          "symbolId": "src/components/WorkPanel.tsx::command",
+          "symbolName": "command",
+          "range": {
+            "file": "src/components/WorkPanel.tsx",
+            "startLine": 23,
+            "endLine": 23
+          },
+          "contentHash": "2a79477379b72525f270bc87cb7e2e2331b87ee8ad43552a20f38b0aa874ef3f",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "把记录请求显式绑定当前工程根路径，避免延迟请求越过工程边界。"
+        }
+      ],
+      "delivery": {
+        "deliveryId": "mac-preview-release-20261031",
+        "summary": "Mac preview release: reviewed existing behavior and evidence; no business logic changes.",
+        "evidenceDigest": "94786ea773268284499e3fbec98df3f146226600865e26ca145e64de116a9c43",
+        "matchesSource": true
+      }
+    },
+    "codetrail-runtime-records": {
+      "name": "15 · 真实运行结果与代码回看",
+      "description": "程序显式采集每次运行的步骤、输入输出与分支原因，按运行编号回看；展开变量并按当时文件 SHA-256 定位代码。原项目后台用独立数据库和 DEMO 模型实际执行，未覆盖的前端或真实推理不冒充已验证。",
+      "anchors": [
+        {
+          "id": "trace-module",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "crates/reader-core/src/trace.rs",
+            "startLine": 1,
+            "endLine": 336
+          },
+          "contentHash": "b37e04b7cd2111285fb4ec0878928cf1cd94d228102216d5ff864f8644e84506",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "定义运行/步骤结构并隔离存储，强制有界输入、源码版本、生命周期和原子写入。"
+        },
+        {
+          "id": "trace-start",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/trace.rs::start",
+          "symbolName": "start",
+          "range": {
+            "file": "crates/reader-core/src/trace.rs",
+            "startLine": 173,
+            "endLine": 204
+          },
+          "contentHash": "c154f750d1324600d2e1e7de0bdacc84ff8ede6b2a160da6db5bb70c282b6619",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "创建独立运行身份，区分应用与隔离测试，不覆盖旧运行。"
+        },
+        {
+          "id": "trace-append",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/trace.rs::append",
+          "symbolName": "append",
+          "range": {
+            "file": "crates/reader-core/src/trace.rs",
+            "startLine": 226,
+            "endLine": 271
+          },
+          "contentHash": "cb889a5fa6234435a2f6381d03e38a5731440785fa9a412ef80d953b5f51ecc7",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "按接收顺序追加真实采集步骤，冻结当时源码片段，拒绝重复或结束后追加。"
+        },
+        {
+          "id": "trace-source",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/trace.rs::source",
+          "symbolName": "source",
+          "range": {
+            "file": "crates/reader-core/src/trace.rs",
+            "startLine": 205,
+            "endLine": 225
+          },
+          "contentHash": "bb7b301db231de761e47d6a12a1c49c7f6ace8ead62bfd2ac570da4a8eb92b15",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "校验项目内路径、源码哈希及行范围，拒绝符号链接与内部记录路径。"
+        },
+        {
+          "id": "trace-finish",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/trace.rs::finish",
+          "symbolName": "finish",
+          "range": {
+            "file": "crates/reader-core/src/trace.rs",
+            "startLine": 272,
+            "endLine": 299
+          },
+          "contentHash": "3fcc5b595dc69df12e5b9dbdc1d912f42970d738dcc9c7e9fdfaa0d0dbd3155e",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "仅允许一次结束；没有步骤不能标记完成，保留异常中断记录。"
+        },
+        {
+          "id": "trace-read",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/trace.rs::read",
+          "symbolName": "read",
+          "range": {
+            "file": "crates/reader-core/src/trace.rs",
+            "startLine": 316,
+            "endLine": 336
+          },
+          "contentHash": "efe12325411ecaaa5ea3f6aecdd813eb604dd5991e223d92e328904618232215",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "读取旧运行时重新核对当前源码，旧值和历史片段不被刷新覆盖。"
+        },
+        {
+          "id": "trace-locked",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/trace.rs::locked",
+          "symbolName": "locked",
+          "range": {
+            "file": "crates/reader-core/src/trace.rs",
+            "startLine": 118,
+            "endLine": 133
+          },
+          "contentHash": "fd975ccb13b1fadd94053b9acaacb66280847d0d95458fef93719508facb8f9f",
+          "status": "exact",
+          "note": "",
+          "role": "errorHandling",
+          "responsibility": "串行跨进程写入，超时或损坏明确报错，不覆盖旧记录。"
+        },
+        {
+          "id": "trace-cli",
+          "kind": "symbol",
+          "symbolId": "crates/reader-cli/src/main.rs::run_trace",
+          "symbolName": "run_trace",
+          "range": {
+            "file": "crates/reader-cli/src/main.rs",
+            "startLine": 194,
+            "endLine": 222
+          },
+          "contentHash": "4f1a3ba01948639a8eff85d4c5ca527a7a50db6c3273908d7fb6112d19cc7a53",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "分派 start/append/finish/list/read，解析显式输入并输出有界 JSON。"
+        },
+        {
+          "id": "trace-desktop",
+          "kind": "symbol",
+          "symbolId": "src-tauri/src/lib.rs::journal_action",
+          "symbolName": "journal_action",
+          "range": {
+            "file": "src-tauri/src/lib.rs",
+            "startLine": 178,
+            "endLine": 225
+          },
+          "contentHash": "fbe870b6ec05ba690892d57e8872983e52e00d9966f53acfc64b55cde69b6ea7",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "只为当前打开工程读取运行列表和详情；工程切换后拒绝迟到请求。"
+        },
+        {
+          "id": "trace-ui-module",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "src/components/RuntimePane.tsx",
+            "startLine": 1,
+            "endLine": 70
+          },
+          "contentHash": "430dfb66ab2bfd03b134599f014a268f5de4d37f205e5195e9645ace142ab8b4",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "在中间区选择运行、保留选择、刷新当前记录，折叠显示变量并区分旧源码。"
+        },
+        {
+          "id": "trace-ui-steps",
+          "kind": "symbol",
+          "symbolId": "src/components/RuntimePane.tsx::RuntimeSteps",
+          "symbolName": "RuntimeSteps",
+          "range": {
+            "file": "src/components/RuntimePane.tsx",
+            "startLine": 14,
+            "endLine": 33
+          },
+          "contentHash": "c4e3a78647cc1122b2df1b0fb6d36b61a6a8531e29b4098dea2d0b60d89c7452",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "先展示业务结果和分支原因，展开变量/历史源码，禁用失效版本导航。"
+        },
+        {
+          "id": "trace-navigation",
+          "kind": "symbol",
+          "symbolId": "src/App.tsx::App::openRuntimeCode",
+          "symbolName": "openRuntimeCode",
+          "range": {
+            "file": "src/App.tsx",
+            "startLine": 797,
+            "endLine": 801
+          },
+          "contentHash": "761d206b262e55892f166344810a70eb050460f7338dde71aa88d382f2078f7b",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "按运行记录的文件哈希定位当前代码，关联所在功能并提供返回运行入口。"
+        },
+        {
+          "id": "trace-sdk",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "sdk/python/codetrail_trace.py",
+            "startLine": 1,
+            "endLine": 87
+          },
+          "contentHash": "f7b057741c83a04e1f14c326ef9c483c8d14b2d8a6abd7e0708de5b854ea0172",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "显式选择采集值，捕获调用前源码位置，记录失败默认可见且不阻断业务；不自动读取环境或全部局部变量。"
+        },
+        {
+          "id": "trace-example",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "examples/record_chat_run.py",
+            "startLine": 1,
+            "endLine": 134
+          },
+          "contentHash": "9a788890378ac17cf07102727e154300906b5264054d3fb9b5043ee021c75c53",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "使用独立数据库实际执行原项目后台方法，采集真实返回；强制 DEMO 模型，正常与 invalid 异常分支均可独立记录。"
+        },
+        {
+          "id": "trace-core-tests",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "crates/reader-core/tests/runtime_traces.rs",
+            "startLine": 1,
+            "endLine": 193
+          },
+          "contentHash": "955f97cfa5ccc9bfb33c8ef4d355cc85f1d1575f0fb1f32df6dd40a4ff132ea2",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "检验历史源码、生命周期、跨运行隔离、并发顺序、未知格式版本拒绝、损坏保留和符号链接防护。"
+        },
+        {
+          "id": "trace-ui-tests",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "tests/runtime.test.ts",
+            "startLine": 1,
+            "endLine": 16
+          },
+          "contentHash": "c92deb57f1199715d6e5a320aaccdac975cb622c266b58a19e37ee03b11efe32",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "检验结果与变量可读、安全转义、旧源码导航禁用和历史值保留。"
+        },
+        {
+          "id": "trace-sdk-tests",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "sdk/python/test_codetrail_trace.py",
+            "startLine": 1,
+            "endLine": 37
+          },
+          "contentHash": "033f38298f1cbfe5361767df6fdedc811150e7208085ac09fa37dba12abc70bb",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "实际执行函数并经 CLI 保存返回值，检验显式敏感名隐藏、截断和采集失败不影响业务。"
+        },
+        {
+          "id": "trace-RUNTIME_RECORDS",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "docs/RUNTIME_RECORDS.md",
+            "startLine": 1,
+            "endLine": 83
+          },
+          "contentHash": "ab73acad55a9580d2a1abca1dff95a80b95bace8ca4ab09877884132959ee523",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "约定运行记录格式、生命周期、采集允许清单、版本边界、保存上限和真实测试范围。"
+        },
+        {
+          "id": "trace-guide-AGENTS",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "AGENTS.md",
+            "startLine": 81,
+            "endLine": 87
+          },
+          "contentHash": "67650833a495ac3a4b7ae1bcece9f64091c2efd5ea17c907758045f680a35ecc",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "要求真实执行与推演隔离，按当前格式采集并如实呈现测试替身和未采集范围。"
+        },
+        {
+          "id": "trace-guide-USER_GUIDE",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "docs/USER_GUIDE.md",
+            "startLine": 292,
+            "endLine": 296
+          },
+          "contentHash": "843040fb7c5f536e441911bbb1c7b7888a9dfabc3e639c9611dfb7381e3a2da1",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "要求真实执行与推演隔离，按当前格式采集并如实呈现测试替身和未采集范围。"
+        },
+        {
+          "id": "trace-guide-AGENT_DELIVERY",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "docs/AGENT_DELIVERY.md",
+            "startLine": 237,
+            "endLine": 239
+          },
+          "contentHash": "a938edaf46339975963dc4306b5e3be74dcb54da3c4443817016055e10e2bec0",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "要求真实执行与推演隔离，按当前格式采集并如实呈现测试替身和未采集范围。"
+        },
+        {
+          "id": "trace-readme",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "README.md",
+            "startLine": 247,
+            "endLine": 247
+          },
+          "contentHash": "e57360d60a62b970259254355e37335db708d05e7a5aa6169b23f410987a52fa",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "提供运行回看与采集协议入口。"
+        },
+        {
+          "id": "trace-layout",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "src/styles.css",
+            "startLine": 3267,
+            "endLine": 3291
+          },
+          "contentHash": "ba9d89461baaf0a499181d7f57efac248068451b3978c4b23735d5a342b1ddf4",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "中间区展示运行步骤与折叠变量，保留侧栏动态与批注。"
+        },
+        {
+          "id": "trace-pane-mount",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "src/App.tsx",
+            "startLine": 1347,
+            "endLine": 1347
+          },
+          "contentHash": "f4c9f24194111bcc5d3be358371def30e53b5da85729e644108af813317bd74b",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "保持运行面板挂载以保留已选运行；源码阅读与返回不重置原运行。"
+        },
+        {
+          "id": "trace-other-navigation",
+          "kind": "symbol",
+          "symbolId": "src/App.tsx::App::selectFile",
+          "symbolName": "selectFile",
+          "range": {
+            "file": "src/App.tsx",
+            "startLine": 788,
+            "endLine": 795
+          },
+          "contentHash": "b9e5afb62453133b4d50bc9da25c91f7664325b82ae4de571a1a85bdf428c4fb",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "切到普通源码时清除运行来源标记，避免把其他代码误标为此次运行。"
+        }
+      ],
+      "delivery": {
+        "deliveryId": "mac-preview-release-20261031",
+        "summary": "Mac preview release: reviewed existing behavior and evidence; no business logic changes.",
+        "evidenceDigest": "fde45732f4f9f34c05982452d88598c53ea6996cb8c8bd206f66a85b862e26e6",
+        "matchesSource": true
+      }
+    },
+    "codetrail-symbol-index": {
+      "name": "03 · 多语言语法符号索引",
+      "description": "用 tree-sitter 提取 Python、Rust、TS/TSX、JS/JSX 的声明与范围。此功能是语法索引，不声称已解析跨语言调用。",
+      "anchors": [
+        {
+          "id": "e-0bd2040d18ca5842c86e",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/parse.rs::parse_with_status",
+          "symbolName": "parse_with_status",
+          "range": {
+            "file": "crates/reader-core/src/parse.rs",
+            "startLine": 51,
+            "endLine": 75
+          },
+          "contentHash": "9252304fc11646118919143f2fd56bc0e231998df9d401cde27b03e7689aef2b",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "选择语法、解析 AST、提取并排序符号，返回语法错误提示。"
+        },
+        {
+          "id": "e-7cca9b9d974739eb6308",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/parse.rs::Extraction<'_>::visit",
+          "symbolName": "visit",
+          "range": {
+            "file": "crates/reader-core/src/parse.rs",
+            "startLine": 89,
+            "endLine": 166
+          },
+          "contentHash": "615d02cfe9ae7860f3ea48edaabcd3a9e01cc5d68a6d48bc2b75388f09355af3",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "按语法节点和所属作用域递归提取函数、类与其他定义。"
+        },
+        {
+          "id": "e-ad1935922f96f3915669",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/parse.rs::Extraction<'_>::declaration",
+          "symbolName": "declaration",
+          "range": {
+            "file": "crates/reader-core/src/parse.rs",
+            "startLine": 168,
+            "endLine": 200
+          },
+          "contentHash": "1b8d70876cdd077c1f5532a9f6d30e88198d48f4441dcb49de1572bde623cc57",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "构造符号身份、签名和准确源码行范围。"
+        },
+        {
+          "id": "e-6362d9a848571639e341",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/tests/core_behaviors.rs::parses_scopes_and_real_ranges_for_all_supported_languages",
+          "symbolName": "parses_scopes_and_real_ranges_for_all_supported_languages",
+          "range": {
+            "file": "crates/reader-core/tests/core_behaviors.rs",
+            "startLine": 62,
+            "endLine": 97
+          },
+          "contentHash": "6db060b616a9d930540b15a405a245de7a4aadce803b6889d250b562db9825e2",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "验证支持语言中的真实定义、嵌套作用域与行范围。"
+        }
+      ],
+      "delivery": {
+        "deliveryId": "mac-preview-release-20261031",
+        "summary": "Mac preview release: reviewed existing behavior and evidence; no business logic changes.",
+        "evidenceDigest": "4a73ff886a973555d732e9155eb4572458b423bd917a9bb43693d4f722b20101",
+        "matchesSource": true
+      }
+    }
+  }
+}

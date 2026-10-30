@@ -1,0 +1,23 @@
+node_modules/
+dist/
+target/
+src-tauri/target/
+.DS_Store
+test-results/
+playwright-report/
+.reader/cache/
+demo-workspace*/
+
+
+# Runtime observations may contain user data; keep them local.
+.reader/runs.json
+.reader/trace.lock
+
+# Personal reading data are never part of public releases.
+.reader/activity.json
+.reader/annotations.json
+.reader/annotations.md
+.reader/features/
+.reader/index.json
+release-artifacts/
+__pycache__/

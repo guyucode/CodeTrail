@@ -1,0 +1,9 @@
+[workspace]
+members = ["crates/reader-core", "crates/reader-cli"]
+exclude = ["src-tauri"]
+resolver = "2"
+
+[profile.release]
+lto = "thin"
+strip = true
+

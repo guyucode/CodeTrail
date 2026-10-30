@@ -1,0 +1,1 @@
+{"default":{"identifier":"default","description":"Local reader window. No filesystem, shell, HTTP or source-edit plugin permissions.","local":true,"windows":["main"],"permissions":["core:default","dialog:allow-open"]}}
