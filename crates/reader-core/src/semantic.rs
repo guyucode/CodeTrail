@@ -179,6 +179,9 @@ impl ServerCommand {
 
     fn command(&self, snapshot: &Snapshot) -> Result<Command> {
         let package = self.script.parent().context("Pyright 入口没有父目录")?;
+        let bootstrap = NODE_BOOTSTRAP.to_owned();
+        #[cfg(all(test, windows))]
+        let bootstrap = format!("{NODE_FS_DIAGNOSTICS}\n{bootstrap}");
         let mut command = Command::new(&self.node);
         command
             .env_clear()
@@ -195,7 +198,7 @@ impl ServerCommand {
             .arg(permission_path("--allow-fs-write=", &snapshot.state)?)
             .arg("--max-old-space-size=256")
             .arg("-e")
-            .arg(NODE_BOOTSTRAP)
+            .arg(bootstrap)
             .arg(portable_path(&self.script)?)
             .arg("--stdio");
         // Deliberately no child-process, worker, native-addon or WASI grant.
@@ -232,6 +235,32 @@ Module._load = function (name, parent, isMain) {
   return originalLoad.call(this, name, parent, isMain);
 };
 require(process.argv[1]);
+"#;
+
+#[cfg(all(test, windows))]
+const NODE_FS_DIAGNOSTICS: &str = r#"
+const diagnosticModule = require('node:module');
+const diagnosticLoad = diagnosticModule._load;
+const diagnosticFs = require('node:fs');
+let diagnosticCount = 0;
+const diagnosticProxy = new Proxy(diagnosticFs, {get(target, name) {
+  const value = target[name];
+  if (!['readFileSync','readdirSync','statSync','existsSync','realpathSync'].includes(name)) return value;
+  return function (...args) {
+    try {
+      const result = value.apply(target,args);
+      if (name === 'existsSync' && !result && diagnosticCount++ < 30) console.error('FS missing: '+String(args[0]));
+      return result;
+    } catch (error) {
+      if (diagnosticCount++ < 30) console.error('FS '+name+': '+String(args[0])+' '+error.code);
+      throw error;
+    }
+  };
+}});
+diagnosticModule._load = function (name, parent, isMain) {
+  if (name === 'fs' || name === 'node:fs') return diagnosticProxy;
+  return diagnosticLoad.call(this,name,parent,isMain);
+};
 "#;
 
 fn permission_path(prefix: &str, path: &Path) -> Result<String> {

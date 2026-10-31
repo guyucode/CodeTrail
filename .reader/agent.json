@@ -628,8 +628,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-observe-20261031",
-        "summary": "核对 Windows x64 平台兼容及发布流程；补充真实 Pyright 故障诊断，生产读取边界与现有功能保持一致。",
+        "deliveryId": "windows-pyright-fs-diagnostic-20261031",
+        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
         "evidenceDigest": "6c4be404ec0ffef65f2cf36eaa9bc93855bf1dffd065b73531c047101ac7ff7b",
         "matchesSource": true
       }
@@ -864,8 +864,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-observe-20261031",
-        "summary": "核对 Windows x64 平台兼容及发布流程；补充真实 Pyright 故障诊断，生产读取边界与现有功能保持一致。",
+        "deliveryId": "windows-pyright-fs-diagnostic-20261031",
+        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
         "evidenceDigest": "e4eb6107ce9ca2b0bb48c255f07590defe033c9eda882cbb4543ac2b3c0b25a2",
         "matchesSource": true
       }
@@ -1164,8 +1164,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-observe-20261031",
-        "summary": "核对 Windows x64 平台兼容及发布流程；补充真实 Pyright 故障诊断，生产读取边界与现有功能保持一致。",
+        "deliveryId": "windows-pyright-fs-diagnostic-20261031",
+        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
         "evidenceDigest": "adf9d997988037f50f844c7cd5cac179be9faf70f65b368f889034360a3aa987",
         "matchesSource": true
       }
@@ -1240,8 +1240,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-observe-20261031",
-        "summary": "核对 Windows x64 平台兼容及发布流程；补充真实 Pyright 故障诊断，生产读取边界与现有功能保持一致。",
+        "deliveryId": "windows-pyright-fs-diagnostic-20261031",
+        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
         "evidenceDigest": "2486a61e2552f3ff14f7d685d83f4139bfda9fc4fb480644886a877a89e63ec1",
         "matchesSource": true
       }
@@ -1428,8 +1428,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-observe-20261031",
-        "summary": "核对 Windows x64 平台兼容及发布流程；补充真实 Pyright 故障诊断，生产读取边界与现有功能保持一致。",
+        "deliveryId": "windows-pyright-fs-diagnostic-20261031",
+        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
         "evidenceDigest": "8dd8af635d7460192410774c8f9a02ca9aea69c6d0b84d0594ed809215725e88",
         "matchesSource": true
       }
@@ -1536,8 +1536,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-observe-20261031",
-        "summary": "核对 Windows x64 平台兼容及发布流程；补充真实 Pyright 故障诊断，生产读取边界与现有功能保持一致。",
+        "deliveryId": "windows-pyright-fs-diagnostic-20261031",
+        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
         "evidenceDigest": "480545e055ee827eddb17a5b1a6a7d41d8ad0cbeff9a89f5123b5102cf1195a1",
         "matchesSource": true
       }
@@ -1660,8 +1660,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-observe-20261031",
-        "summary": "核对 Windows x64 平台兼容及发布流程；补充真实 Pyright 故障诊断，生产读取边界与现有功能保持一致。",
+        "deliveryId": "windows-pyright-fs-diagnostic-20261031",
+        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
         "evidenceDigest": "0738f5f563c033c1c53b08ae7dc37aab738260804ee99ef9f346b96fc46d121a",
         "matchesSource": true
       }
@@ -1864,8 +1864,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-observe-20261031",
-        "summary": "核对 Windows x64 平台兼容及发布流程；补充真实 Pyright 故障诊断，生产读取边界与现有功能保持一致。",
+        "deliveryId": "windows-pyright-fs-diagnostic-20261031",
+        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
         "evidenceDigest": "dc478d08a0b7cea6ce7863b70ff1046e060f287c2df6b2302f30a07438667314",
         "matchesSource": true
       }
@@ -1988,8 +1988,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-observe-20261031",
-        "summary": "核对 Windows x64 平台兼容及发布流程；补充真实 Pyright 故障诊断，生产读取边界与现有功能保持一致。",
+        "deliveryId": "windows-pyright-fs-diagnostic-20261031",
+        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
         "evidenceDigest": "bde0f7297ec6f642937430e1b320d4acf7800461c60fce5048904628430c33eb",
         "matchesSource": true
       }
@@ -2021,8 +2021,8 @@
           "symbolName": "new",
           "range": {
             "file": "crates/reader-core/src/semantic.rs",
-            "startLine": 341,
-            "endLine": 405
+            "startLine": 370,
+            "endLine": 434
           },
           "contentHash": "56c1ac2cb5626c899df81254fc47bb5cd90a01947181f9e36120cacd19fe1174",
           "status": "exact",
@@ -2038,9 +2038,9 @@
           "range": {
             "file": "crates/reader-core/src/semantic.rs",
             "startLine": 180,
-            "endLine": 208
+            "endLine": 211
           },
-          "contentHash": "a670dde6c2e7af3032159a58274f66bd7d83df546f4b65b7e5e89206527aa93e",
+          "contentHash": "a47cb55dfa1433b9a0c74e9b4a07859d40288adf386f8a003f61fef50fc0de76",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -2053,8 +2053,8 @@
           "symbolName": "enrich_using_policy",
           "range": {
             "file": "crates/reader-core/src/semantic.rs",
-            "startLine": 1177,
-            "endLine": 1431
+            "startLine": 1206,
+            "endLine": 1460
           },
           "contentHash": "df8aa6405a07592c753979fa3657733ea15ffaee43ef27e997aea8866eb130b3",
           "status": "exact",
@@ -2101,8 +2101,8 @@
           "symbolName": "portable_path",
           "range": {
             "file": "crates/reader-core/src/semantic.rs",
-            "startLine": 459,
-            "endLine": 477
+            "startLine": 488,
+            "endLine": 506
           },
           "contentHash": "3628e7e97988896e6959d838ea39f0ea3bc72c9380de87fa7626c9a16e4f8ed5",
           "status": "exact",
@@ -2128,9 +2128,9 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-observe-20261031",
-        "summary": "核对 Windows x64 平台兼容及发布流程；补充真实 Pyright 故障诊断，生产读取边界与现有功能保持一致。",
-        "evidenceDigest": "06b6acf1a1959e5d992539016cf865b71e8c9193e72553c5eebde2d41ef04d34",
+        "deliveryId": "windows-pyright-fs-diagnostic-20261031",
+        "summary": "仅 Windows 测试中观察 Pyright 文件读取失败，定位真实语言服务器返回空结果的原因；生产权限范围不变。",
+        "evidenceDigest": "acdc0da4e6188d61af28aec088281fcb91d0198c9b72a67e8e1c3e43301991c1",
         "matchesSource": true
       }
     },
@@ -2364,8 +2364,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-observe-20261031",
-        "summary": "核对 Windows x64 平台兼容及发布流程；补充真实 Pyright 故障诊断，生产读取边界与现有功能保持一致。",
+        "deliveryId": "windows-pyright-fs-diagnostic-20261031",
+        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
         "evidenceDigest": "f8f892e0e0137bad4166ac5c267c1106b0aa4bce1e8e7609b6dde18437ffb355",
         "matchesSource": true
       }
@@ -2584,8 +2584,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-observe-20261031",
-        "summary": "核对 Windows x64 平台兼容及发布流程；补充真实 Pyright 故障诊断，生产读取边界与现有功能保持一致。",
+        "deliveryId": "windows-pyright-fs-diagnostic-20261031",
+        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
         "evidenceDigest": "b8c26934f931d023b10ae0db4366af0b985103fa7e645c943f54addf79c485a0",
         "matchesSource": true
       }
@@ -2932,8 +2932,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-observe-20261031",
-        "summary": "核对 Windows x64 平台兼容及发布流程；补充真实 Pyright 故障诊断，生产读取边界与现有功能保持一致。",
+        "deliveryId": "windows-pyright-fs-diagnostic-20261031",
+        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
         "evidenceDigest": "94786ea773268284499e3fbec98df3f146226600865e26ca145e64de116a9c43",
         "matchesSource": true
       }
@@ -3344,8 +3344,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-observe-20261031",
-        "summary": "核对 Windows x64 平台兼容及发布流程；补充真实 Pyright 故障诊断，生产读取边界与现有功能保持一致。",
+        "deliveryId": "windows-pyright-fs-diagnostic-20261031",
+        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
         "evidenceDigest": "5dfb485bc12e433f3841123a414c0a625fad3fa092a96db3247ef61deb489cb7",
         "matchesSource": true
       }
@@ -3420,8 +3420,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-observe-20261031",
-        "summary": "核对 Windows x64 平台兼容及发布流程；补充真实 Pyright 故障诊断，生产读取边界与现有功能保持一致。",
+        "deliveryId": "windows-pyright-fs-diagnostic-20261031",
+        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
         "evidenceDigest": "4a73ff886a973555d732e9155eb4572458b423bd917a9bb43693d4f722b20101",
         "matchesSource": true
       }
