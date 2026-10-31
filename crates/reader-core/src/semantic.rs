@@ -179,9 +179,6 @@ impl ServerCommand {
 
     fn command(&self, snapshot: &Snapshot) -> Result<Command> {
         let package = self.script.parent().context("Pyright 入口没有父目录")?;
-        let bootstrap = NODE_BOOTSTRAP.to_owned();
-        #[cfg(all(test, windows))]
-        let bootstrap = format!("{NODE_FS_DIAGNOSTICS}\n{bootstrap}");
         let mut command = Command::new(&self.node);
         command
             .env_clear()
@@ -190,15 +187,15 @@ impl ServerCommand {
             .env("TMP", portable_path(&snapshot.state)?)
             .env("TEMP", portable_path(&snapshot.state)?)
             .arg(self.permission)
-            .arg(permission_path("--allow-fs-read=", package)?)
-            .arg(permission_path(
+            .args(permission_paths("--allow-fs-read=", package)?)
+            .args(permission_paths(
                 "--allow-fs-read=",
                 snapshot.workspace.parent().context("快照根目录不存在")?,
             )?)
-            .arg(permission_path("--allow-fs-write=", &snapshot.state)?)
+            .args(permission_paths("--allow-fs-write=", &snapshot.state)?)
             .arg("--max-old-space-size=256")
             .arg("-e")
-            .arg(bootstrap)
+            .arg(NODE_BOOTSTRAP)
             .arg(portable_path(&self.script)?)
             .arg("--stdio");
         // Deliberately no child-process, worker, native-addon or WASI grant.
@@ -237,31 +234,29 @@ Module._load = function (name, parent, isMain) {
 require(process.argv[1]);
 "#;
 
-#[cfg(all(test, windows))]
-const NODE_FS_DIAGNOSTICS: &str = r#"
-const diagnosticModule = require('node:module');
-const diagnosticLoad = diagnosticModule._load;
-const diagnosticFs = require('node:fs');
-let diagnosticCount = 0;
-const diagnosticProxy = new Proxy(diagnosticFs, {get(target, name) {
-  const value = target[name];
-  if (!['readFileSync','readdirSync','statSync','existsSync','realpathSync'].includes(name)) return value;
-  return function (...args) {
-    try {
-      const result = value.apply(target,args);
-      if (name === 'existsSync' && !result && diagnosticCount++ < 30) console.error('FS missing: '+String(args[0]));
-      return result;
-    } catch (error) {
-      if (diagnosticCount++ < 30) console.error('FS '+name+': '+String(args[0])+' '+error.code);
-      throw error;
+fn permission_paths(prefix: &str, path: &Path) -> Result<Vec<String>> {
+    let original = permission_path(prefix, path)?;
+    // Pyright normalizes drive letters to lowercase. Node's permission trie
+    // distinguishes that spelling even on Windows. Grant only the same path's
+    // alternate drive spelling, never a drive root or an extra directory.
+    #[cfg(windows)]
+    {
+        let path = portable_path(path)?;
+        let text = path.to_str().context("语义工具路径不是 UTF-8")?;
+        if text.as_bytes().get(1) == Some(&b':') && text.as_bytes()[0].is_ascii_alphabetic() {
+            let alternate = if text.as_bytes()[0].is_ascii_uppercase() {
+                format!("{}{}", text[..1].to_ascii_lowercase(), &text[1..])
+            } else {
+                format!("{}{}", text[..1].to_ascii_uppercase(), &text[1..])
+            };
+            return Ok(vec![
+                original,
+                permission_path(prefix, Path::new(&alternate))?,
+            ]);
+        }
     }
-  };
-}});
-diagnosticModule._load = function (name, parent, isMain) {
-  if (name === 'fs' || name === 'node:fs') return diagnosticProxy;
-  return diagnosticLoad.call(this,name,parent,isMain);
-};
-"#;
+    Ok(vec![original])
+}
 
 fn permission_path(prefix: &str, path: &Path) -> Result<String> {
     let path = portable_path(path)?;
@@ -704,13 +699,6 @@ impl LspClient {
                 .with_context(|| format!("Pyright 请求超时或进程已结束：{method}"))?
                 .map_err(|error| anyhow!(error))?;
             if let Some(incoming_method) = message.get("method").and_then(Value::as_str) {
-                #[cfg(all(test, windows))]
-                if matches!(
-                    incoming_method,
-                    "window/logMessage" | "textDocument/publishDiagnostics"
-                ) {
-                    eprintln!("Pyright notification: {message}");
-                }
                 if let Some(request_id) = message.get("id") {
                     self.answer_request(incoming_method, request_id.clone(), &message, snapshot)?;
                 } else if matches!(incoming_method, "window/logMessage" | "window/showMessage")

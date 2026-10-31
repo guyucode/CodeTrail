@@ -652,3 +652,28 @@ fn verbatim_windows_paths_round_trip_inside_the_private_snapshot() {
         .contains(r"\\?\"));
     assert!(decode_file_uri("file:////remote-host/share/file.py").is_none());
 }
+
+#[cfg(windows)]
+#[test]
+fn windows_permissions_include_only_alternate_drive_spelling() {
+    assert_eq!(
+        permission_paths(
+            "--allow-fs-read=",
+            Path::new(r"C:\Private\Captured project")
+        )
+        .unwrap(),
+        vec![
+            r"--allow-fs-read=C:\Private\Captured project",
+            r"--allow-fs-read=c:\Private\Captured project"
+        ]
+    );
+    assert_eq!(
+        permission_paths("--allow-fs-write=", Path::new(r"c:\Private\State")).unwrap(),
+        vec![
+            r"--allow-fs-write=c:\Private\State",
+            r"--allow-fs-write=C:\Private\State"
+        ]
+    );
+    assert!(permission_paths("--allow-fs-read=", Path::new(r"C:\Private\*")).is_err());
+    assert!(permission_paths("--allow-fs-read=", Path::new(r"\\server\share")).is_err());
+}
