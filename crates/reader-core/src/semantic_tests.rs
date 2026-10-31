@@ -615,12 +615,16 @@ fn real_pyright_resolves_cross_file_method_and_function_value_without_running_so
     assert_eq!(
         relations[0].target_symbol_id.as_deref(),
         Some("a.py::Greeter::greet"),
-        "{relations:#?}"
+        "{relations:#?}; engine={:?}; warnings={:?}",
+        report.engine,
+        report.warnings
     );
     assert_eq!(
         relations[1].target_symbol_id.as_deref(),
         Some("a.py::run"),
-        "{relations:#?}"
+        "{relations:#?}; engine={:?}; warnings={:?}",
+        report.engine,
+        report.warnings
     );
     assert_eq!(relations[1].kind, RelationKind::Reference);
     assert!(relations

@@ -70,8 +70,10 @@ jobs:
         run: |
           npm run desktop:build -- --bundles nsis --config src-tauri/tauri.windows.conf.json
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          $env:RUSTFLAGS = '-C target-feature=+crt-static'
           cargo build --release --locked -p reader-cli
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          Remove-Item Env:RUSTFLAGS
           ./scripts/package-windows.ps1
       - name: Install and inspect native application
         shell: pwsh
