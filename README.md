@@ -4,7 +4,7 @@
 
 CodeTrail v0.2 是一个本地桌面应用，采用 **Rust + Tauri 2 + React + Monaco**。你可以把跨文件的函数和代码片段归入一个功能，在地图与代码之间切换，并在相关内容变化后重新审阅。新增的“相关逻辑”从改动符号出发，展示 Python 调用方、被调用方、函数值引用及其真实源码位置。
 
-首个 GitHub 发布面向 **Apple Silicon Mac（M1/M2/M3/M4 等）**，版本为 **v0.2.0 Mac Preview**。Intel Mac、Windows 尚未验证，不提供对应安装包。最低系统部署目标是 macOS 11，但目前只在本机 macOS 27 验证，不能视为完整系统兼容性承诺。
+GitHub 提供 **Apple Silicon Mac Preview**，并准备 **Windows x64 Preview**。各平台实际构建和验证范围以对应 Release 为准；Intel Mac、Windows ARM 暂不提供安装包。最低系统部署目标是 macOS 11，但目前只在本机 macOS 27 验证，不能视为完整系统兼容性承诺。
 
 ## 下载与使用
 
@@ -13,6 +13,10 @@ CodeTrail v0.2 是一个本地桌面应用，采用 **Rust + Tauri 2 + React + M
 此预览版**没有 Apple Developer ID 签名或公证**，首次打开可能受到 macOS 安全检查阻止。请核对来源和 SHA-256；如系统允许，可按 Apple 官方的“隐私与安全性 → 仍要打开”流程处理。不要关闭系统安全保护。公司受管设备可能禁止运行。
 
 基本桌面阅读不需要安装 Rust、npm 或模型，也不需要 GPU/API Key。Git 改动比较需要 Git；可选 Pyright 语义增强需要 Node.js 22.12+；Agent 协议和 Python 运行采集使用同版本 `reader-cli`，可从配套 tools 压缩包取得。Python SDK 本身只依赖标准库。
+
+## Windows 版
+
+Windows x64 安装、可选依赖、构建和验证范围见 [Windows 发布说明](docs/WINDOWS_RELEASE.md)。安装器和同版本 CLI/SDK 工具包从 [Releases](https://github.com/guyucode/CodeTrail/releases) 下载。Windows 包没有代码签名，当前为预览版。
 
 ## 使用许可
 

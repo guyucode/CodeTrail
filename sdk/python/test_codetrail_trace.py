@@ -1,11 +1,12 @@
 """Standard-library recorder integration checks, using an isolated temporary root."""
 import importlib.util
+import os
 import json
 from pathlib import Path
 import tempfile
 import unittest
 from codetrail_trace import Recorder, location, selected_values
-CLI=Path(__file__).resolve().parents[2]/"target/debug/reader-cli"
+CLI=Path(__file__).resolve().parents[2]/"target/debug"/("reader-cli.exe" if os.name == "nt" else "reader-cli")
 
 class RecorderChecks(unittest.TestCase):
     def test_selected_values_redact_known_credentials_and_label_truncation(self):

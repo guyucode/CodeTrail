@@ -628,8 +628,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "mac-preview-release-20261031",
-        "summary": "Mac preview release: reviewed existing behavior and evidence; no business logic changes.",
+        "deliveryId": "windows-x64-preview-20261031",
+        "summary": "保持现有功能与人工审阅隔离；核对 Windows 发布准备涉及的证据版本。",
         "evidenceDigest": "6c4be404ec0ffef65f2cf36eaa9bc93855bf1dffd065b73531c047101ac7ff7b",
         "matchesSource": true
       }
@@ -864,8 +864,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "mac-preview-release-20261031",
-        "summary": "Mac preview release: reviewed existing behavior and evidence; no business logic changes.",
+        "deliveryId": "windows-x64-preview-20261031",
+        "summary": "保持现有功能与人工审阅隔离；核对 Windows 发布准备涉及的证据版本。",
         "evidenceDigest": "e4eb6107ce9ca2b0bb48c255f07590defe033c9eda882cbb4543ac2b3c0b25a2",
         "matchesSource": true
       }
@@ -1026,13 +1026,13 @@
           "range": {
             "file": "README.md",
             "startLine": 1,
-            "endLine": 247
+            "endLine": 251
           },
-          "contentHash": "18674aa01dd6a982b7ccf5786a894aa18f0a1223319934c4eda57a3f3679e68f",
+          "contentHash": "d5e7e659605efd818d2d1637df1bb53a4230bf759a559ebabaa554db8c432314",
           "status": "exact",
           "note": "",
           "role": "entry",
-          "responsibility": "Explains Mac preview installation, architecture, optional dependencies and licensing."
+          "responsibility": "提供 Mac 与 Windows 预览版安装入口、依赖和许可边界。"
         },
         {
           "id": "release-src-tauri-tauri-conf-json",
@@ -1060,17 +1060,113 @@
             "startLine": 1,
             "endLine": 94
           },
-          "contentHash": "2c272febf21f2d92811b0c5503e3ef7d0bec1a30dd26ddf4ca30581c051929d7",
+          "contentHash": "1bf025371a7195d74a9073c66b2a13ef770a8433723609376aeee44ca1c6e3c8",
           "status": "exact",
           "note": "",
           "role": "constraint",
           "responsibility": "Requires verified delivery, private-data exclusion and accurate release compatibility claims."
+        },
+        {
+          "id": "windows-src-tauri-tauri-windows-conf-json",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "src-tauri/tauri.windows.conf.json",
+            "startLine": 1,
+            "endLine": 10
+          },
+          "contentHash": "4027bfe9673824cae2d6d8512a81572fcc51b9a5a4e89af3193422c31516e7ab",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "仅覆盖 Windows NSIS 安装模式、语言和 WebView2 安装方式，不改变 Mac 配置。"
+        },
+        {
+          "id": "windows-scripts-collect-release-licenses-py",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "scripts/collect-release-licenses.py",
+            "startLine": 1,
+            "endLine": 104
+          },
+          "contentHash": "bb2ca98212c1327109e0e364560302cce66a12087f0b5ce5d25e5f0e70f5d3dd",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "按目标依赖图收集原许可、出处和 MPL 源码，缺失文本时阻止打包。"
+        },
+        {
+          "id": "windows-scripts-package-windows-ps1",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "scripts/package-windows.ps1",
+            "startLine": 1,
+            "endLine": 17
+          },
+          "contentHash": "fc9995bd56d845bc38e1a5fd9789c4f2e7d81af1f7cf951fa87307ba4e64d8fc",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "把当前安装器、同版本 CLI 和 SDK、许可及校验值组成 Windows 发布候选。"
+        },
+        {
+          "id": "windows-scripts-windows-check-plan-py",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "scripts/windows-check-plan.py",
+            "startLine": 1,
+            "endLine": 49
+          },
+          "contentHash": "80af159112d80d62a2e033002c8267ab21a7463bcf503072e037d1faab0d188e",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "明确检查命令与逐路径遗漏理由，生成绑定本次版本的统一验证计划。"
+        },
+        {
+          "id": "windows-scripts-test-windows-install-ps1",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "scripts/test-windows-install.ps1",
+            "startLine": 1,
+            "endLine": 66
+          },
+          "contentHash": "3f5adbc1de3041ab26b306fac8eef6e8beee96bba89a9067627c5ad657c4f74b",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "在 Windows 构建机隔离安装并检查可执行文件、资源和原生 WebView2 演示内容。"
+        },
+        {
+          "id": "windows-docs-windows_release-md",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "docs/WINDOWS_RELEASE.md",
+            "startLine": 1,
+            "endLine": 32
+          },
+          "contentHash": "21d7c139c66e976c4672bd36468dcad3a47935c70567c55423f0d5491cf3437a",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "说明 Windows 包的安装依赖、无签名状态及自动化验证不能替代桌面实机人工验收。"
         }
       ],
       "delivery": {
-        "deliveryId": "mac-preview-release-20261031",
-        "summary": "Mac preview release: reviewed existing behavior and evidence; no business logic changes.",
-        "evidenceDigest": "17572125328606637d8ea1059089aa58b0bf6639e3a0fa929aeaa1cb35da06a0",
+        "deliveryId": "windows-x64-preview-20261031",
+        "summary": "新增手动 Windows x64 云构建：统一验证、目标平台许可、NSIS 安装器、CLI/SDK、安装与原生渲染检查。",
+        "evidenceDigest": "c5d34d7993cc5ee39d9d83febca17780f9a8ca71cd73bdd37e84287b6426f9ae",
         "matchesSource": true
       }
     },
@@ -1144,8 +1240,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "mac-preview-release-20261031",
-        "summary": "Mac preview release: reviewed existing behavior and evidence; no business logic changes.",
+        "deliveryId": "windows-x64-preview-20261031",
+        "summary": "保持现有功能与人工审阅隔离；核对 Windows 发布准备涉及的证据版本。",
         "evidenceDigest": "2486a61e2552f3ff14f7d685d83f4139bfda9fc4fb480644886a877a89e63ec1",
         "matchesSource": true
       }
@@ -1300,8 +1396,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "mac-preview-release-20261031",
-        "summary": "Mac preview release: reviewed existing behavior and evidence; no business logic changes.",
+        "deliveryId": "windows-x64-preview-20261031",
+        "summary": "保持现有功能与人工审阅隔离；核对 Windows 发布准备涉及的证据版本。",
         "evidenceDigest": "3fc60750c847ffcf2a4091b2c81bb139bf5ce5ca2634958bb03246bedfadea51",
         "matchesSource": true
       }
@@ -1408,8 +1504,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "mac-preview-release-20261031",
-        "summary": "Mac preview release: reviewed existing behavior and evidence; no business logic changes.",
+        "deliveryId": "windows-x64-preview-20261031",
+        "summary": "保持现有功能与人工审阅隔离；核对 Windows 发布准备涉及的证据版本。",
         "evidenceDigest": "480545e055ee827eddb17a5b1a6a7d41d8ad0cbeff9a89f5123b5102cf1195a1",
         "matchesSource": true
       }
@@ -1532,8 +1628,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "mac-preview-release-20261031",
-        "summary": "Mac preview release: reviewed existing behavior and evidence; no business logic changes.",
+        "deliveryId": "windows-x64-preview-20261031",
+        "summary": "保持现有功能与人工审阅隔离；核对 Windows 发布准备涉及的证据版本。",
         "evidenceDigest": "0738f5f563c033c1c53b08ae7dc37aab738260804ee99ef9f346b96fc46d121a",
         "matchesSource": true
       }
@@ -1736,8 +1832,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "mac-preview-release-20261031",
-        "summary": "Mac preview release: reviewed existing behavior and evidence; no business logic changes.",
+        "deliveryId": "windows-x64-preview-20261031",
+        "summary": "保持现有功能与人工审阅隔离；核对 Windows 发布准备涉及的证据版本。",
         "evidenceDigest": "dc478d08a0b7cea6ce7863b70ff1046e060f287c2df6b2302f30a07438667314",
         "matchesSource": true
       }
@@ -1860,8 +1956,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "mac-preview-release-20261031",
-        "summary": "Mac preview release: reviewed existing behavior and evidence; no business logic changes.",
+        "deliveryId": "windows-x64-preview-20261031",
+        "summary": "保持现有功能与人工审阅隔离；核对 Windows 发布准备涉及的证据版本。",
         "evidenceDigest": "bde0f7297ec6f642937430e1b320d4acf7800461c60fce5048904628430c33eb",
         "matchesSource": true
       }
@@ -1968,8 +2064,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "mac-preview-release-20261031",
-        "summary": "Mac preview release: reviewed existing behavior and evidence; no business logic changes.",
+        "deliveryId": "windows-x64-preview-20261031",
+        "summary": "保持现有功能与人工审阅隔离；核对 Windows 发布准备涉及的证据版本。",
         "evidenceDigest": "5e135a19cc72f2d4b7287755717b6c4cd43ecfa2e2ab4d1b77f1a6ce9111c5b0",
         "matchesSource": true
       }
@@ -2188,8 +2284,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "mac-preview-release-20261031",
-        "summary": "Mac preview release: reviewed existing behavior and evidence; no business logic changes.",
+        "deliveryId": "windows-x64-preview-20261031",
+        "summary": "保持现有功能与人工审阅隔离；核对 Windows 发布准备涉及的证据版本。",
         "evidenceDigest": "d9d4c476bab149853e7c7a57761b515f9d84dbce38613186e4249103604204ee",
         "matchesSource": true
       }
@@ -2408,8 +2504,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "mac-preview-release-20261031",
-        "summary": "Mac preview release: reviewed existing behavior and evidence; no business logic changes.",
+        "deliveryId": "windows-x64-preview-20261031",
+        "summary": "保持现有功能与人工审阅隔离；核对 Windows 发布准备涉及的证据版本。",
         "evidenceDigest": "b8c26934f931d023b10ae0db4366af0b985103fa7e645c943f54addf79c485a0",
         "matchesSource": true
       }
@@ -2756,8 +2852,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "mac-preview-release-20261031",
-        "summary": "Mac preview release: reviewed existing behavior and evidence; no business logic changes.",
+        "deliveryId": "windows-x64-preview-20261031",
+        "summary": "保持现有功能与人工审阅隔离；核对 Windows 发布准备涉及的证据版本。",
         "evidenceDigest": "94786ea773268284499e3fbec98df3f146226600865e26ca145e64de116a9c43",
         "matchesSource": true
       }
@@ -3032,7 +3128,7 @@
             "startLine": 1,
             "endLine": 37
           },
-          "contentHash": "033f38298f1cbfe5361767df6fdedc811150e7208085ac09fa37dba12abc70bb",
+          "contentHash": "02204b2e79a236bd6f38caacefb5367e57e71d0e67394515a93c70bb503fc2a1",
           "status": "exact",
           "note": "",
           "role": "test",
@@ -3109,8 +3205,8 @@
           "symbolName": null,
           "range": {
             "file": "README.md",
-            "startLine": 247,
-            "endLine": 247
+            "startLine": 251,
+            "endLine": 251
           },
           "contentHash": "e57360d60a62b970259254355e37335db708d05e7a5aa6169b23f410987a52fa",
           "status": "exact",
@@ -3168,9 +3264,9 @@
         }
       ],
       "delivery": {
-        "deliveryId": "mac-preview-release-20261031",
-        "summary": "Mac preview release: reviewed existing behavior and evidence; no business logic changes.",
-        "evidenceDigest": "fde45732f4f9f34c05982452d88598c53ea6996cb8c8bd206f66a85b862e26e6",
+        "deliveryId": "windows-x64-preview-20261031",
+        "summary": "保持现有功能与人工审阅隔离；核对 Windows 发布准备涉及的证据版本。",
+        "evidenceDigest": "5dfb485bc12e433f3841123a414c0a625fad3fa092a96db3247ef61deb489cb7",
         "matchesSource": true
       }
     },
@@ -3244,8 +3340,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "mac-preview-release-20261031",
-        "summary": "Mac preview release: reviewed existing behavior and evidence; no business logic changes.",
+        "deliveryId": "windows-x64-preview-20261031",
+        "summary": "保持现有功能与人工审阅隔离；核对 Windows 发布准备涉及的证据版本。",
         "evidenceDigest": "4a73ff886a973555d732e9155eb4572458b423bd917a9bb43693d4f722b20101",
         "matchesSource": true
       }

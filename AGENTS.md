@@ -89,6 +89,6 @@ delivery_work="$(mktemp -d)"
 ## 对外发布
 
 - 自有代码使用 PolyForm Noncommercial 1.0.0；商业授权说明见 COMMERCIAL-LICENSE.md。保留第三方许可和历史已经授予的权利，不将依赖重新许可。
-- 首版仅发布 Apple Silicon Mac Preview；Intel、Windows 和未测试的 macOS 版本不得宣称通过。没有签名、公证必须明确标注，不指导关闭系统安全机制。
+- Mac 版为 Apple Silicon Preview；Windows 版为 x64 Preview，通过 Windows 云构建、测试、安装与原生启动检查后才发布。Intel Mac、Windows ARM、未验收的桌面系统版本不得宣称通过。没有签名、公证必须明确标注，不指导关闭系统安全机制。
 - 发布使用干净快照，不包含真实项目、批注、运行数据、活动记录、个人路径、凭证或开发历史。保留通过 CLI 维护的功能关联；不发布人工确认。
 - 发布前运行关联和概览校验、统一 validate、测试及生产构建，核验包内 CLI/SDK/第三方许可、架构和 SHA-256。上传须有用户明确授权。

@@ -1,0 +1,83 @@
+name: Windows preview
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: windows-preview
+  cancel-in-progress: false
+jobs:
+  windows:
+    runs-on: windows-2022
+    timeout-minutes: 50
+    env:
+      PYTHONUTF8: '1'
+      CARGO_TERM_COLOR: never
+    steps:
+      - name: Preserve repository line endings
+        shell: pwsh
+        run: git config --global core.autocrlf false
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '24'
+          cache: npm
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - name: Prepare toolchain
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          rustup toolchain install stable --profile minimal --component clippy
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          rustup default stable
+          "$env:ProgramFiles\Git\bin" >> $env:GITHUB_PATH
+          npm ci
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          cargo build --locked -p reader-cli
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Validate source, feature evidence and regressions
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          python scripts/windows-check-plan.py
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          $cli = Join-Path $PWD 'target/debug/reader-cli.exe'
+          $plan = Join-Path $env:RUNNER_TEMP 'codetrail-windows-check-plan.json'
+          $report = Join-Path $env:RUNNER_TEMP 'codetrail-windows-validation.json'
+          Get-Content -Raw $plan | & $cli agent validate "$PWD" | Out-File -Encoding utf8 $report
+          if ($LASTEXITCODE) { Get-Content -Raw $report; exit $LASTEXITCODE }
+      - name: Collect Windows dependency licenses
+        shell: pwsh
+        run: |
+          python scripts/collect-release-licenses.py --target x86_64-pc-windows-msvc
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Build installer and tools
+        shell: pwsh
+        run: |
+          npm run desktop:build -- --bundles nsis --config src-tauri/tauri.windows.conf.json
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          cargo build --release --locked -p reader-cli
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./scripts/package-windows.ps1
+      - name: Install and inspect native application
+        shell: pwsh
+        run: ./scripts/test-windows-install.ps1
+      - name: Upload release candidates
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: CodeTrail-Windows-x64
+          path: release-artifacts/windows/*
+          if-no-files-found: error
+      - name: Upload validation reports
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: Windows-validation
+          path: |
+            ${{ runner.temp }}/codetrail-windows-validation.json
+            ${{ runner.temp }}/codetrail-windows-native.json
+            ${{ runner.temp }}/codetrail-windows-native.png
