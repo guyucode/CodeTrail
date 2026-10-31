@@ -489,10 +489,10 @@
           "symbolName": null,
           "range": {
             "file": "docs/USER_GUIDE.md",
-            "startLine": 284,
-            "endLine": 290
+            "startLine": 274,
+            "endLine": 281
           },
-          "contentHash": "28338fe7da3a6fa23435a3e2e93d91dde02195c18e9d6f195ea3c898fed51f3a",
+          "contentHash": "3355d2af7ca7377fd8eaf0f386de3c146e424c62501efa34bb121ed362b8e0e5",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -628,9 +628,9 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-nsis-exact-verification-20261031",
-        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
-        "evidenceDigest": "6c4be404ec0ffef65f2cf36eaa9bc93855bf1dffd065b73531c047101ac7ff7b",
+        "deliveryId": "homepage-reviewed-doc-associations-20261031",
+        "summary": "整理双平台下载、安装与上手文档；校正普通用户入口、功能关联前提和右侧批注说明，原功能及运行路径不变。",
+        "evidenceDigest": "9bc8ecae4f08f1f3265f3a76d38fd09ba53343ee6433cb9014eaa59749df5b11",
         "matchesSource": true
       }
     },
@@ -864,8 +864,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-nsis-exact-verification-20261031",
-        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
+        "deliveryId": "homepage-reviewed-doc-associations-20261031",
+        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
         "evidenceDigest": "e4eb6107ce9ca2b0bb48c255f07590defe033c9eda882cbb4543ac2b3c0b25a2",
         "matchesSource": true
       }
@@ -1026,9 +1026,9 @@
           "range": {
             "file": "README.md",
             "startLine": 1,
-            "endLine": 251
+            "endLine": 89
           },
-          "contentHash": "d5e7e659605efd818d2d1637df1bb53a4230bf759a559ebabaa554db8c432314",
+          "contentHash": "5ebffa3fa899490f48694d3e4f95f2e813d1f3e8a49c895ac4367c8815ba1d00",
           "status": "exact",
           "note": "",
           "role": "entry",
@@ -1164,9 +1164,9 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-nsis-exact-verification-20261031",
-        "summary": "Windows 全套校验与生产打包通过后，核对 NSIS 唯一框架标记与程序 SHA-256，再执行原生窗口检查；附带 release CLI 启动验证。",
-        "evidenceDigest": "4f09dca7e9d77aaa513ec2d56d7422328af9eae2ede243fb560df9e08275bd76",
+        "deliveryId": "homepage-reviewed-doc-associations-20261031",
+        "summary": "整理双平台下载、安装与上手文档；校正普通用户入口、功能关联前提和右侧批注说明，原功能及运行路径不变。",
+        "evidenceDigest": "c15c96834b43e017078495fe9d209cc9e98c16a42b9a0b1446ec9cac8bb3d693",
         "matchesSource": true
       }
     },
@@ -1240,8 +1240,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-nsis-exact-verification-20261031",
-        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
+        "deliveryId": "homepage-reviewed-doc-associations-20261031",
+        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
         "evidenceDigest": "2486a61e2552f3ff14f7d685d83f4139bfda9fc4fb480644886a877a89e63ec1",
         "matchesSource": true
       }
@@ -1428,8 +1428,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-nsis-exact-verification-20261031",
-        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
+        "deliveryId": "homepage-reviewed-doc-associations-20261031",
+        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
         "evidenceDigest": "8dd8af635d7460192410774c8f9a02ca9aea69c6d0b84d0594ed809215725e88",
         "matchesSource": true
       }
@@ -1536,8 +1536,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-nsis-exact-verification-20261031",
-        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
+        "deliveryId": "homepage-reviewed-doc-associations-20261031",
+        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
         "evidenceDigest": "480545e055ee827eddb17a5b1a6a7d41d8ad0cbeff9a89f5123b5102cf1195a1",
         "matchesSource": true
       }
@@ -1660,8 +1660,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-nsis-exact-verification-20261031",
-        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
+        "deliveryId": "homepage-reviewed-doc-associations-20261031",
+        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
         "evidenceDigest": "0738f5f563c033c1c53b08ae7dc37aab738260804ee99ef9f346b96fc46d121a",
         "matchesSource": true
       }
@@ -1741,10 +1741,10 @@
           "symbolName": null,
           "range": {
             "file": "docs/USER_GUIDE.md",
-            "startLine": 27,
-            "endLine": 43
+            "startLine": 17,
+            "endLine": 33
           },
-          "contentHash": "5aea96f9c3d6f8f5a58e4b046153ac0d0af90a5a54b2d6a178a7bbdec7b0cafc",
+          "contentHash": "c55e09cf47a628ef6c316602314d49f7cf2c1ca6520060cbdbca626ec989f5af",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -1821,14 +1821,14 @@
           "symbolName": null,
           "range": {
             "file": "docs/USER_GUIDE.md",
-            "startLine": 1,
-            "endLine": 276
+            "startLine": 262,
+            "endLine": 267
           },
-          "contentHash": "8e0f24a7d908e590e8660b7c9b3ccb1d1ab3e59e42404bd6b1846413276606ac",
+          "contentHash": "0c82d33ef5e327df250085884e168e35ebc62ef93307f637aa03af55e266c022",
           "status": "exact",
           "note": "",
           "role": "constraint",
-          "responsibility": "说明概览到功能代码的阅读方式、次级入口和旧项目兼容行为。"
+          "responsibility": "说明从项目概览了解模块和运行路径，点击步骤进入功能与代码，并兼容未配置概览的旧项目。"
         },
         {
           "id": "overview-protocol",
@@ -1864,9 +1864,9 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-nsis-exact-verification-20261031",
-        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
-        "evidenceDigest": "dc478d08a0b7cea6ce7863b70ff1046e060f287c2df6b2302f30a07438667314",
+        "deliveryId": "homepage-reviewed-doc-associations-20261031",
+        "summary": "整理双平台下载、安装与上手文档；校正普通用户入口、功能关联前提和右侧批注说明，原功能及运行路径不变。",
+        "evidenceDigest": "27e730d02e4829b786aea4b2db2838d2f862101c800919f4d1a4a66200ce3948",
         "matchesSource": true
       }
     },
@@ -1988,8 +1988,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-nsis-exact-verification-20261031",
-        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
+        "deliveryId": "homepage-reviewed-doc-associations-20261031",
+        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
         "evidenceDigest": "bde0f7297ec6f642937430e1b320d4acf7800461c60fce5048904628430c33eb",
         "matchesSource": true
       }
@@ -2160,8 +2160,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-nsis-exact-verification-20261031",
-        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
+        "deliveryId": "homepage-reviewed-doc-associations-20261031",
+        "summary": "修复 Windows 盘符大小写引起的 Node 权限拒绝，为同一精确目录授权两种盘符写法；移除临时诊断并保留真实 Pyright 回归。",
         "evidenceDigest": "1d9eea72a89d925db60dea6acc925258f959e90eb3241b7035bd1b69b065851d",
         "matchesSource": true
       }
@@ -2353,10 +2353,10 @@
           "symbolName": null,
           "range": {
             "file": "docs/USER_GUIDE.md",
-            "startLine": 278,
-            "endLine": 282
+            "startLine": 268,
+            "endLine": 273
           },
-          "contentHash": "830f5fefb25051bea160195e5b33e02b23ac9849c6a1e11850707306fc9deab5",
+          "contentHash": "be05742066532e643535be7d8350ab05305de44d95ad647b8df01cca757a2c3a",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -2396,9 +2396,9 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-nsis-exact-verification-20261031",
-        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
-        "evidenceDigest": "f8f892e0e0137bad4166ac5c267c1106b0aa4bce1e8e7609b6dde18437ffb355",
+        "deliveryId": "homepage-reviewed-doc-associations-20261031",
+        "summary": "整理双平台下载、安装与上手文档；校正普通用户入口、功能关联前提和右侧批注说明，原功能及运行路径不变。",
+        "evidenceDigest": "af70ec388229038c9ee5ce8051c053e50fae8e7669abd2bcaed351b978ebc872",
         "matchesSource": true
       }
     },
@@ -2616,8 +2616,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-nsis-exact-verification-20261031",
-        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
+        "deliveryId": "homepage-reviewed-doc-associations-20261031",
+        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
         "evidenceDigest": "b8c26934f931d023b10ae0db4366af0b985103fa7e645c943f54addf79c485a0",
         "matchesSource": true
       }
@@ -2905,10 +2905,10 @@
           "symbolName": null,
           "range": {
             "file": "docs/USER_GUIDE.md",
-            "startLine": 284,
-            "endLine": 290
+            "startLine": 274,
+            "endLine": 281
           },
-          "contentHash": "28338fe7da3a6fa23435a3e2e93d91dde02195c18e9d6f195ea3c898fed51f3a",
+          "contentHash": "3355d2af7ca7377fd8eaf0f386de3c146e424c62501efa34bb121ed362b8e0e5",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -2964,9 +2964,9 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-nsis-exact-verification-20261031",
-        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
-        "evidenceDigest": "94786ea773268284499e3fbec98df3f146226600865e26ca145e64de116a9c43",
+        "deliveryId": "homepage-reviewed-doc-associations-20261031",
+        "summary": "整理双平台下载、安装与上手文档；校正普通用户入口、功能关联前提和右侧批注说明，原功能及运行路径不变。",
+        "evidenceDigest": "1e1e1b0caf89c3edc80185b45725a310143f6d3924fc19f258f023794aa03157",
         "matchesSource": true
       }
     },
@@ -3285,8 +3285,8 @@
           "symbolName": null,
           "range": {
             "file": "docs/USER_GUIDE.md",
-            "startLine": 292,
-            "endLine": 296
+            "startLine": 282,
+            "endLine": 286
           },
           "contentHash": "843040fb7c5f536e441911bbb1c7b7888a9dfabc3e639c9611dfb7381e3a2da1",
           "status": "exact",
@@ -3317,10 +3317,10 @@
           "symbolName": null,
           "range": {
             "file": "README.md",
-            "startLine": 251,
-            "endLine": 251
+            "startLine": 58,
+            "endLine": 67
           },
-          "contentHash": "e57360d60a62b970259254355e37335db708d05e7a5aa6169b23f410987a52fa",
+          "contentHash": "c6e68fefb0ccb2d259c531d0a779e9b2ffe468f420fa5107993fcce21751020b",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -3376,9 +3376,9 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-nsis-exact-verification-20261031",
-        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
-        "evidenceDigest": "5dfb485bc12e433f3841123a414c0a625fad3fa092a96db3247ef61deb489cb7",
+        "deliveryId": "homepage-reviewed-doc-associations-20261031",
+        "summary": "整理双平台下载、安装与上手文档；校正普通用户入口、功能关联前提和右侧批注说明，原功能及运行路径不变。",
+        "evidenceDigest": "6d8a62966fdc7469a75e888bcfa2ef75f5fb96d8665b42f89e9eb683a06cefa4",
         "matchesSource": true
       }
     },
@@ -3452,8 +3452,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-nsis-exact-verification-20261031",
-        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
+        "deliveryId": "homepage-reviewed-doc-associations-20261031",
+        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
         "evidenceDigest": "4a73ff886a973555d732e9155eb4572458b423bd917a9bb43693d4f722b20101",
         "matchesSource": true
       }

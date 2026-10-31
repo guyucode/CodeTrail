@@ -1,251 +1,89 @@
 # CodeTrail · 代码阅读器
 
-**用功能索引理解 AI 编写的代码，用前后对比检查改动，用版本感知的阅读状态保存自己的理解。**
+**按功能读懂 Agent 写的代码，看清改了哪里，记下自己的理解。**
 
-CodeTrail v0.2 是一个本地桌面应用，采用 **Rust + Tauri 2 + React + Monaco**。你可以把跨文件的函数和代码片段归入一个功能，在地图与代码之间切换，并在相关内容变化后重新审阅。新增的“相关逻辑”从改动符号出发，展示 Python 调用方、被调用方、函数值引用及其真实源码位置。
+独立的本地桌面应用：从项目概览进入功能和对应代码，阅读改动、记录批注，也能回看显式采集的运行结果。源码区只读；阅读时不需要模型、GPU 或 API Key。
 
-GitHub 提供 **Apple Silicon Mac Preview**，并准备 **Windows x64 Preview**。各平台实际构建和验证范围以对应 Release 为准；Intel Mac、Windows ARM 暂不提供安装包。最低系统部署目标是 macOS 11，但目前只在本机 macOS 27 验证，不能视为完整系统兼容性承诺。
+[下载](#下载) · [安装](#安装) · [三步开始使用](#三步开始使用) · [完整使用指南](docs/USER_GUIDE.md)
 
-## 下载与使用
+## 下载
 
-从 [Releases](https://github.com/guyucode/CodeTrail/releases) 下载 `CodeTrail_0.2.0_aarch64.dmg`，将 CodeTrail 拖到“应用程序”。打开后选择自己的项目，先看项目概览，再选择功能阅读代码。功能说明和关联由 Agent 按 [交付协议](docs/AGENT_DELIVERY.md) 维护。批注和运行记录保存在项目 `.reader/` 中。
+当前版本 **v0.2.0 Preview**。请选择你的电脑类型，点击安装包即可；**不要下载 GitHub 的「Code → Download ZIP」或「Source code」来安装软件**，它们是源码。
 
-此预览版**没有 Apple Developer ID 签名或公证**，首次打开可能受到 macOS 安全检查阻止。请核对来源和 SHA-256；如系统允许，可按 Apple 官方的“隐私与安全性 → 仍要打开”流程处理。不要关闭系统安全保护。公司受管设备可能禁止运行。
+| 你的电脑 | 直接下载安装包 | 版本与验证说明 |
+| --- | --- | --- |
+| **Mac · Apple Silicon**（M1 / M2 / M3 / M4 等 M 系列） | **[下载 Mac 版（DMG，约 12 MB）](https://github.com/guyucode/CodeTrail/releases/download/v0.2.0-mac-preview.1/CodeTrail_0.2.0_aarch64.dmg)** | [Mac 发行页](https://github.com/guyucode/CodeTrail/releases/tag/v0.2.0-mac-preview.1) |
+| **Windows · x64**（Intel / AMD 64 位） | **[下载 Windows 版（EXE，约 9 MB）](https://github.com/guyucode/CodeTrail/releases/download/v0.2.0-windows-preview.1/CodeTrail_0.2.0_windows_x64_setup.exe)** | [Windows 发行页](https://github.com/guyucode/CodeTrail/releases/tag/v0.2.0-windows-preview.1) |
 
-基本桌面阅读不需要安装 Rust、npm 或模型，也不需要 GPU/API Key。Git 改动比较需要 Git；可选 Pyright 语义增强需要 Node.js 22.12+；Agent 协议和 Python 运行采集使用同版本 `reader-cli`，可从配套 tools 压缩包取得。Python SDK 本身只依赖标准库。
+Intel Mac、Windows ARM 和 32 位系统暂不提供安装包。[全部版本与附件](https://github.com/guyucode/CodeTrail/releases)
 
-## Windows 版
+不确定机型：Mac 点左上角 Apple 菜单 →「关于本机」，查看芯片；Windows 在「设置 → 系统 → 系统信息」查看系统类型。
 
-Windows x64 安装、可选依赖、构建和验证范围见 [Windows 发布说明](docs/WINDOWS_RELEASE.md)。安装器和同版本 CLI/SDK 工具包从 [Releases](https://github.com/guyucode/CodeTrail/releases) 下载。Windows 包没有代码签名，当前为预览版。
+## 安装
+
+### Mac
+
+1. 下载并打开 `.dmg`，把 **CodeTrail** 拖入「应用程序」。
+2. 从「应用程序」打开 CodeTrail，首次会显示演示项目。
+3. 本版**未签名、未公证**。若被系统拦截，先核对来源和发行页的 SHA-256，再按 macOS 的「隐私与安全性」提示处理；不要关闭系统安全保护。受管理设备请按组织要求处理。
+
+安装包面向 Apple Silicon，构建部署目标为 macOS 11；目前仅在开发者的 macOS 27 设备验证，其他系统版本尚未逐一验收。
+
+### Windows
+
+1. 下载并双击 `CodeTrail_0.2.0_windows_x64_setup.exe`，按向导为当前用户安装。
+2. 若提示缺少 **Microsoft WebView2**，允许安装器联网安装该运行时。
+3. 安装后从开始菜单打开 **CodeTrail**，首次会显示演示项目。
+
+本版**没有代码签名**，系统可能提示未知发布者。请核对来源和发行页的 SHA-256，不要关闭系统安全保护。已通过 Windows Server 2022 x64 云端构建、安装和原生窗口检查；Windows 10/11 实机人工验收仍待完成。[详细验证范围](docs/WINDOWS_RELEASE.md)
+
+**基础阅读无需安装 Rust、npm、Python 或模型服务。** Git 改动比较需要 Git；可选 Python 语义增强需要 Node.js 22.12+。普通使用只需下载安装包，CLI / SDK 工具包按需下载。
+
+## 三步开始使用
+
+1. **打开项目**：先体验内置演示，再点右上角「打开仓库」，选择自己的项目文件夹。要看 Git 改动，请选择仓库根目录。
+2. **选功能、读代码**：有「项目概览」时先看模块与运行路径，点击步骤进入对应功能和代码；也可以从左侧选功能，用「阅读片段」切换相关实现和测试。
+3. **记批注、确认已读**：有疑问就在右侧点「＋ 记批注」，停笔后自动保存；在「我的批注」中导出 Markdown，手动发给 Agent。读完再点「确认已读」，关联内容变化后会提示重读。
+
+### 打开自己的项目，没有功能列表怎么办？
+
+CodeTrail **不会自动猜测业务功能**。没有功能关联的项目仍可浏览文件；要按功能阅读，推荐让编码 Agent 按 [Agent 交付协议](docs/AGENT_DELIVERY.md) 建立并维护关联。也可以通过「更多」创建人工功能并绑定代码片段。
+
+可以把这段话发给正在开发项目的 Agent，并附上协议链接：
+
+> 请按 CodeTrail 的 Agent 交付协议，为当前项目建立简短的功能索引、带职责的代码关联和项目概览。使用 reader-cli 维护并运行校验；以后修改代码时同步更新关联，不替我确认已读。
+
+Agent 使用的同版本工具包（含 `reader-cli`、Python SDK 和协议文档）：[Mac arm64 工具包](https://github.com/guyucode/CodeTrail/releases/download/v0.2.0-mac-preview.1/CodeTrail-tools-0.2.0-macos-arm64.tar.gz) · [Windows x64 工具包](https://github.com/guyucode/CodeTrail/releases/download/v0.2.0-windows-preview.1/CodeTrail-tools-0.2.0-windows-x64.zip)。解压后可使用其中的 CLI；协议中的源码构建步骤仅供开发者。
+
+### Agent 改代码时，怎样看进展？
+
+右侧「Agent 动态」展示**当前加载项目**中 Agent 主动报告的修改位置、影响与预期效果；它不自动监视其他项目，也不自动推断工作内容。代码和索引的外部改动需要点击右上角「刷新代码与索引」。
+
+「运行记录」只显示项目显式接入采集器后留下的结果；阅读器不会自行运行项目或编造中间值。[接入运行记录](docs/RUNTIME_RECORDS.md)
+
+![CodeTrail Windows 桌面版：内置演示项目中的功能、代码和右侧工作面板](https://github.com/guyucode/CodeTrail/releases/download/v0.2.0-windows-preview.1/codetrail-windows-native.png)
+
+*Windows 预览版实际窗口，展示内置演示项目。*
+
+## 数据与使用边界
+
+- 项目功能关联、人工阅读记录、批注和运行记录保存在项目的 `.reader/` 中，建议自行备份；内置演示数据与真实项目隔离。
+- 应用不上传源码、不修改源码，也不执行被阅读项目的代码。批注不会自动发送给 Agent。
+- 「确认已读」记录的是你阅读过的内容版本，不代表功能正确或测试通过。
+- Python 支持局部代码关系；Rust、TypeScript / JavaScript 支持符号阅读。大型仓库和动态关系有分析范围限制，详见使用指南。
+
+## 更多说明
+
+| 你想做什么 | 看这里 |
+| --- | --- |
+| 详细操作、状态含义与常见问题 | [用户指南](docs/USER_GUIDE.md) |
+| 让 Agent 维护功能与代码关联 | [Agent 交付协议](docs/AGENT_DELIVERY.md) |
+| 采集真实运行中的中间结果 | [运行记录协议](docs/RUNTIME_RECORDS.md) |
+| 自己编译、开发或了解技术边界 | [技术与开发说明](docs/TECHNICAL_GUIDE.md) · [Windows 构建说明](docs/WINDOWS_RELEASE.md) |
+| 报告问题或建议 | [GitHub Issues](https://github.com/guyucode/CodeTrail/issues)（请勿提交密钥或私有源码） |
 
 ## 使用许可
 
-**非商业用途免费，商业用途需书面授权。** 本项目采用 [PolyForm Noncommercial 1.0.0](LICENSE)，商业使用申请见 [COMMERCIAL-LICENSE.md](COMMERCIAL-LICENSE.md)。包括企业内部商业使用在内，不能自行视为免费；教育科研等许可例外以原文为准。第三方组件保留各自许可。本仓库是源码可见项目。
+**非商业用途免费，商业用途需书面授权。** 自有代码采用 [PolyForm Noncommercial 1.0.0](LICENSE)，具体范围以许可原文为准；企业内部商业使用不能自行视为免费。[申请商业授权](COMMERCIAL-LICENSE.md)
 
-## 已实现的能力
-
-### Agent 交付协议 v1
-
-Agent 可通过 `reader-cli agent inspect|deliver|check <repository>` 维护稳定功能 ID、带职责的代码关联和版本摘要。交付保存在独立 `.reader/agent.json`，兼容原有人工 `.reader/features/`；桌面展示交付校验和人工审阅两个独立状态。完整格式、更新流程与示例见 [Agent 交付协议](docs/AGENT_DELIVERY.md)。
-
-| 能力 | v0.2 行为 |
-| --- | --- |
-| 本地代码阅读 | 打开项目目录，查看文件、语法高亮、函数/类等符号；代码区只读 |
-| 符号索引 | 使用 tree-sitter 提取 Python、Rust、TypeScript/TSX、JavaScript/JSX 的语法定义 |
-| 功能阅读 | 从功能列表进入代码，通过阅读片段切换跨文件证据 |
-| 多片段绑定 | 一个功能可绑定多个文件中的整个符号或指定行范围；同一片段可关联多个功能 |
-| 双向导航 | 从功能定位相关片段；代码光标所在位置反向显示所属功能 |
-| Git 改动 | 基线提交与最终工作区比较，也支持提交之间比较；显示新增、修改、删除、重命名和未跟踪文件 |
-| 只读 diff | Monaco 并排或统一对比，查看原始文本、修改行和相关功能 |
-| 审阅状态 | 未阅读、阅读中、已确认、待复核；直接绑定内容或功能说明变化后，已确认状态失效 |
-| 过期绑定 | 显式展示内容变化、位置更新、失效和歧义；支持人工重新绑定 |
-| 确认版本检查 | 确认时校验界面持有的内容摘要，避免把阅读后新发生的改动直接标为已确认 |
-| 相关逻辑 | Python 一跳调用关系、局部图、调用点与目标定义跳转；引用与调用分开，动态目标明确保留未解析状态 |
-| 潜在影响 | 直接调用了变化符号的功能显示“可能受影响”，给出调用证据；它不会自动覆盖人工阅读状态 |
-| 可选语义增强 | 使用应用依赖中的 Pyright 核验定义与引用；无法启用时继续使用静态分析 |
-| 阅读记录 | 生成 Markdown 文本；桌面版可预览和复制，浏览器演示支持下载 |
-
-功能列表保留人工功能索引，“相关逻辑”新增局部源码关系。**当前没有实现完整动态调用图、数据流分析、AI 自动总结或自动文件监听**。不需要配置模型 API key。应用运行时不上传源码，也不执行被阅读项目的测试、构建脚本或宏。关系分析先支持 Python；Rust、TypeScript 和 JavaScript 继续提供已有的符号阅读与 Diff。
-
-## v0.2：从改动继续追踪相关逻辑
-
-1. 在源码或 Diff 中定位要理解的 Python 函数。
-2. 打开中间的 **“相关逻辑”** 标签，选择当前符号。
-3. 查看调用方、被调用方、非调用引用以及动态/外部边界。
-4. 点击关系中的 **调用位置** 或 **目标定义** 阅读真实证据，再用顶部提示返回关系视图。
-5. 查看受影响功能：直接代码变化与依赖“可能受影响”分别展示。
-
-例如内置示例中，`stream_chat` 自身没有修改，但它调用的 `choose_route` 和 `stream_with_fallback` 变了。“对话入口”仍保留原来的已确认阅读记录，同时显示潜在影响提示；未修改的 `Route` 数据结构不会因为调用者变化就被自动标成受影响。
-
-当前关系来自工作区，默认对齐 `HEAD → WORKTREE`。历史提交 Diff 仍可查看，但不能用当前关系图推断历史调用关系。导航前会校验源文件指纹；若代码在分析后变化，会要求刷新，避免跳到旧位置。
-
-### 可选 Pyright 增强
-
-桌面真实项目的关系视图可开启语义增强。`npm ci` 会安装固定版本的 Pyright，桌面打包也会包含其脚本；运行增强功能仍需要本机 Node.js 22.12+。语言服务不可用时会显示原因并保留静态结果。
-
-为保持只读分析，增强功能在临时目录中分析捕获的 Python 源码，并限制 Node 的文件访问和子进程能力。它不会读取仓库中的自定义 Pyright 配置、虚拟环境解释器或可执行插件。依赖自定义导入路径、环境和第三方运行时的关系可能无法解析，界面会保留这些边界。
-
-若桌面启动环境找不到 Node，可以在启动应用前显式设置 `CODETRAIL_NODE` 为 Node 可执行文件的绝对路径。高级调试可通过 `CODETRAIL_PYRIGHT_SCRIPT` 指定受信任 Pyright `langserver.index.js` 的绝对路径；它不是 shell 命令或项目配置项。
-
-## 在 macOS 上启动
-
-### 1. 准备开发环境
-
-需要：
-
-- Node.js **22.12 或更新版本**，以及 npm；可使用 Node 24 LTS。
-- Git。
-- Rust stable 与 Cargo。
-- Xcode Command Line Tools。
-
-如未安装 Xcode 命令行工具：
-
-```bash
-xcode-select --install
-```
-
-Node.js 可从 [Node.js 官网](https://nodejs.org/)安装，Rust 可按 [rustup 官方指南](https://rustup.rs/)安装。安装后重新打开终端，确认 `node`、`npm`、`git`、`rustc` 和 `cargo` 都在 PATH 中。系统依赖说明可参阅 [Tauri 官方前置要求](https://v2.tauri.app/start/prerequisites/)。
-
-### 2. 安装依赖并打开桌面窗口
-
-解压源码包，在终端进入包含 `package.json` 的 `code-reader` 目录：
-
-```bash
-npm ci
-npm run doctor
-npm run desktop
-```
-
-第一次启动会下载并编译 Rust 依赖，耗时取决于网络和机器。终端不要关闭；开发模式的窗口由该进程启动。
-
-窗口启动后先显示有明确标签的内置演示。点击右上角 **“打开仓库”**，选择你要阅读的真实工程目录。需要 Git 改动对比时，应选择包含该仓库 `.git` 的根目录，而不是其中某个子目录。
-
-也可以在环境就绪后使用 `start-macos.command`。若文件没有执行权限，先在工程目录执行：
-
-```bash
-chmod +x start-macos.command
-./start-macos.command
-```
-
-### 3. 先用一个真实 Git 示例练习
-
-```bash
-npm run demo:init
-```
-
-脚本会在工程目录下新建 `demo-workspace/`，构建 `reader-cli`，创建示例 Git 仓库及基线提交，建立六个功能的阅读标注，再修改模型路由与流式降级逻辑，添加一个未跟踪文件。新增的“对话入口”和“路由数据结构”用于验证潜在影响与不应误报的被调用方。它不会覆盖已有目录，也不会改你的现有工程或全局 Git 用户配置。
-
-在桌面窗口选择这个 `demo-workspace` 目录，就可以看到真实的代码、diff 与待复核状态。要在其他新目录创建示例：
-
-```bash
-npm run demo:init -- /absolute/path/to/new-demo
-```
-
-如果目标目录已经存在，请换一个新目录；脚本会拒绝覆盖。
-
-## 推荐的日常使用流程
-
-1. **选功能**：打开工程，在左侧选择要理解的功能。
-2. **读代码和改动**：先看功能说明，用“阅读片段”切换证据。当前文件有改动时默认展示“本次改动”，可切换“完整代码”。
-3. **确认已读**：读完该功能的所有相关片段后，点击标题旁的“确认已读”。变化后会显示“需重读”，人工确认仍对应指定版本。
-
-低频操作收在次级入口：“浏览文件与改动”保留文件导航，“更多”保留详情、相关逻辑、人工关联维护和导出；“对比设置”保留版本和差异布局设置。Agent 交付 ID 等信息位于详情内。已有功能、证据及阅读记录继续兼容，不进行数据迁移。
-刷新仍需点击右上角“刷新代码与索引”，不会后台自动监听。
-
-详细操作、状态解释与排错见 [用户指南](docs/USER_GUIDE.md)。
-
-## “已确认”具体表示什么？
-
-它表示用户确认了某个功能的名称、说明、直接绑定片段及相关备注所对应的内容摘要。刷新、重新打开或相关操作重新读取源码时，如果摘要发生变化，功能会显示“待复核”。确认操作还会校验预期摘要；如果源码或标注在阅读后变化，会要求刷新后重新审阅。
-
-这个状态**不表示测试通过、功能行为正确、完整依赖没有变化，或所有分支都已覆盖**。v0.2 可以依据已解析的一跳调用关系另行提示潜在影响，但不会递归判断所有依赖，也不会把潜在影响直接写成阅读状态。请把你实际依赖的关键实现和测试也加入功能；测试文件的关联仍只是阅读证据，不是测试执行结果。
-
-## Git 对比口径
-
-默认基线是 `HEAD`，目标是 `WORKTREE`：比较基线提交与当前磁盘中的最终文本，包含暂存、未暂存和未跟踪文件。它不将“暂存改动”和“未暂存改动”拆成两份 diff。文件先暂存一次、随后又修改时，展示最终当前内容。
-
-目标也可以填写提交、分支或标签，与另一个提交比较。历史对比使用相应版本的源码；功能关联参考当前功能索引，并显示需要核对的提示。删除函数的影响会根据旧版本定义计算。
-
-为保持只读分析，工作区源码直接读取，不运行 Git 的外部 clean/textconv 过滤器。使用特殊过滤器、Git LFS 或 CRLF 自动转换的项目，显示结果可能与 Git 归一化后的 diff 不同。符号链接、子模块、非 UTF-8 文本和二进制文件不作为普通源码比较。纯路径重命名以及 Git 索引/提交可识别的重命名会尽量合并展示；不能可靠识别的情况可能呈现为删除与新增。
-
-非 Git 目录仍可阅读和标注；没有首次提交的 Git 仓库会以空快照比较工作区。打开 Git 子目录时，界面会提示改为仓库根目录进行 Git 对比。
-
-## 数据保存与只读边界
-
-真实工程的阅读元数据保存在该工程下：
-
-```text
-.reader/index.json
-.reader/features/<feature-id>.json
-```
-
-打开或刷新工程本身不会创建这些文件。创建/修改功能、绑定/解绑片段、改变阅读状态等明确操作才会写入阅读元数据。源码区没有保存、重构、执行代码或 Git 提交入口；应用不修改源码、暂存区或提交历史。
-
-你可以选择把 `.reader/` 加入自己的版本管理，方便保存阅读成果；也可以自行忽略该目录。应用不会替你修改 `.gitignore`。删除功能只删除该功能的阅读索引。
-
-内置演示的标注使用本机 WebView/浏览器 localStorage，与真实工程的 `.reader/` 隔离。每次启动默认先进入演示，需要手动打开真实工程。
-
-## 规模与当前限制
-
-面向数千行到中小规模仓库，优先保证阅读与状态清晰。
-
-| 范围 | 当前限制 |
-| --- | --- |
-| 单个源码或元数据文件 | 最大 2 MiB，UTF-8 文本 |
-| 目录索引 | 最多 10,000 个候选文件；累计源码达到约 64 MiB 时停止继续索引，并提示 |
-| Git 对比 | 最多 2000 个路径；前后文本合计不超过 64 MiB，超限明确提示 |
-| 扫描过滤 | 尊重项目忽略规则；默认跳过隐藏项以及 `node_modules`、`target`、`dist`、`build`、缓存和虚拟环境目录 |
-| 语言 | Python/Rust/TS/JS 提供语法符号；关系分析先支持 Python，其他 UTF-8 文本可阅读与绑定 |
-| 锚点修复 | 同一文件/符号作用域内保守定位；重命名、移动文件或歧义需要人工重绑 |
-| 内容变动发现 | 手动刷新或重新打开；无自动 watcher |
-| 导出 | 桌面版预览/复制；浏览器演示可下载 Markdown |
-
-局部关系图不代表完整控制流或执行顺序；影响提示仅覆盖已解析的直接关系，不是全量调用依赖证明。对于大型仓库，可以先选择较小目录阅读，但 Git 对比仍要求打开仓库根目录。
-
-## 浏览器演示与生产构建
-
-仅体验界面：
-
-```bash
-npm run dev
-```
-
-打开终端给出的 `http://127.0.0.1:1420`。**浏览器模式只有内置演示，不能读取你的磁盘、真实仓库或 Git。** 它不是桌面版的替代运行方式。
-
-前端构建：
-
-```bash
-npm run build
-```
-
-在 macOS 本机构建桌面应用及安装包：
-
-```bash
-npm run desktop:build
-```
-
-构建产物位于 `src-tauri/target/release/bundle/` 下，以终端输出为准。当前源码包不包含已验证的 macOS DMG；签名、公证和面向其他用户的分发流程尚未配置。
-
-Linux 开发需要 GTK 3 / WebKitGTK 4.1 等 Tauri 系统依赖。请按上述官方前置要求安装，并运行 `npm run doctor` 检查。
-
-## 工程结构与验证
-
-| 位置 | 内容 |
-| --- | --- |
-| `crates/reader-core/` | 语法索引、安全读取、Feature/Anchor、Git、Python 关系与可选 LSP 适配 |
-| `crates/reader-cli/` | 无 UI 的验证与 JSON RPC 入口，供脚本和集成测试使用 |
-| `src-tauri/` | 桌面窗口、目录选择、绑定当前工程的命令接口 |
-| `src/` | React 阅读工作台、Monaco、本地演示与类型 |
-| `demo/` | 模型路由、降级、上下文、工具调用示例源码 |
-| `scripts/` | 环境检查、真实示例工程创建等辅助脚本 |
-| `docs/USER_GUIDE.md` | 中文操作指南 |
-
-Monaco 与 worker 资源都在构建时打包到本地，没有 CDN 加载依赖。Rust 核心独立于 UI；Tauri 后端只对显式打开的当前工程执行操作。
-
-常用验证命令：
-
-```bash
-npm test
-npm run build
-cargo test --workspace
-cargo clippy --workspace --all-targets -- -D warnings
-cargo run -p reader-cli -- verify /absolute/path/to/repository
-```
-
-桌面 crate 为隔离原生系统依赖而不在顶层 Cargo workspace 中；单独检查：
-
-```bash
-cargo check --manifest-path src-tauri/Cargo.toml
-```
-
-CLI 支持 `reader-cli rpc <repository>`，从标准输入读取一条 `{ "command": "...", "payload": {...} }` JSON，输出 `{ "ok": true, "value": ... }` 或错误。`setReview` 的 `verified` 请求必须附带最近读取的 `Feature.currentDigest`，作为 `expectedDigest` 发送。完整调用和类型以 `src/types.ts`、Rust types 与 CLI dispatch 为准。
-
-关系命令为 `getRelations`，payload 包含 `symbolId`、`base`、`head`、`semantic`。完整 DTO 与约束见 `UPGRADE_CONTRACT.md`。
-
-后续可以扩展其他语言的语义适配、历史关系图和带代码引用的 AI 解释。人工 Feature 与阅读结论保持独立，不随自动关系重建而覆盖。
-
-Agent 修改代码须遵守 [AGENTS.md](AGENTS.md)。更新草稿、改动遗漏检查和统一交付校验见 [交付工作流](docs/AGENT_DELIVERY.md#git-基线更新草稿与统一交付检查)。
-
-带概览的工程默认从“项目概览”开始：先了解模块职责，再沿运行路径点击步骤进入功能及源码。概览由 Agent 通过现有交付协议维护；未配置概览的旧项目保持原有阅读入口。
-
-真实运行回看：左侧“运行记录”展示显式采集的中间结果，支持展开变量和按文件版本定位代码。Python 采集器与隔离聊天执行样例见 [运行记录协议](docs/RUNTIME_RECORDS.md)。它不自动启动项目或推断未采集结果。
+这是源码可见项目；第三方组件保留各自许可，见 [第三方声明](THIRD_PARTY_NOTICES.md)。
