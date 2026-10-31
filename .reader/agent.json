@@ -628,8 +628,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-x64-preview-20261031",
-        "summary": "保持现有功能与人工审阅隔离；核对 Windows 发布准备涉及的证据版本。",
+        "deliveryId": "windows-git-filemode-fix-20261031",
+        "summary": "复核 Windows 发布及可执行权限位兼容修复，保持既有职责和人工审阅隔离。",
         "evidenceDigest": "6c4be404ec0ffef65f2cf36eaa9bc93855bf1dffd065b73531c047101ac7ff7b",
         "matchesSource": true
       }
@@ -864,8 +864,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-x64-preview-20261031",
-        "summary": "保持现有功能与人工审阅隔离；核对 Windows 发布准备涉及的证据版本。",
+        "deliveryId": "windows-git-filemode-fix-20261031",
+        "summary": "复核 Windows 发布及可执行权限位兼容修复，保持既有职责和人工审阅隔离。",
         "evidenceDigest": "e4eb6107ce9ca2b0bb48c255f07590defe033c9eda882cbb4543ac2b3c0b25a2",
         "matchesSource": true
       }
@@ -1124,7 +1124,7 @@
             "startLine": 1,
             "endLine": 49
           },
-          "contentHash": "80af159112d80d62a2e033002c8267ab21a7463bcf503072e037d1faab0d188e",
+          "contentHash": "a68a4f04d0efae9d6d6474611b76a73f7c3bd7fdb02ecfabca53fefcaef3e550",
           "status": "exact",
           "note": "",
           "role": "entry",
@@ -1164,9 +1164,9 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-x64-preview-20261031",
-        "summary": "新增手动 Windows x64 云构建：统一验证、目标平台许可、NSIS 安装器、CLI/SDK、安装与原生渲染检查。",
-        "evidenceDigest": "c5d34d7993cc5ee39d9d83febca17780f9a8ca71cd73bdd37e84287b6426f9ae",
+        "deliveryId": "windows-git-filemode-fix-20261031",
+        "summary": "复核 Windows 发布及可执行权限位兼容修复，保持既有职责和人工审阅隔离。",
+        "evidenceDigest": "0f64e69555235380a75a78fadc9a194d150f64d3dc193169256d4bcbcb83d43b",
         "matchesSource": true
       }
     },
@@ -1240,8 +1240,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-x64-preview-20261031",
-        "summary": "保持现有功能与人工审阅隔离；核对 Windows 发布准备涉及的证据版本。",
+        "deliveryId": "windows-git-filemode-fix-20261031",
+        "summary": "复核 Windows 发布及可执行权限位兼容修复，保持既有职责和人工审阅隔离。",
         "evidenceDigest": "2486a61e2552f3ff14f7d685d83f4139bfda9fc4fb480644886a877a89e63ec1",
         "matchesSource": true
       }
@@ -1273,10 +1273,10 @@
           "symbolName": "compare",
           "range": {
             "file": "crates/reader-core/src/git.rs",
-            "startLine": 441,
-            "endLine": 581
+            "startLine": 469,
+            "endLine": 623
           },
-          "contentHash": "a79820c4343c637b71dd5e1ebb0d1c4608e0aba1bec52e84aaeb1964c6e715ce",
+          "contentHash": "f8178f822e63524eabeccaf6df42b3503b713ae56db86cf97c0e893ff9b7cb65",
           "status": "exact",
           "note": "",
           "role": "implementation",
@@ -1289,8 +1289,8 @@
           "symbolName": "changes",
           "range": {
             "file": "crates/reader-core/src/git.rs",
-            "startLine": 629,
-            "endLine": 758
+            "startLine": 671,
+            "endLine": 800
           },
           "contentHash": "7e31fe07338fb3c8862f72b79e8af65c4699a4ece57c544954b7e795b6a2f61e",
           "status": "exact",
@@ -1321,8 +1321,8 @@
           "symbolName": "final_worktree_combines_staged_unstaged_and_untracked",
           "range": {
             "file": "crates/reader-core/src/git.rs",
-            "startLine": 854,
-            "endLine": 903
+            "startLine": 915,
+            "endLine": 964
           },
           "contentHash": "bfcfc2d040ef5b34bc7b4c2db1be6665c0538add4d0bc7d98506aa68231ab0af",
           "status": "exact",
@@ -1393,12 +1393,44 @@
           "note": "",
           "role": "constraint",
           "responsibility": "为文本阅读调用方保留严格 UTF-8 解码。"
+        },
+        {
+          "id": "windows-git-index_modes",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/git.rs::index_modes",
+          "symbolName": "index_modes",
+          "range": {
+            "file": "crates/reader-core/src/git.rs",
+            "startLine": 443,
+            "endLine": 467
+          },
+          "contentHash": "1a5e1861275b3213d9c7db589813898ef533647ba07acd53ff48586d1308daeb",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "一次读取 Git 索引中的普通文件权限位，供不支持 Unix 可执行权限的工作区使用。"
+        },
+        {
+          "id": "windows-git-tests-index_modes_preserve_executable_files_when_filemode_is_disabled",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/git.rs::tests::index_modes_preserve_executable_files_when_filemode_is_disabled",
+          "symbolName": "index_modes_preserve_executable_files_when_filemode_is_disabled",
+          "range": {
+            "file": "crates/reader-core/src/git.rs",
+            "startLine": 896,
+            "endLine": 913
+          },
+          "contentHash": "1ee439ecc2f2a55cdfc89a1e72be76b66529902c72055e864c00702904bafcb0",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "验证不支持权限位的工作区不会误报未变脚本，但仍能检测暂存的权限位变化。"
         }
       ],
       "delivery": {
-        "deliveryId": "windows-x64-preview-20261031",
-        "summary": "保持现有功能与人工审阅隔离；核对 Windows 发布准备涉及的证据版本。",
-        "evidenceDigest": "3fc60750c847ffcf2a4091b2c81bb139bf5ce5ca2634958bb03246bedfadea51",
+        "deliveryId": "windows-git-filemode-fix-20261031",
+        "summary": "Windows 或 core.filemode=false 时用 Git 索引权限位比较，避免将未改动的可执行脚本误报；保留暂存权限变化。",
+        "evidenceDigest": "8dd8af635d7460192410774c8f9a02ca9aea69c6d0b84d0594ed809215725e88",
         "matchesSource": true
       }
     },
@@ -1504,8 +1536,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-x64-preview-20261031",
-        "summary": "保持现有功能与人工审阅隔离；核对 Windows 发布准备涉及的证据版本。",
+        "deliveryId": "windows-git-filemode-fix-20261031",
+        "summary": "复核 Windows 发布及可执行权限位兼容修复，保持既有职责和人工审阅隔离。",
         "evidenceDigest": "480545e055ee827eddb17a5b1a6a7d41d8ad0cbeff9a89f5123b5102cf1195a1",
         "matchesSource": true
       }
@@ -1628,8 +1660,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-x64-preview-20261031",
-        "summary": "保持现有功能与人工审阅隔离；核对 Windows 发布准备涉及的证据版本。",
+        "deliveryId": "windows-git-filemode-fix-20261031",
+        "summary": "复核 Windows 发布及可执行权限位兼容修复，保持既有职责和人工审阅隔离。",
         "evidenceDigest": "0738f5f563c033c1c53b08ae7dc37aab738260804ee99ef9f346b96fc46d121a",
         "matchesSource": true
       }
@@ -1832,8 +1864,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-x64-preview-20261031",
-        "summary": "保持现有功能与人工审阅隔离；核对 Windows 发布准备涉及的证据版本。",
+        "deliveryId": "windows-git-filemode-fix-20261031",
+        "summary": "复核 Windows 发布及可执行权限位兼容修复，保持既有职责和人工审阅隔离。",
         "evidenceDigest": "dc478d08a0b7cea6ce7863b70ff1046e060f287c2df6b2302f30a07438667314",
         "matchesSource": true
       }
@@ -1956,8 +1988,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-x64-preview-20261031",
-        "summary": "保持现有功能与人工审阅隔离；核对 Windows 发布准备涉及的证据版本。",
+        "deliveryId": "windows-git-filemode-fix-20261031",
+        "summary": "复核 Windows 发布及可执行权限位兼容修复，保持既有职责和人工审阅隔离。",
         "evidenceDigest": "bde0f7297ec6f642937430e1b320d4acf7800461c60fce5048904628430c33eb",
         "matchesSource": true
       }
@@ -2064,8 +2096,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-x64-preview-20261031",
-        "summary": "保持现有功能与人工审阅隔离；核对 Windows 发布准备涉及的证据版本。",
+        "deliveryId": "windows-git-filemode-fix-20261031",
+        "summary": "复核 Windows 发布及可执行权限位兼容修复，保持既有职责和人工审阅隔离。",
         "evidenceDigest": "5e135a19cc72f2d4b7287755717b6c4cd43ecfa2e2ab4d1b77f1a6ce9111c5b0",
         "matchesSource": true
       }
@@ -2284,8 +2316,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-x64-preview-20261031",
-        "summary": "保持现有功能与人工审阅隔离；核对 Windows 发布准备涉及的证据版本。",
+        "deliveryId": "windows-git-filemode-fix-20261031",
+        "summary": "复核 Windows 发布及可执行权限位兼容修复，保持既有职责和人工审阅隔离。",
         "evidenceDigest": "d9d4c476bab149853e7c7a57761b515f9d84dbce38613186e4249103604204ee",
         "matchesSource": true
       }
@@ -2504,8 +2536,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-x64-preview-20261031",
-        "summary": "保持现有功能与人工审阅隔离；核对 Windows 发布准备涉及的证据版本。",
+        "deliveryId": "windows-git-filemode-fix-20261031",
+        "summary": "复核 Windows 发布及可执行权限位兼容修复，保持既有职责和人工审阅隔离。",
         "evidenceDigest": "b8c26934f931d023b10ae0db4366af0b985103fa7e645c943f54addf79c485a0",
         "matchesSource": true
       }
@@ -2852,8 +2884,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-x64-preview-20261031",
-        "summary": "保持现有功能与人工审阅隔离；核对 Windows 发布准备涉及的证据版本。",
+        "deliveryId": "windows-git-filemode-fix-20261031",
+        "summary": "复核 Windows 发布及可执行权限位兼容修复，保持既有职责和人工审阅隔离。",
         "evidenceDigest": "94786ea773268284499e3fbec98df3f146226600865e26ca145e64de116a9c43",
         "matchesSource": true
       }
@@ -3264,8 +3296,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-x64-preview-20261031",
-        "summary": "保持现有功能与人工审阅隔离；核对 Windows 发布准备涉及的证据版本。",
+        "deliveryId": "windows-git-filemode-fix-20261031",
+        "summary": "复核 Windows 发布及可执行权限位兼容修复，保持既有职责和人工审阅隔离。",
         "evidenceDigest": "5dfb485bc12e433f3841123a414c0a625fad3fa092a96db3247ef61deb489cb7",
         "matchesSource": true
       }
@@ -3340,8 +3372,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-x64-preview-20261031",
-        "summary": "保持现有功能与人工审阅隔离；核对 Windows 发布准备涉及的证据版本。",
+        "deliveryId": "windows-git-filemode-fix-20261031",
+        "summary": "复核 Windows 发布及可执行权限位兼容修复，保持既有职责和人工审阅隔离。",
         "evidenceDigest": "4a73ff886a973555d732e9155eb4572458b423bd917a9bb43693d4f722b20101",
         "matchesSource": true
       }

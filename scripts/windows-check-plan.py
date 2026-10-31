@@ -9,6 +9,7 @@ import tempfile
 ROOT = Path(__file__).resolve().parents[1]
 BASE = '6b95aaa0a2e59f9ced63765fb1afa686c653e4dc'
 REASONS = {
+    'crates/reader-core/src/git.rs': 'Honor Git index executable modes on Windows/core.filemode=false, preserving staged mode changes without misreporting unchanged scripts. New helper, comparison and regression are associated with Git diff; deletion side replaces the old immutable comparison binding.',
     '.github/workflows/windows-preview.yml': 'Windows-only manual CI orchestration; source validation, target-license collection, installer build and native smoke are associated with the delivery workflow.',
     'AGENTS.md': 'Replace the Mac-only release constraint with explicit Windows preview gates; other Agent, human-review and data-preservation rules remain in force.',
     'README.md': 'Replace the old no-Windows statement and add the Windows installation link; complete release instructions are associated with delivery workflow. Deletion side is the replaced platform statement.',

@@ -438,6 +438,34 @@ fn pair_renames(records: &mut Vec<Record>, hints: &[(String, String)]) {
     records.sort_by(|a, b| a.path.cmp(&b.path));
 }
 
+// Filesystems without executable permission bits must use the Git index mode.
+// This also respects core.filemode=false on Unix (e.g. mounted Windows volumes).
+fn index_modes(root: &Path) -> Result<BTreeMap<String, String>> {
+    let bytes = git_ok(root, &["ls-files", "--stage", "-z"])?;
+    let mut modes = BTreeMap::new();
+    for item in bytes.split(|b| *b == 0).filter(|item| !item.is_empty()) {
+        let Some(tab) = item.iter().position(|b| *b == b'\t') else {
+            continue;
+        };
+        let metadata = String::from_utf8_lossy(&item[..tab]);
+        let mut fields = metadata.split_whitespace();
+        let (Some(mode), Some(_oid), Some(stage)) = (fields.next(), fields.next(), fields.next())
+        else {
+            continue;
+        };
+        if stage != "0" || !matches!(mode, "100644" | "100755") {
+            continue;
+        }
+        let Ok(path) = std::str::from_utf8(&item[tab + 1..]) else {
+            continue;
+        };
+        if !excluded(path) && validate_path(path).is_ok() {
+            modes.insert(path.to_owned(), mode.to_owned());
+        }
+    }
+    Ok(modes)
+}
+
 fn compare(root: &Path, base: &str, head: &str) -> Result<Comparison> {
     let base_oid = verify_commit(root, base, head == "WORKTREE")?;
     let head_oid = if head == "WORKTREE" {
@@ -471,6 +499,15 @@ fn compare(root: &Path, base: &str, head: &str) -> Result<Comparison> {
     if names.len() > MAX_COMPARED_FILES {
         warnings.push(format!("项目超过 {MAX_COMPARED_FILES} 个文件，本次只比较按路径排序的前 {MAX_COMPARED_FILES} 个文件；其余未比较。"));
     }
+    let use_index_modes = head_oid.is_none()
+        && (cfg!(not(unix))
+            || git_text(root, &["config", "--type=bool", "--get", "core.filemode"])
+                .is_ok_and(|v| v == "false"));
+    let modes = if use_index_modes {
+        index_modes(root)?
+    } else {
+        BTreeMap::new()
+    };
     let mut records = Vec::new();
     let mut compared_bytes = 0usize;
     for path in names.into_iter().take(MAX_COMPARED_FILES) {
@@ -495,13 +532,18 @@ fn compare(root: &Path, base: &str, head: &str) -> Result<Comparison> {
         } else {
             Ok(None)
         };
-        let new = match new {
+        let mut new = match new {
             Ok(value) => value,
             Err(error) => {
                 warnings.push(format!("跳过 {path}：{error}"));
                 continue;
             }
         };
+        if use_index_modes {
+            if let Some((_, mode)) = new.as_mut() {
+                *mode = modes.get(&path).cloned().unwrap_or_else(|| "100644".into());
+            }
+        }
         compared_bytes = compared_bytes
             .saturating_add(old.as_ref().map_or(0, Vec::len))
             .saturating_add(new.as_ref().map_or(0, |(text, _)| text.len()));
@@ -849,6 +891,25 @@ mod tests {
             features: Vec::new(),
             warnings: Vec::new(),
         }
+    }
+
+    #[test]
+    fn index_modes_preserve_executable_files_when_filemode_is_disabled() {
+        let repo = repo();
+        let root = repo.path();
+        fs::write(root.join("start.command"), "echo hello\n").unwrap();
+        commit(root);
+        run(root, &["config", "core.filemode", "false"]);
+        run(root, &["update-index", "--chmod=+x", "start.command"]);
+        run(root, &["commit", "-qm", "record executable index mode"]);
+        assert!(changes(root, "HEAD", "WORKTREE", &snapshot(root))
+            .unwrap()
+            .files
+            .is_empty());
+        run(root, &["update-index", "--chmod=-x", "start.command"]);
+        let diff = changes(root, "HEAD", "WORKTREE", &snapshot(root)).unwrap();
+        assert_eq!(diff.files.len(), 1);
+        assert_eq!(diff.files[0].path, "start.command");
     }
 
     #[test]
