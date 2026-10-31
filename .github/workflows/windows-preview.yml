@@ -27,6 +27,16 @@ jobs:
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: '3.12'
+      - name: Restore Rust build cache
+        id: rust-cache
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+            src-tauri/target
+          key: windows-rust-${{ hashFiles('Cargo.lock', 'src-tauri/Cargo.lock') }}
       - name: Prepare toolchain
         shell: pwsh
         run: |
@@ -81,3 +91,13 @@ jobs:
             ${{ runner.temp }}/codetrail-windows-validation.json
             ${{ runner.temp }}/codetrail-windows-native.json
             ${{ runner.temp }}/codetrail-windows-native.png
+      - name: Save Rust build cache
+        if: always() && steps.rust-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+            src-tauri/target
+          key: ${{ steps.rust-cache.outputs.cache-primary-key }}

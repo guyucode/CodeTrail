@@ -9,6 +9,11 @@ import tempfile
 ROOT = Path(__file__).resolve().parents[1]
 BASE = '6b95aaa0a2e59f9ced63765fb1afa686c653e4dc'
 REASONS = {
+    '.gitignore': 'Exclude Tauri generated platform schemas so compilation does not count as a source change.',
+    'crates/reader-core/src/relations.rs': 'Canonicalize relation snapshot validation roots consistently on Windows; updated validation implementation is associated with Python relations.',
+    'crates/reader-core/src/semantic.rs': 'Normalize Windows device-namespace paths at the Node/LSP boundary while keeping private snapshot containment and permissions; new helper and changed implementation are associated with Pyright.',
+    'crates/reader-core/src/semantic_tests.rs': 'Add a Windows-only private snapshot URI/permission regression. Existing cross-platform LSP and real Pyright tests remain enabled.',
+
     'crates/reader-core/src/git.rs': 'Honor Git index executable modes on Windows/core.filemode=false, preserving staged mode changes without misreporting unchanged scripts. New helper, comparison and regression are associated with Git diff; deletion side replaces the old immutable comparison binding.',
     '.github/workflows/windows-preview.yml': 'Windows-only manual CI orchestration; source validation, target-license collection, installer build and native smoke are associated with the delivery workflow.',
     'AGENTS.md': 'Replace the Mac-only release constraint with explicit Windows preview gates; other Agent, human-review and data-preservation rules remain in force.',

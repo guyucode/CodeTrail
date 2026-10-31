@@ -183,9 +183,9 @@ impl ServerCommand {
         command
             .env_clear()
             .current_dir(&snapshot.workspace)
-            .env("TMPDIR", &snapshot.state)
-            .env("TMP", &snapshot.state)
-            .env("TEMP", &snapshot.state)
+            .env("TMPDIR", portable_path(&snapshot.state)?)
+            .env("TMP", portable_path(&snapshot.state)?)
+            .env("TEMP", portable_path(&snapshot.state)?)
             .arg(self.permission)
             .arg(permission_path("--allow-fs-read=", package)?)
             .arg(permission_path(
@@ -196,7 +196,7 @@ impl ServerCommand {
             .arg("--max-old-space-size=256")
             .arg("-e")
             .arg(NODE_BOOTSTRAP)
-            .arg(&self.script)
+            .arg(portable_path(&self.script)?)
             .arg("--stdio");
         // Deliberately no child-process, worker, native-addon or WASI grant.
         // `env_clear` also removes NODE_OPTIONS/PYTHONPATH/venv and preload hooks.
@@ -235,6 +235,7 @@ require(process.argv[1]);
 "#;
 
 fn permission_path(prefix: &str, path: &Path) -> Result<String> {
+    let path = portable_path(path)?;
     let text = path.to_str().context("语义工具路径不是 UTF-8")?;
     // Node treats these characters as permission-list separators/wildcards.
     if text.contains([',', '*', '\n', '\r']) {
@@ -365,8 +366,8 @@ impl Snapshot {
         let state = temp.path().join("state");
         fs::create_dir(&workspace)?;
         fs::create_dir(&state)?;
-        let workspace = workspace.canonicalize()?;
-        let state = state.canonicalize()?;
+        let workspace = portable_path(&workspace.canonicalize()?)?;
+        let state = portable_path(&state.canonicalize()?)?;
         let mut uris = BTreeMap::new();
         for (path, text) in &python {
             validate_relative(path)?;
@@ -404,7 +405,7 @@ impl Snapshot {
     }
 
     fn relative_uri(&self, uri: &str) -> Option<String> {
-        let path = decode_file_uri(uri)?;
+        let path = portable_path(&decode_file_uri(uri)?.canonicalize().ok()?).ok()?;
         let relative = path.strip_prefix(&self.workspace).ok()?;
         if relative
             .components()
@@ -452,10 +453,34 @@ fn validate_relative(path: &str) -> Result<()> {
     Ok(())
 }
 
+// Rust's Windows canonical paths use the device namespace (\\?\C:\...).
+// LSP file URIs and Node permission arguments must use ordinary drive paths.
+// Network/device authorities are not granted to the isolated language service.
+fn portable_path(path: &Path) -> Result<PathBuf> {
+    #[cfg(windows)]
+    {
+        let text = path.to_str().context("语义工具路径不是 UTF-8")?;
+        if let Some(tail) = text.strip_prefix(r"\\?\") {
+            if tail
+                .get(..4)
+                .is_some_and(|p| p.eq_ignore_ascii_case("UNC\\"))
+            {
+                bail!("语义增强暂不支持 UNC 网络路径");
+            }
+            return Ok(PathBuf::from(tail));
+        }
+        if text.starts_with(r"\\") {
+            bail!("语义增强暂不支持 UNC 网络路径");
+        }
+    }
+    Ok(path.to_path_buf())
+}
+
 fn file_uri(path: &Path) -> Result<String> {
     if !path.is_absolute() {
         bail!("LSP 文件 URI 必须使用绝对路径")
     }
+    let path = portable_path(path)?;
     let path = path
         .to_str()
         .context("LSP 路径不是 UTF-8")?
@@ -503,6 +528,10 @@ fn decode_file_uri(uri: &str) -> Option<PathBuf> {
         }
     }
     let text = String::from_utf8(bytes).ok()?;
+    #[cfg(windows)]
+    if text.starts_with("//") || text.starts_with(r"\\") {
+        return None;
+    }
     #[cfg(windows)]
     let text = if text.as_bytes().get(2) == Some(&b':') {
         text[1..].to_owned()

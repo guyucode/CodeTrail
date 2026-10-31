@@ -628,8 +628,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-git-filemode-fix-20261031",
-        "summary": "复核 Windows 发布及可执行权限位兼容修复，保持既有职责和人工审阅隔离。",
+        "deliveryId": "windows-path-compat-20261031",
+        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
         "evidenceDigest": "6c4be404ec0ffef65f2cf36eaa9bc93855bf1dffd065b73531c047101ac7ff7b",
         "matchesSource": true
       }
@@ -864,8 +864,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-git-filemode-fix-20261031",
-        "summary": "复核 Windows 发布及可执行权限位兼容修复，保持既有职责和人工审阅隔离。",
+        "deliveryId": "windows-path-compat-20261031",
+        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
         "evidenceDigest": "e4eb6107ce9ca2b0bb48c255f07590defe033c9eda882cbb4543ac2b3c0b25a2",
         "matchesSource": true
       }
@@ -1122,9 +1122,9 @@
           "range": {
             "file": "scripts/windows-check-plan.py",
             "startLine": 1,
-            "endLine": 49
+            "endLine": 55
           },
-          "contentHash": "a68a4f04d0efae9d6d6474611b76a73f7c3bd7fdb02ecfabca53fefcaef3e550",
+          "contentHash": "c383fea7e360e979f159e75854fcd5ad4a71a083d355b0e10fa43c8fc3961df6",
           "status": "exact",
           "note": "",
           "role": "entry",
@@ -1164,9 +1164,9 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-git-filemode-fix-20261031",
-        "summary": "复核 Windows 发布及可执行权限位兼容修复，保持既有职责和人工审阅隔离。",
-        "evidenceDigest": "0f64e69555235380a75a78fadc9a194d150f64d3dc193169256d4bcbcb83d43b",
+        "deliveryId": "windows-path-compat-20261031",
+        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
+        "evidenceDigest": "adf9d997988037f50f844c7cd5cac179be9faf70f65b368f889034360a3aa987",
         "matchesSource": true
       }
     },
@@ -1240,8 +1240,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-git-filemode-fix-20261031",
-        "summary": "复核 Windows 发布及可执行权限位兼容修复，保持既有职责和人工审阅隔离。",
+        "deliveryId": "windows-path-compat-20261031",
+        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
         "evidenceDigest": "2486a61e2552f3ff14f7d685d83f4139bfda9fc4fb480644886a877a89e63ec1",
         "matchesSource": true
       }
@@ -1428,8 +1428,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-git-filemode-fix-20261031",
-        "summary": "Windows 或 core.filemode=false 时用 Git 索引权限位比较，避免将未改动的可执行脚本误报；保留暂存权限变化。",
+        "deliveryId": "windows-path-compat-20261031",
+        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
         "evidenceDigest": "8dd8af635d7460192410774c8f9a02ca9aea69c6d0b84d0594ed809215725e88",
         "matchesSource": true
       }
@@ -1536,8 +1536,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-git-filemode-fix-20261031",
-        "summary": "复核 Windows 发布及可执行权限位兼容修复，保持既有职责和人工审阅隔离。",
+        "deliveryId": "windows-path-compat-20261031",
+        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
         "evidenceDigest": "480545e055ee827eddb17a5b1a6a7d41d8ad0cbeff9a89f5123b5102cf1195a1",
         "matchesSource": true
       }
@@ -1660,8 +1660,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-git-filemode-fix-20261031",
-        "summary": "复核 Windows 发布及可执行权限位兼容修复，保持既有职责和人工审阅隔离。",
+        "deliveryId": "windows-path-compat-20261031",
+        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
         "evidenceDigest": "0738f5f563c033c1c53b08ae7dc37aab738260804ee99ef9f346b96fc46d121a",
         "matchesSource": true
       }
@@ -1864,8 +1864,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-git-filemode-fix-20261031",
-        "summary": "复核 Windows 发布及可执行权限位兼容修复，保持既有职责和人工审阅隔离。",
+        "deliveryId": "windows-path-compat-20261031",
+        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
         "evidenceDigest": "dc478d08a0b7cea6ce7863b70ff1046e060f287c2df6b2302f30a07438667314",
         "matchesSource": true
       }
@@ -1988,8 +1988,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-git-filemode-fix-20261031",
-        "summary": "复核 Windows 发布及可执行权限位兼容修复，保持既有职责和人工审阅隔离。",
+        "deliveryId": "windows-path-compat-20261031",
+        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
         "evidenceDigest": "bde0f7297ec6f642937430e1b320d4acf7800461c60fce5048904628430c33eb",
         "matchesSource": true
       }
@@ -2021,10 +2021,10 @@
           "symbolName": "new",
           "range": {
             "file": "crates/reader-core/src/semantic.rs",
-            "startLine": 340,
-            "endLine": 404
+            "startLine": 341,
+            "endLine": 405
           },
-          "contentHash": "85c46ed9fad7ec9a880b57c946e4fc5296aef55626b22903ab5eeec3915ff010",
+          "contentHash": "56c1ac2cb5626c899df81254fc47bb5cd90a01947181f9e36120cacd19fe1174",
           "status": "exact",
           "note": "",
           "role": "implementation",
@@ -2040,7 +2040,7 @@
             "startLine": 180,
             "endLine": 208
           },
-          "contentHash": "564c83e9da624feb83ca02648c08dfea2c04a724590382082cf4739eb09304c6",
+          "contentHash": "a670dde6c2e7af3032159a58274f66bd7d83df546f4b65b7e5e89206527aa93e",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -2053,8 +2053,8 @@
           "symbolName": "enrich_using_policy",
           "range": {
             "file": "crates/reader-core/src/semantic.rs",
-            "startLine": 1136,
-            "endLine": 1390
+            "startLine": 1165,
+            "endLine": 1419
           },
           "contentHash": "df8aa6405a07592c753979fa3657733ea15ffaee43ef27e997aea8866eb130b3",
           "status": "exact",
@@ -2093,12 +2093,44 @@
           "note": "",
           "role": "constraint",
           "responsibility": "语言服务结果与静态截断状态合并，已知不完整的静态证据不能显示成完整就绪。"
+        },
+        {
+          "id": "windows-path-portable_path",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/semantic.rs::portable_path",
+          "symbolName": "portable_path",
+          "range": {
+            "file": "crates/reader-core/src/semantic.rs",
+            "startLine": 459,
+            "endLine": 477
+          },
+          "contentHash": "3628e7e97988896e6959d838ea39f0ea3bc72c9380de87fa7626c9a16e4f8ed5",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "在 Node/LSP 边界转换 Windows 设备命名空间路径，拒绝 UNC 网络权限范围，不放宽快照读写权限。"
+        },
+        {
+          "id": "windows-path-verbatim_windows_paths_round_trip_inside_the_private_snapshot",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/semantic_tests.rs::verbatim_windows_paths_round_trip_inside_the_private_snapshot",
+          "symbolName": "verbatim_windows_paths_round_trip_inside_the_private_snapshot",
+          "range": {
+            "file": "crates/reader-core/src/semantic_tests.rs",
+            "startLine": 636,
+            "endLine": 650
+          },
+          "contentHash": "b412cf8c3567c3695ec2ac1af10037dc352e3cd7224866e48e8c18fc866bb0bf",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "在 Windows 核对真实快照路径的 URI、权限参数及来源边界，不把设备命名空间当成远程 URI。"
         }
       ],
       "delivery": {
-        "deliveryId": "windows-git-filemode-fix-20261031",
-        "summary": "复核 Windows 发布及可执行权限位兼容修复，保持既有职责和人工审阅隔离。",
-        "evidenceDigest": "5e135a19cc72f2d4b7287755717b6c4cd43ecfa2e2ab4d1b77f1a6ce9111c5b0",
+        "deliveryId": "windows-path-compat-20261031",
+        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
+        "evidenceDigest": "166cbe4f301b5f8e3214ee7b2533d0c2bcdcf27416f4c851217616f30c0bbed8",
         "matchesSource": true
       }
     },
@@ -2129,8 +2161,8 @@
           "symbolName": "resolve",
           "range": {
             "file": "crates/reader-core/src/relations.rs",
-            "startLine": 527,
-            "endLine": 680
+            "startLine": 528,
+            "endLine": 681
           },
           "contentHash": "6196a2c2f836d42b7358c3e79eff7739919eebeb8ac6f2b74faced8e6f69c945",
           "status": "exact",
@@ -2145,8 +2177,8 @@
           "symbolName": "feature_impacts",
           "range": {
             "file": "crates/reader-core/src/relations.rs",
-            "startLine": 219,
-            "endLine": 272
+            "startLine": 220,
+            "endLine": 273
           },
           "contentHash": "b46c16dc35c111f690e6dba47921401960db7465052e152e39df016b0ef884c3",
           "status": "exact",
@@ -2193,8 +2225,8 @@
           "symbolName": "capture",
           "range": {
             "file": "crates/reader-core/src/relations.rs",
-            "startLine": 372,
-            "endLine": 423
+            "startLine": 373,
+            "endLine": 424
           },
           "contentHash": "06caafe194d08bd333f763047bdbb417035de5a2404bbf8f723723c31f0eee93",
           "status": "exact",
@@ -2209,8 +2241,8 @@
           "symbolName": "capture_module",
           "range": {
             "file": "crates/reader-core/src/relations.rs",
-            "startLine": 975,
-            "endLine": 1024
+            "startLine": 976,
+            "endLine": 1025
           },
           "contentHash": "3a138478a145413580f715fe7e1e5bda5221867da09a44303c9d071c27d40835",
           "status": "exact",
@@ -2225,8 +2257,8 @@
           "symbolName": "usage",
           "range": {
             "file": "crates/reader-core/src/relations.rs",
-            "startLine": 1581,
-            "endLine": 1614
+            "startLine": 1582,
+            "endLine": 1615
           },
           "contentHash": "83d37856e2bbf65eed2d43976148d4a7471d3a245cf1153cd9449429ac954e17",
           "status": "exact",
@@ -2305,20 +2337,36 @@
           "symbolName": "grouped_symbols",
           "range": {
             "file": "crates/reader-core/src/relations.rs",
-            "startLine": 962,
-            "endLine": 973
+            "startLine": 963,
+            "endLine": 974
           },
           "contentHash": "23ea3764c2f7719606aa3368ea4980bd43a5351f2e451d18e31988838549581e",
           "status": "exact",
           "note": "",
           "role": "constraint",
           "responsibility": "两次 AST 提取使用同一完整符号表分组，保留重复声明和作用域的一致性。"
+        },
+        {
+          "id": "windows-path-validate_capture",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/relations.rs::validate_capture",
+          "symbolName": "validate_capture",
+          "range": {
+            "file": "crates/reader-core/src/relations.rs",
+            "startLine": 205,
+            "endLine": 218
+          },
+          "contentHash": "a041746882fd5ed2eef3d0b6af6ec88f19f81f3c87967a9aa7c13bb8b2e0a940",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "把快照复核根目录统一规范化，再比较源码指纹，避免 Windows 普通路径和设备路径混用导致误判。"
         }
       ],
       "delivery": {
-        "deliveryId": "windows-git-filemode-fix-20261031",
-        "summary": "复核 Windows 发布及可执行权限位兼容修复，保持既有职责和人工审阅隔离。",
-        "evidenceDigest": "d9d4c476bab149853e7c7a57761b515f9d84dbce38613186e4249103604204ee",
+        "deliveryId": "windows-path-compat-20261031",
+        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
+        "evidenceDigest": "f8f892e0e0137bad4166ac5c267c1106b0aa4bce1e8e7609b6dde18437ffb355",
         "matchesSource": true
       }
     },
@@ -2536,8 +2584,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-git-filemode-fix-20261031",
-        "summary": "复核 Windows 发布及可执行权限位兼容修复，保持既有职责和人工审阅隔离。",
+        "deliveryId": "windows-path-compat-20261031",
+        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
         "evidenceDigest": "b8c26934f931d023b10ae0db4366af0b985103fa7e645c943f54addf79c485a0",
         "matchesSource": true
       }
@@ -2884,8 +2932,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-git-filemode-fix-20261031",
-        "summary": "复核 Windows 发布及可执行权限位兼容修复，保持既有职责和人工审阅隔离。",
+        "deliveryId": "windows-path-compat-20261031",
+        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
         "evidenceDigest": "94786ea773268284499e3fbec98df3f146226600865e26ca145e64de116a9c43",
         "matchesSource": true
       }
@@ -3296,8 +3344,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-git-filemode-fix-20261031",
-        "summary": "复核 Windows 发布及可执行权限位兼容修复，保持既有职责和人工审阅隔离。",
+        "deliveryId": "windows-path-compat-20261031",
+        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
         "evidenceDigest": "5dfb485bc12e433f3841123a414c0a625fad3fa092a96db3247ef61deb489cb7",
         "matchesSource": true
       }
@@ -3372,8 +3420,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-git-filemode-fix-20261031",
-        "summary": "复核 Windows 发布及可执行权限位兼容修复，保持既有职责和人工审阅隔离。",
+        "deliveryId": "windows-path-compat-20261031",
+        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
         "evidenceDigest": "4a73ff886a973555d732e9155eb4572458b423bd917a9bb43693d4f722b20101",
         "matchesSource": true
       }

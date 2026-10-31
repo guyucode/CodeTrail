@@ -203,7 +203,8 @@ fn fingerprints(contents: &BTreeMap<String, String>) -> BTreeMap<String, String>
 }
 
 fn validate_capture(root: &Path, captured: &BTreeMap<String, String>) -> Result<()> {
-    let current = crate::scan_repository(root)?;
+    let root = crate::canonical_root(root)?;
+    let current = crate::scan_repository(&root)?;
     let current: BTreeMap<_, _> = current
         .contents
         .iter()

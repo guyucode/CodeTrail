@@ -21,3 +21,6 @@ demo-workspace*/
 .reader/index.json
 release-artifacts/
 __pycache__/
+
+# Generated platform capability schemas are build outputs.
+src-tauri/gen/

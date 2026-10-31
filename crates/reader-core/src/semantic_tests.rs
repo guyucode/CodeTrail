@@ -632,3 +632,19 @@ fn real_pyright_resolves_cross_file_method_and_function_value_without_running_so
         "language-server analysis executed Python source"
     );
 }
+
+#[cfg(windows)]
+#[test]
+fn verbatim_windows_paths_round_trip_inside_the_private_snapshot() {
+    let (files, _, _, _) = fixture();
+    let snapshot = Snapshot::new(&files).unwrap();
+    let canonical = snapshot.workspace.join("a.py").canonicalize().unwrap();
+    let uri = file_uri(&canonical).unwrap();
+    assert!(uri.starts_with("file:///"));
+    assert!(!uri.contains("%3F"));
+    assert_eq!(snapshot.relative_uri(&uri), Some("a.py".into()));
+    assert!(!permission_path("--allow-fs-read=", &canonical)
+        .unwrap()
+        .contains(r"\\?\"));
+    assert!(decode_file_uri("file:////remote-host/share/file.py").is_none());
+}
