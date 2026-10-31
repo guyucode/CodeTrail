@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import CollaborationPanel from './CollaborationPanel';
+import type {RuntimeLocation} from './RuntimePane';
 import { invoke } from '@tauri-apps/api/core';
 
 export interface Activity { projectRoot?:string|null; kind?:string|null; files?:string[]; id:string; task:string; stage:string; places:string[]; impact:string; expectedEffect:string; verification:string|null; recordedAt:string }
@@ -62,8 +64,9 @@ function NoteEditor({root,note,onSaved,onDelete,onPending}:{root:string;note:Ann
       }catch(e){deleting.current=false;setStatus(String(e));}}}>删除</button></div>
   </article>;
 }
-export default function WorkPanel({root,context,demo}:{root:string;context:NoteContext;demo:boolean}) {
-  const [tab,setTab]=useState<'activity'|'notes'>('activity');
+export default function WorkPanel({root,context,demo,collaborationOpen,onCloseCollaboration,onSharedCode}:{root:string;context:NoteContext;demo:boolean;collaborationOpen:boolean;onCloseCollaboration:()=>void;onSharedCode?:(location:RuntimeLocation)=>void}) {
+  const [tab,setTab]=useState<'activity'|'notes'|'shared'>('activity');
+  const [shared,setShared]=useState(false);
   const [events,setEvents]=useState<Activity[]>([]); const [notes,setNotes]=useState<Annotation[]>([]);
   const [error,setError]=useState(''); const [loaded,setLoaded]=useState(false); const [exported,setExported]=useState('');
   const [pending,setPending]=useState<Set<string>>(new Set());
@@ -93,11 +96,12 @@ export default function WorkPanel({root,context,demo}:{root:string;context:NoteC
   useEffect(()=>{const handler=(e:BeforeUnloadEvent)=>{if(pending.size){e.preventDefault();}};window.addEventListener('beforeunload',handler);return()=>window.removeEventListener('beforeunload',handler);},[pending]);
   function add(){const note:Annotation={...context,id:crypto.randomUUID(),body:'',version:''};setNotes(n=>[note,...n]);setTab('notes');}
   return <aside className="work-panel" aria-label="Agent 动态和我的批注">
-    <div className="work-tabs"><button aria-pressed={tab==='activity'} onClick={()=>setTab('activity')}>Agent 动态</button><button aria-pressed={tab==='notes'} onClick={()=>setTab('notes')}>我的批注 {notes.length||''}</button></div>
-    <button className="add-note" disabled={demo||!loaded} onClick={add}>＋ 记批注</button>
+    <div className="work-tabs"><button aria-pressed={tab==='activity'} onClick={()=>setTab('activity')}>Agent 动态</button><button aria-pressed={tab==='notes'} onClick={()=>setTab('notes')}>我的批注 {notes.length||''}</button>{shared&&<button aria-pressed={tab==='shared'} onClick={()=>setTab('shared')}>共读</button>}</div>
+    <div hidden={tab!=='shared'} className="shared-panel-body"><CollaborationPanel root={root} demo={demo} context={context} open={collaborationOpen} onClose={onCloseCollaboration} onNavigate={onSharedCode} onConnected={active=>{setShared(active);if(active&&collaborationOpen)setTab('shared');if(!active&&tab==='shared')setTab('notes');}}/></div>
+    <button hidden={tab==='shared'} className="add-note" disabled={demo||!loaded} onClick={add}>＋ 记批注</button>
     {demo?<p className="work-hint">打开本地项目后，可查看动态、记录批注。</p>:<>
       {error && <p role="alert" className="work-error">{error}</p>}
-      <div className="work-scroll">
+      <div className="work-scroll" hidden={tab==='shared'}>
         {tab==='activity'?<><p className="work-hint">仅显示当前项目的修改报告，每 2 秒更新；程序执行结果请看“运行记录”。历史状态不代表 Agent 仍在线。</p>{!events.length&&<p className="work-hint">暂无修改动态。Agent 修改本项目并上报后，会显示在这里。</p>}<ActivityCards events={events} root={root}/></>:<>
           <p className="work-hint">停笔后自动保存。批注属于你，不会自动发送给 Agent。</p>
           <button disabled={!loaded||!!pending.size||!notes.length} onClick={async()=>{try{setExported(await command<string>(root,'export'));}catch(e){setError(String(e));}}}>导出 Markdown</button>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+<key>NSLocalNetworkUsageDescription</key>
+<string>CodeTrail 使用局域网让受邀成员共同阅读同一版本的代码并交换共享批注和任务。源码和个人批注不会自动传输。</string>
+</dict></plist>

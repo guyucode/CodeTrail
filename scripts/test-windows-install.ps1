@@ -1,5 +1,6 @@
 $ErrorActionPreference = 'Stop'
-$installer = Join-Path $PWD 'release-artifacts/windows/CodeTrail_0.2.0_windows_x64_setup.exe'
+$version = (Get-Content 'src-tauri/tauri.conf.json' -Raw | ConvertFrom-Json).version
+$installer = Join-Path $PWD "release-artifacts/windows/CodeTrail_${version}_windows_x64_setup.exe"
 $installRoot = Join-Path $env:RUNNER_TEMP 'CodeTrailInstalledQA'
 $installed = Start-Process -FilePath $installer -ArgumentList "/S /D=$installRoot" -Wait -PassThru
 if ($installed.ExitCode -ne 0) { throw "Installer failed: $($installed.ExitCode)" }

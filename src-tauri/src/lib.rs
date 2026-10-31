@@ -224,11 +224,98 @@ async fn journal_action(
     .await
 }
 
+#[derive(Default)]
+struct CollaborationHost(Mutex<Option<reader_core::collaboration::Host>>);
+
+#[tauri::command]
+async fn collaboration_action(
+    root: String,
+    action: String,
+    payload: serde_json::Value,
+    session: State<'_, Session>,
+    host: State<'_, CollaborationHost>,
+    app: tauri::AppHandle,
+) -> Result<serde_json::Value, String> {
+    let opened = session.inner().clone();
+    let private = app
+        .path()
+        .app_local_data_dir()
+        .map_err(|e| e.to_string())?
+        .join("collaboration");
+    // Serialize local host lifecycle; network operations run away from the UI thread.
+    let mut request = payload;
+    if action == "create" {
+        let mut guard = host.0.lock().map_err(|_| "共读主持状态不可用")?;
+        if guard.is_none() {
+            *guard = Some(
+                reader_core::collaboration::Host::start(&private.join("host"), None)
+                    .map_err(|e| e.to_string())?,
+            );
+        }
+        let service = guard.as_ref().unwrap();
+        request["server"] = serde_json::json!(service.server);
+        request["createKey"] = serde_json::json!(service.key);
+    }
+    with_root(opened, move |opened| {
+        if opened != Path::new(&root) {
+            return Err("项目已切换，请返回原项目操作共读".into());
+        }
+        reader_core::collaboration::action(opened, &private.join("connections"), &action, request)
+            .map_err(|e| e.to_string())
+    })
+    .await
+}
+
+#[tauri::command]
+async fn save_collaboration_export(
+    root: String,
+    owner_id: String,
+    session: State<'_, Session>,
+    app: tauri::AppHandle,
+) -> Result<Option<String>, String> {
+    use tauri_plugin_dialog::DialogExt;
+    let private = app
+        .path()
+        .app_local_data_dir()
+        .map_err(|e| e.to_string())?
+        .join("collaboration/connections");
+    with_root(session.inner().clone(), move |opened| {
+        if opened != Path::new(&root) {
+            return Err("项目已切换".into());
+        }
+        let text = reader_core::collaboration::action(
+            opened,
+            &private,
+            "export",
+            serde_json::json!({"ownerId":owner_id}),
+        )
+        .map_err(|e| e.to_string())?;
+        let selected = app
+            .dialog()
+            .file()
+            .set_file_name("CodeTrail-tasks.md")
+            .add_filter("Markdown", &["md"])
+            .blocking_save_file();
+        let Some(selected) = selected else {
+            return Ok(None);
+        };
+        let path = selected.into_path().map_err(|e| e.to_string())?;
+        if path.extension().and_then(|e| e.to_str()) != Some("md") {
+            return Err("请选择 .md 文件".into());
+        }
+        std::fs::write(&path, text.as_str().ok_or("任务导出格式错误")?)
+            .map_err(|e| e.to_string())?;
+        Ok(Some(path.to_string_lossy().into_owned()))
+    })
+    .await
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_dialog::init())
         .manage(Session::default())
+        .manage(CollaborationHost::default())
         .setup(|app| {
             if let Ok(resources) = app.path().resource_dir() {
                 reader_core::semantic::set_bundled_pyright(
@@ -250,7 +337,9 @@ pub fn run() {
             get_file_diff,
             get_relations,
             export_review,
-            journal_action
+            journal_action,
+            collaboration_action,
+            save_collaboration_export
         ])
         .run(tauri::generate_context!())
         .expect("无法启动 CodeTrail 桌面应用");

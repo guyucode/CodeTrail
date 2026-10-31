@@ -311,6 +311,7 @@ export default function App() {
   const [bindForm, setBindForm] = useState<BindForm | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<Feature | null>(null);
   const [report, setReport] = useState<string | null>(null);
+  const [collaborationOpen,setCollaborationOpen]=useState(false);
   const [openHelp, setOpenHelp] = useState(false);
   const [inspectorVisible, setInspectorVisible] = useState(false);
   const [warningsExpanded, setWarningsExpanded] = useState(false);
@@ -351,6 +352,7 @@ export default function App() {
       );
       setDataVersion((version) => version + 1);
       if (options?.reset) {
+        setCollaborationOpen(false);
         defaultReadingView.current = !snapshot.overview;
         setInspectorVisible(false);
         setNavTab("features");
@@ -1030,6 +1032,7 @@ export default function App() {
         >
           <RefreshCw size={16} className={busy === "刷新索引" ? "spin" : ""} />
         </button>
+        <button className="button" disabled={!project||!!busy} onClick={()=>{setInspectorVisible(false);setCollaborationOpen(true);}}>共读</button>
         <button
           className="button button-primary open-project"
           onClick={openProject}
@@ -1049,7 +1052,7 @@ export default function App() {
             <div className="project-title">
               <h1>{project?.name || "还没有打开项目"}</h1>
               {demo && <span className="demo-tag">演示项目</span>}
-              <span className="version-tag">v0.2</span>
+              <span className="version-tag">v0.3 开发版</span>
             </div>
             <div className="project-meta">
               <GitBranch size={12} />
@@ -1566,7 +1569,7 @@ export default function App() {
           )}
         </main>
 
-        {project && !inspectorVisible && <WorkPanel key={project.root} root={project.root} demo={demo} context={{
+        {project && !inspectorVisible && <WorkPanel key={project.root} root={project.root} demo={demo} collaborationOpen={collaborationOpen} onCloseCollaboration={()=>setCollaborationOpen(false)} onSharedCode={location=>{setRuntimeOrigin(false);setEvidenceOrigin(null);setSelectedFile(location.path);setActiveFeatureId(project.features.find(f=>f.anchors.some(a=>a.range.file===location.path&&a.range.startLine<=location.startLine&&a.range.endLine>=location.startLine))?.id||null);setJump({file:location.path,startLine:location.startLine,endLine:location.endLine,expectedHash:location.fileHash,stamp:Date.now()});setView("source");}} context={{
           context: view === "runs" ? runtimeContext : view === "overview" ? "项目概览" : view === "relations" ? "相关逻辑" : activeFeature?.name || "代码阅读",
           featureId: view === "overview" || view === "runs" ? null : activeFeature?.id || null,
           featureName: view === "overview" || view === "runs" ? null : activeFeature?.name || null,

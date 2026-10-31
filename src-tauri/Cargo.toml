@@ -1,6 +1,6 @@
 [package]
 name = "codetrail-desktop"
-version = "0.2.0"
+version = "0.3.0"
 description = "Read-only feature-oriented code reader"
 authors = ["CodeTrail contributors"]
 edition = "2021"

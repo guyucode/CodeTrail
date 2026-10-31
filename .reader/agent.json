@@ -1,6 +1,6 @@
 {
   "overview": {
-    "summary": "CodeTrail 把分散的源码组织成可阅读的功能。Agent 维护功能关联和运行路径，人沿着证据理解实现并确认版本；代码变化后再检查需要重读的部分。 右侧用自然语言展示 Agent 动态；阅读问题自动保存为批注，可手动导出 Markdown 继续协作。",
+    "summary": "CodeTrail 把分散的源码组织成可阅读的功能。Agent 维护功能关联和运行路径，人沿着证据理解实现并确认版本；代码变化后再检查需要重读的部分。 右侧用自然语言展示 Agent 动态；阅读问题自动保存为批注，可手动导出 Markdown 继续协作。 第二版可在可信局域网固定版本共同阅读，明确共享批注，按依赖整合任务并由各负责人手动交给 Agent。",
     "modules": [
       {
         "id": "ui",
@@ -26,6 +26,11 @@
         "id": "records",
         "name": "项目记录",
         "responsibility": "隔离保存 Agent 交付、工作动态、人工阅读确认和批注。 运行采集按当时源码版本独立保存。"
+      },
+      {
+        "id": "collaboration",
+        "name": "局域网协作",
+        "responsibility": "本机临时主持，隔离保存共享讨论、凭证与任务；版本、权限和耦合约束独立于人工已读状态。"
       }
     ],
     "paths": [
@@ -201,6 +206,45 @@
             "evidenceId": "e-dafdec6e04146d3c27dc"
           }
         ]
+      },
+      {
+        "id": "lan-collaboration",
+        "name": "共读与分工",
+        "description": "同一版本的讨论怎样变成可交给各自 Agent 的任务？",
+        "steps": [
+          {
+            "id": "host",
+            "title": "建立同版本共读",
+            "description": "识别局域网网卡，生成邀请并检查提交与功能关联。",
+            "moduleId": "collaboration",
+            "featureId": "codetrail-lan-reading",
+            "evidenceId": "lan-host-start"
+          },
+          {
+            "id": "share",
+            "title": "明确共享阅读意见",
+            "description": "在右侧提交批注或回复，个人批注仍独立保存。",
+            "moduleId": "ui",
+            "featureId": "codetrail-shared-comments",
+            "evidenceId": "shared-panel"
+          },
+          {
+            "id": "organize",
+            "title": "整合任务并核对耦合",
+            "description": "保留原始意见，以证据检查重叠、共享约定及前后顺序。",
+            "moduleId": "collaboration",
+            "featureId": "codetrail-coupling-assignment",
+            "evidenceId": "coupling-assignment-gate"
+          },
+          {
+            "id": "export",
+            "title": "导出给各自的 Agent",
+            "description": "按负责人带走基准、范围、边界和验收；交付后由人复核。",
+            "moduleId": "collaboration",
+            "featureId": "codetrail-collaboration-tasks",
+            "evidenceId": "task-export"
+          }
+        ]
       }
     ]
   },
@@ -345,8 +389,8 @@
           "symbolName": "ActivityCards",
           "range": {
             "file": "src/components/WorkPanel.tsx",
-            "startLine": 16,
-            "endLine": 22
+            "startLine": 18,
+            "endLine": 24
           },
           "contentHash": "6994cb1ed36aee1d1c28cf86e34ebc22afd7675e28acaedd8bb439eee72504a2",
           "status": "exact",
@@ -361,10 +405,10 @@
           "symbolName": "WorkPanel",
           "range": {
             "file": "src/components/WorkPanel.tsx",
-            "startLine": 65,
-            "endLine": 113
+            "startLine": 67,
+            "endLine": 117
           },
-          "contentHash": "fcb1996ae7cb5583d3bfaa2e5f1baea6b871e2a6e92baf6d7c2e3e1fe4ab41d5",
+          "contentHash": "da2307d66b58d48520cc510a00c74e85081c57b92d3b88bc2b00210fe8d2037b",
           "status": "exact",
           "note": "",
           "role": "implementation",
@@ -537,8 +581,8 @@
           "symbolName": "command",
           "range": {
             "file": "src/components/WorkPanel.tsx",
-            "startLine": 23,
-            "endLine": 23
+            "startLine": 25,
+            "endLine": 25
           },
           "contentHash": "2a79477379b72525f270bc87cb7e2e2331b87ee8ad43552a20f38b0aa874ef3f",
           "status": "exact",
@@ -601,8 +645,8 @@
           "symbolName": "projectActivities",
           "range": {
             "file": "src/components/WorkPanel.tsx",
-            "startLine": 9,
-            "endLine": 15
+            "startLine": 11,
+            "endLine": 17
           },
           "contentHash": "cb2a9d4ce5610e4bc54ea3765cdc5a75e354e3e5b729afae01bd600e26d8eac3",
           "status": "exact",
@@ -617,8 +661,8 @@
           "symbolName": "Activity",
           "range": {
             "file": "src/components/WorkPanel.tsx",
-            "startLine": 4,
-            "endLine": 4
+            "startLine": 6,
+            "endLine": 6
           },
           "contentHash": "c52bc28e3451b3f0baeb5f1b7af91a0bf9661cf04834e9c948a9c3f4e98a3673",
           "status": "exact",
@@ -628,9 +672,9 @@
         }
       ],
       "delivery": {
-        "deliveryId": "homepage-reviewed-doc-associations-20261031",
+        "deliveryId": "codetrail-lan-v03-verified-20261031",
         "summary": "整理双平台下载、安装与上手文档；校正普通用户入口、功能关联前提和右侧批注说明，原功能及运行路径不变。",
-        "evidenceDigest": "9bc8ecae4f08f1f3265f3a76d38fd09ba53343ee6433cb9014eaa59749df5b11",
+        "evidenceDigest": "df77fbfaf6f6fb0fe21c1c641ddc1b4eee02772e45b165e4b3b95bfa95dc5865",
         "matchesSource": true
       }
     },
@@ -709,8 +753,8 @@
           "symbolName": "atomic_json",
           "range": {
             "file": "crates/reader-core/src/lib.rs",
-            "startLine": 739,
-            "endLine": 763
+            "startLine": 740,
+            "endLine": 764
           },
           "contentHash": "51939efbfebd17d3c2c97a613563a9edb6e0d467abffe27779d4f9a88c092ae2",
           "status": "exact",
@@ -742,9 +786,9 @@
           "range": {
             "file": "docs/AGENT_DELIVERY.md",
             "startLine": 1,
-            "endLine": 35
+            "endLine": 247
           },
-          "contentHash": "c3908c8cd3c5fc18e48a64f3e3851c6de06945aa91499ad79b17cd491671ec6a",
+          "contentHash": "fc0ca4a4b116fb4cfd57061ae9fe28abdc5bab757479b39b058b588da86442f4",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -864,9 +908,273 @@
         }
       ],
       "delivery": {
-        "deliveryId": "homepage-reviewed-doc-associations-20261031",
+        "deliveryId": "codetrail-lan-v03-verified-20261031",
         "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
-        "evidenceDigest": "e4eb6107ce9ca2b0bb48c255f07590defe033c9eda882cbb4543ac2b3c0b25a2",
+        "evidenceDigest": "a842e3b764890925ce45729f5c5d25805de0131c43e6e80ce09930da04215fc0",
+        "matchesSource": true
+      }
+    },
+    "codetrail-collaboration-tasks": {
+      "name": "批注整合与任务交付",
+      "description": "发起人将多条共享意见整理成带目标、验收、边界和负责人的任务；可合并待处理任务并保留来源历史。本人接手、提交交付，发起人人工按实际提交复核；按人导出 Markdown。",
+      "anchors": [
+        {
+          "id": "task-service",
+          "kind": "symbol",
+          "symbolId": "crates/reader-collab/src/service.rs::Service::handle",
+          "symbolName": "handle",
+          "range": {
+            "file": "crates/reader-collab/src/service.rs",
+            "startLine": 150,
+            "endLine": 640
+          },
+          "contentHash": "09bdf2e7423a229018670e7c0932adfda718c0192554089ef4a44c793d35ff76",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "整合来源范围、原子合并待处理任务和重定向下游依赖；本人接手交付，复核绑定提交版本。"
+        },
+        {
+          "id": "task-export",
+          "kind": "symbol",
+          "symbolId": "crates/reader-collab/src/tasks.rs::export",
+          "symbolName": "export",
+          "range": {
+            "file": "crates/reader-collab/src/tasks.rs",
+            "startLine": 163,
+            "endLine": 227
+          },
+          "contentHash": "59d47c2d4dc8b976112c219e9eda2c8d3c37f9e7961615515341d80dd75f1c0e",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "按负责人导出目标、范围、原始作者意见、共享接口及前置任务负责人和交付状态。"
+        },
+        {
+          "id": "task-save-markdown",
+          "kind": "symbol",
+          "symbolId": "src-tauri/src/lib.rs::save_collaboration_export",
+          "symbolName": "save_collaboration_export",
+          "range": {
+            "file": "src-tauri/src/lib.rs",
+            "startLine": 269,
+            "endLine": 311
+          },
+          "contentHash": "7a545bb2978d1505c7859bf3f4d488f55985eb7f9c7dc9dfbbc76c270e50d57d",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "通过系统另存为窗口选择 Markdown 位置，取消不写文件。"
+        },
+        {
+          "id": "task-organizer",
+          "kind": "symbol",
+          "symbolId": "src/components/CollaborationPanel.tsx::CollaborationPanel",
+          "symbolName": "CollaborationPanel",
+          "range": {
+            "file": "src/components/CollaborationPanel.tsx",
+            "startLine": 16,
+            "endLine": 113
+          },
+          "contentHash": "c89cf2a037efa2ac7e9d8e7998bb2031c52be367f259919f4deb92039d200910",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "一个整理窗口完成选择意见、任务编辑、合并、接手与导出；人工复核不自动触发。"
+        },
+        {
+          "id": "task-merge-test",
+          "kind": "symbol",
+          "symbolId": "crates/reader-collab/tests/collaboration.rs::merging_tasks_preserves_sources_remaps_dependencies_and_exports_once",
+          "symbolName": "merging_tasks_preserves_sources_remaps_dependencies_and_exports_once",
+          "range": {
+            "file": "crates/reader-collab/tests/collaboration.rs",
+            "startLine": 336,
+            "endLine": 376
+          },
+          "contentHash": "d4b41d710291f2fe21cded80adc390d3a4b0cdd92b0e5fb0fd464978065a0475",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "验证合并来源保留为历史、下游依赖改指目标，导出不重复派发。"
+        },
+        {
+          "id": "task-owner-review-test",
+          "kind": "symbol",
+          "symbolId": "crates/reader-collab/tests/collaboration.rs::owners_accept_their_own_tasks_and_review_is_bound_to_submitted_commit",
+          "symbolName": "owners_accept_their_own_tasks_and_review_is_bound_to_submitted_commit",
+          "range": {
+            "file": "crates/reader-collab/tests/collaboration.rs",
+            "startLine": 378,
+            "endLine": 407
+          },
+          "contentHash": "3688dec5d162fa42366e8f196cfd9f05fb3eef60ac714cea12ab85e4feb152bc",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "禁止协调人替别人接手和悄悄替换复核提交。"
+        },
+        {
+          "id": "task-input-protocol",
+          "kind": "symbol",
+          "symbolId": "crates/reader-collab/src/lib.rs::TaskInput",
+          "symbolName": "TaskInput",
+          "range": {
+            "file": "crates/reader-collab/src/lib.rs",
+            "startLine": 82,
+            "endLine": 97
+          },
+          "contentHash": "0d5a82e606371a52f6a1f95c2601d6cbcf7f30da38671abd6089f0c971815011",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "任务必须携带来源、范围、目标、验收、边界、负责人和前置依赖。"
+        }
+      ],
+      "delivery": {
+        "deliveryId": "codetrail-lan-v03-verified-20261031",
+        "summary": "实现局域网第二版，保留旧项目与个人反馈；实际验证范围按交付报告说明。",
+        "evidenceDigest": "ef2a704b8c1e1f63a540b0cf957ecd626f80a04e402aab267131f0e0a47489d9",
+        "matchesSource": true
+      }
+    },
+    "codetrail-coupling-assignment": {
+      "name": "按耦合分工",
+      "description": "以代码范围、功能证据、概览模块、共享接口约定与正向 Python 调用线索提示耦合。不同负责人须说明边界，重叠范围需统一负责人或协调顺序；未发现依赖不等于相互独立。",
+      "anchors": [
+        {
+          "id": "coupling-hints",
+          "kind": "symbol",
+          "symbolId": "crates/reader-collab/src/tasks.rs::hints",
+          "symbolName": "hints",
+          "range": {
+            "file": "crates/reader-collab/src/tasks.rs",
+            "startLine": 27,
+            "endLine": 100
+          },
+          "contentHash": "f6e570984bb3f0c082e40d3e5747bae8ffe97820585e889918b2a6f383578a02",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "组合范围、共享约定、模块和正向 Python 依赖线索，明确输出合并、先后或待确认提示。"
+        },
+        {
+          "id": "coupling-assignment-gate",
+          "kind": "symbol",
+          "symbolId": "crates/reader-collab/src/tasks.rs::validate_assignments",
+          "symbolName": "validate_assignments",
+          "range": {
+            "file": "crates/reader-collab/src/tasks.rs",
+            "startLine": 132,
+            "endLine": 162
+          },
+          "contentHash": "4481be823757d5367f472326466b60c1ba82e24aa073d95108993a3b959acbab",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "重叠代码不能无协调拆给不同人；跨负责人任务须有耦合判断。"
+        },
+        {
+          "id": "coupling-graph-gate",
+          "kind": "symbol",
+          "symbolId": "crates/reader-collab/src/tasks.rs::validate_graph",
+          "symbolName": "validate_graph",
+          "range": {
+            "file": "crates/reader-collab/src/tasks.rs",
+            "startLine": 101,
+            "endLine": 131
+          },
+          "contentHash": "d5b738d811d8c1a4b8abf1d4c5013f5c8c42dbdbfc8919fe2ae8faa8f339db67",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "拒绝不存在的前置任务和依赖环。"
+        },
+        {
+          "id": "coupling-python-evidence",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/relations.rs::collaboration_dependencies",
+          "symbolName": "collaboration_dependencies",
+          "range": {
+            "file": "crates/reader-core/src/relations.rs",
+            "startLine": 1768,
+            "endLine": 1827
+          },
+          "contentHash": "d406160a6be8afa2e33e1589c21d6fb19925660f0d1e98b5b3f2f10c6416529d",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "复用有界 Python AST 绑定，仅把可证明调用映射到功能，不将缺失边当作独立证明。"
+        },
+        {
+          "id": "coupling-split-test",
+          "kind": "symbol",
+          "symbolId": "crates/reader-collab/tests/collaboration.rs::task_scope_is_derived_from_comments_and_overlap_blocks_uncoordinated_split",
+          "symbolName": "task_scope_is_derived_from_comments_and_overlap_blocks_uncoordinated_split",
+          "range": {
+            "file": "crates/reader-collab/tests/collaboration.rs",
+            "startLine": 159,
+            "endLine": 218
+          },
+          "contentHash": "d4d292eb0252d44609e3d93f8c0851a644875d700c499914528736ea2fb71faf",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "验证省略范围不能绕过耦合检查，前置未复核时下游不可接手。"
+        },
+        {
+          "id": "coupling-cycle-test",
+          "kind": "symbol",
+          "symbolId": "crates/reader-collab/tests/collaboration.rs::cycles_are_rejected_even_for_one_owner_and_invites_rotate",
+          "symbolName": "cycles_are_rejected_even_for_one_owner_and_invites_rotate",
+          "range": {
+            "file": "crates/reader-collab/tests/collaboration.rs",
+            "startLine": 219,
+            "endLine": 243
+          },
+          "contentHash": "388c9a5dd8848020c6f23df140ecb7976c88399a8611aef0d6e1d484f0a3fbdb",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "同一负责人也不能形成任务依赖环。"
+        },
+        {
+          "id": "coupling-python-test",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/tests/collaboration.rs::positive_python_call_hints_connect_features_without_claiming_full_independence",
+          "symbolName": "positive_python_call_hints_connect_features_without_claiming_full_independence",
+          "range": {
+            "file": "crates/reader-core/tests/collaboration.rs",
+            "startLine": 130,
+            "endLine": 178
+          },
+          "contentHash": "d3085dc75a7c6e64c8de1870a3299cc26b1dc4008758a70a3810f52f09155ff5",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "用真实 Python 源码和功能关联验证正向调用依赖。"
+        },
+        {
+          "id": "coupling-scope-protocol",
+          "kind": "symbol",
+          "symbolId": "crates/reader-collab/src/lib.rs::Scope",
+          "symbolName": "Scope",
+          "range": {
+            "file": "crates/reader-collab/src/lib.rs",
+            "startLine": 33,
+            "endLine": 39
+          },
+          "contentHash": "d31709d733f3c8bab54824a6fc735f88784f10e89684afb04b93ca8827946857",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "用项目相对路径及包含结束行的范围表达重叠证据。"
+        }
+      ],
+      "delivery": {
+        "deliveryId": "codetrail-lan-v03-verified-20261031",
+        "summary": "实现局域网第二版，保留旧项目与个人反馈；实际验证范围按交付报告说明。",
+        "evidenceDigest": "121bb6b0f9dcd189a11ca119b5eb792eafac2d83f8b194f5247aacf3ab6e6d39",
         "matchesSource": true
       }
     },
@@ -1026,9 +1334,9 @@
           "range": {
             "file": "README.md",
             "startLine": 1,
-            "endLine": 89
+            "endLine": 91
           },
-          "contentHash": "5ebffa3fa899490f48694d3e4f95f2e813d1f3e8a49c895ac4367c8815ba1d00",
+          "contentHash": "7acee3ff8c2702f6186c83f124908cb70b7dc88fbf6d6d601a3989563de16f00",
           "status": "exact",
           "note": "",
           "role": "entry",
@@ -1044,7 +1352,7 @@
             "startLine": 1,
             "endLine": 50
           },
-          "contentHash": "13ea4731bfd7cfed6b671ffd3befc902925bdf3c3418e208fbe2e3ef96082930",
+          "contentHash": "8722c6249c5f86e7372cce1c83039b5a1384c02b24fcebefb57b05f5065c04d8",
           "status": "exact",
           "note": "",
           "role": "implementation",
@@ -1058,9 +1366,9 @@
           "range": {
             "file": "AGENTS.md",
             "startLine": 1,
-            "endLine": 94
+            "endLine": 103
           },
-          "contentHash": "1bf025371a7195d74a9073c66b2a13ef770a8433723609376aeee44ca1c6e3c8",
+          "contentHash": "2d89d01ad490fe5fc0288cc5d616a02315e4169b2c424ebfdf7e3488ae1ca016",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -1106,9 +1414,9 @@
           "range": {
             "file": "scripts/package-windows.ps1",
             "startLine": 1,
-            "endLine": 17
+            "endLine": 18
           },
-          "contentHash": "fc9995bd56d845bc38e1a5fd9789c4f2e7d81af1f7cf951fa87307ba4e64d8fc",
+          "contentHash": "40622d0947dacaf59e18bd110e3d9a240cc7d35da359519711488538036fbe54",
           "status": "exact",
           "note": "",
           "role": "implementation",
@@ -1138,9 +1446,9 @@
           "range": {
             "file": "scripts/test-windows-install.ps1",
             "startLine": 1,
-            "endLine": 79
+            "endLine": 80
           },
-          "contentHash": "13c335988fd4b44aadbfc4d070b60e667a28b98513656560ab0992e94ec6cac0",
+          "contentHash": "6428c4442afa3830f7bdd67eb6835fbe10abad39215090e68a3a91cf5804d73a",
           "status": "exact",
           "note": "",
           "role": "test",
@@ -1161,12 +1469,44 @@
           "note": "",
           "role": "constraint",
           "responsibility": "说明 Windows 包的安装依赖、无签名状态及自动化验证不能替代桌面实机人工验收。"
+        },
+        {
+          "id": "lan-browser-smoke",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "scripts/smoke-collaboration.mjs",
+            "startLine": 1,
+            "endLine": 68
+          },
+          "contentHash": "ec159988957ecdf4c7a6c301cd156f4ae633fff7c47e6890aa6ffabc2ec20837",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "明确标记的浏览器 Tauri 传输替身，验收共享入口、草稿与任务导出界面，不冒充真实网络。"
+        },
+        {
+          "id": "release-lan-guide",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "docs/LAN_COLLABORATION.md",
+            "startLine": 1,
+            "endLine": 67
+          },
+          "contentHash": "c8018cc407f7378c15429e50d56324f69333169a4b7d29604c58703737f71b08",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "提供开发版操作、权限、保存及跨设备验证边界。"
         }
       ],
       "delivery": {
-        "deliveryId": "homepage-reviewed-doc-associations-20261031",
-        "summary": "整理双平台下载、安装与上手文档；校正普通用户入口、功能关联前提和右侧批注说明，原功能及运行路径不变。",
-        "evidenceDigest": "c15c96834b43e017078495fe9d209cc9e98c16a42b9a0b1446ec9cac8bb3d693",
+        "deliveryId": "codetrail-lan-v03-verified-20261031",
+        "summary": "接入局域网共读与任务协作；保留现有个人批注、阅读记录和项目访问边界，补齐新增职责与协议。",
+        "evidenceDigest": "415122cc5d66d99ee60d16e058ba4050f4a345ba77962f5797a2c25b1e9e6b33",
         "matchesSource": true
       }
     },
@@ -1240,7 +1580,7 @@
         }
       ],
       "delivery": {
-        "deliveryId": "homepage-reviewed-doc-associations-20261031",
+        "deliveryId": "codetrail-lan-v03-verified-20261031",
         "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
         "evidenceDigest": "2486a61e2552f3ff14f7d685d83f4139bfda9fc4fb480644886a877a89e63ec1",
         "matchesSource": true
@@ -1428,7 +1768,7 @@
         }
       ],
       "delivery": {
-        "deliveryId": "homepage-reviewed-doc-associations-20261031",
+        "deliveryId": "codetrail-lan-v03-verified-20261031",
         "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
         "evidenceDigest": "8dd8af635d7460192410774c8f9a02ca9aea69c6d0b84d0594ed809215725e88",
         "matchesSource": true
@@ -1445,8 +1785,8 @@
           "symbolName": "updateReview",
           "range": {
             "file": "src/App.tsx",
-            "startLine": 949,
-            "endLine": 966
+            "startLine": 951,
+            "endLine": 968
           },
           "contentHash": "beb8f2072276a54a44d676814ad408c77c0c9f26a405890b9f0772f183984158",
           "status": "exact",
@@ -1461,8 +1801,8 @@
           "symbolName": "set_review",
           "range": {
             "file": "crates/reader-core/src/lib.rs",
-            "startLine": 298,
-            "endLine": 354
+            "startLine": 299,
+            "endLine": 355
           },
           "contentHash": "052fbba48dab962ec5d5810565f20af1480c0937b8c624060518a97f48a05041",
           "status": "exact",
@@ -1477,8 +1817,8 @@
           "symbolName": "review_digest",
           "range": {
             "file": "crates/reader-core/src/lib.rs",
-            "startLine": 914,
-            "endLine": 944
+            "startLine": 915,
+            "endLine": 945
           },
           "contentHash": "40ca3fa5175b8ec48218463a34680ad2205347d033ea81f25ea1a68e00af99fb",
           "status": "exact",
@@ -1536,9 +1876,341 @@
         }
       ],
       "delivery": {
-        "deliveryId": "homepage-reviewed-doc-associations-20261031",
+        "deliveryId": "codetrail-lan-v03-verified-20261031",
         "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
         "evidenceDigest": "480545e055ee827eddb17a5b1a6a7d41d8ad0cbeff9a89f5123b5102cf1195a1",
+        "matchesSource": true
+      }
+    },
+    "codetrail-lan-reading": {
+      "name": "局域网共读",
+      "description": "同一可信 IPv4 局域网中，由发起人电脑临时主持。代码与功能关联版本一致且获批准后才能共读；明文连接不开放公网，主持人需保持应用运行。",
+      "anchors": [
+        {
+          "id": "lan-host-start",
+          "kind": "symbol",
+          "symbolId": "crates/reader-collab/src/server.rs::Host::start",
+          "symbolName": "start",
+          "range": {
+            "file": "crates/reader-collab/src/server.rs",
+            "startLine": 101,
+            "endLine": 146
+          },
+          "contentHash": "e445afd16b7a61f7ffa14d31d7cc0aa495bb801f262b130b7d8b876bc45f9910",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "启动临时本机 HTTP 主持服务，选择真实局域网地址并持有有界服务生命周期。"
+        },
+        {
+          "id": "lan-addresses",
+          "kind": "symbol",
+          "symbolId": "crates/reader-collab/src/server.rs::local_addresses",
+          "symbolName": "local_addresses",
+          "range": {
+            "file": "crates/reader-collab/src/server.rs",
+            "startLine": 68,
+            "endLine": 92
+          },
+          "contentHash": "7fa64e0c76b15773165670a5ad2491a84425df75380ee615849a664afa344ea9",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "读取真实网卡，排除回环和非局域网地址，降低 VPN 网卡优先级；不依赖代理默认路由。"
+        },
+        {
+          "id": "lan-http-boundary",
+          "kind": "symbol",
+          "symbolId": "crates/reader-collab/src/server.rs::action",
+          "symbolName": "action",
+          "range": {
+            "file": "crates/reader-collab/src/server.rs",
+            "startLine": 26,
+            "endLine": 55
+          },
+          "contentHash": "534ce0e1cfa004e472edbc57482b98bd1cb15dcd1206049d350601fe736c9033",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "仅接受本机/私有局域网来源，经成员凭证进入服务，限制请求体大小。"
+        },
+        {
+          "id": "lan-manifest",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/collaboration.rs::manifest",
+          "symbolName": "manifest",
+          "range": {
+            "file": "crates/reader-core/src/collaboration.rs",
+            "startLine": 23,
+            "endLine": 156
+          },
+          "contentHash": "1084f121f8f58384549f0da3d27e6460d70d9c6226e259fa437da06897dad0c8",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "核对 Git 根目录、提交、阅读文件与功能概览摘要；共享比较兼容 CRLF/LF，不执行源码或 Git 外部过滤器。"
+        },
+        {
+          "id": "lan-client-action",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/collaboration.rs::action",
+          "symbolName": "action",
+          "range": {
+            "file": "crates/reader-core/src/collaboration.rs",
+            "startLine": 271,
+            "endLine": 535
+          },
+          "contentHash": "fe14d2ba5f199913bc8e624d98099f75c53eb5974a59368a8f09240b6573ea3f",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "使用应用私有连接文件与当前项目边界进行加入、邀请、断线副本、历史和变更前版本检查。"
+        },
+        {
+          "id": "lan-service-dispatch",
+          "kind": "symbol",
+          "symbolId": "crates/reader-collab/src/service.rs::Service::handle",
+          "symbolName": "handle",
+          "range": {
+            "file": "crates/reader-collab/src/service.rs",
+            "startLine": 150,
+            "endLine": 640
+          },
+          "contentHash": "09bdf2e7423a229018670e7c0932adfda718c0192554089ef4a44c793d35ff76",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "在事务副本上核对版本、邀请、审批、成员身份与讨论 revision；失败不覆盖已有讨论。"
+        },
+        {
+          "id": "lan-service-persist",
+          "kind": "symbol",
+          "symbolId": "crates/reader-collab/src/service.rs::Service::persist",
+          "symbolName": "persist",
+          "range": {
+            "file": "crates/reader-collab/src/service.rs",
+            "startLine": 132,
+            "endLine": 149
+          },
+          "contentHash": "869f7a5426a76fe4d139d47e5478dbd492652e448dbe056fefd663ff537cbf3b",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "写临时文件并同步后原子替换，防止持久化半份讨论。"
+        },
+        {
+          "id": "lan-desktop-entry",
+          "kind": "symbol",
+          "symbolId": "src-tauri/src/lib.rs::collaboration_action",
+          "symbolName": "collaboration_action",
+          "range": {
+            "file": "src-tauri/src/lib.rs",
+            "startLine": 230,
+            "endLine": 267
+          },
+          "contentHash": "78f6bce7071dd8e12e1dddf94e5bb3da19c1590d9ccf39a932dc25836938cac3",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "从当前已打开项目进入协作命令，主持服务嵌在桌面进程，连接凭证不交给前端。"
+        },
+        {
+          "id": "lan-macos-purpose",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "src-tauri/Info.plist",
+            "startLine": 1,
+            "endLine": 6
+          },
+          "contentHash": "8d0303896b2b55d2b99a559cf966e6ac8262e114f649b9a4ebbdd8b18523b641",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "向 macOS 说明本地网络权限用途，不申请读写项目或公网托管权限。"
+        },
+        {
+          "id": "lan-address-regression",
+          "kind": "symbol",
+          "symbolId": "crates/reader-collab/tests/collaboration.rs::default_invitation_uses_available_lan_interface_even_with_a_proxy_route",
+          "symbolName": "default_invitation_uses_available_lan_interface_even_with_a_proxy_route",
+          "range": {
+            "file": "crates/reader-collab/tests/collaboration.rs",
+            "startLine": 409,
+            "endLine": 423
+          },
+          "contentHash": "9f6a04afc50e497b3b1a17e108bbd1f47db020184b253b80c25aeecc514f1e43",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "有局域网网卡时不生成回环邀请，并经选中地址真实创建会话。"
+        },
+        {
+          "id": "lan-membership-regression",
+          "kind": "symbol",
+          "symbolId": "crates/reader-collab/tests/collaboration.rs::membership_is_explicit_version_bound_and_revocable",
+          "symbolName": "membership_is_explicit_version_bound_and_revocable",
+          "range": {
+            "file": "crates/reader-collab/tests/collaboration.rs",
+            "startLine": 92,
+            "endLine": 132
+          },
+          "contentHash": "670dc2f0f830bf00d838ab14de0970058cf0b79d934d0f7d62b64ddcd6a26d22",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "验证不同版本拒绝加入、批准前不可读取内容、移出后拒绝继续访问。"
+        },
+        {
+          "id": "lan-user-guide",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "docs/LAN_COLLABORATION.md",
+            "startLine": 1,
+            "endLine": 67
+          },
+          "contentHash": "c8018cc407f7378c15429e50d56324f69333169a4b7d29604c58703737f71b08",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "说明本地主持、版本约定、明文边界、离线副本与未完成的跨设备验收。"
+        },
+        {
+          "id": "lan-protocol-Version",
+          "kind": "symbol",
+          "symbolId": "crates/reader-collab/src/lib.rs::Version",
+          "symbolName": "Version",
+          "range": {
+            "file": "crates/reader-collab/src/lib.rs",
+            "startLine": 26,
+            "endLine": 32
+          },
+          "contentHash": "3f2829800ee124bc303c3655391e9646f601e8dbf0001e695ad134c9c91fe35a",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "固定提交、阅读文本与功能声明版本，不混用不同代码的讨论。"
+        },
+        {
+          "id": "lan-protocol-Manifest",
+          "kind": "symbol",
+          "symbolId": "crates/reader-collab/src/lib.rs::Manifest",
+          "symbolName": "Manifest",
+          "range": {
+            "file": "crates/reader-collab/src/lib.rs",
+            "startLine": 50,
+            "endLine": 55
+          },
+          "contentHash": "f2df8b55da79eb7ed368111ca1c2a8f07e1178bc86e592ef70a4abd80ce1cb93",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "定义共读功能范围与版本，不包含源码或个人确认。"
+        },
+        {
+          "id": "lan-http-endpoint",
+          "kind": "symbol",
+          "symbolId": "crates/reader-collab/src/client.rs::endpoint",
+          "symbolName": "endpoint",
+          "range": {
+            "file": "crates/reader-collab/src/client.rs",
+            "startLine": 10,
+            "endLine": 30
+          },
+          "contentHash": "51d4b48284122dd9af528b86520a1aff0f4e22d6664dffe18c2ac30d1a3a1e2b",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "只连接私有局域网 IP，拒绝公网、凭证 URL 与重定向。"
+        },
+        {
+          "id": "lan-http-call",
+          "kind": "symbol",
+          "symbolId": "crates/reader-collab/src/client.rs::call",
+          "symbolName": "call",
+          "range": {
+            "file": "crates/reader-collab/src/client.rs",
+            "startLine": 31,
+            "endLine": 56
+          },
+          "contentHash": "3807ef3082f73501957c52739ad7d667260ac1a9acca04a3019102d3b5110fb1",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "禁用代理转发，限制连接时间与响应体，向本机主持服务发送明确操作。"
+        },
+        {
+          "id": "lan-topbar-entry",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "src/App.tsx",
+            "startLine": 1035,
+            "endLine": 1035
+          },
+          "contentHash": "8183069fae5a3187f70ed87dcf45c7550800986dc006533898d1f8786503a4f8",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "顶部共读按钮打开统一会话窗口，并保持现有源码阅读位置。"
+        },
+        {
+          "id": "lan-public-view",
+          "kind": "symbol",
+          "symbolId": "crates/reader-collab/src/service.rs::view",
+          "symbolName": "view",
+          "range": {
+            "file": "crates/reader-collab/src/service.rs",
+            "startLine": 84,
+            "endLine": 95
+          },
+          "contentHash": "6cf3dd09c56a2c3dfe9fa9979d01e7dc722290cf3ef16c49edac991f51c22e3d",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "批准前仅展示本人申请信息，公开视图剔除所有成员凭证摘要。"
+        },
+        {
+          "id": "lan-manifest-shape",
+          "kind": "symbol",
+          "symbolId": "crates/reader-collab/src/service.rs::check_manifest",
+          "symbolName": "check_manifest",
+          "range": {
+            "file": "crates/reader-collab/src/service.rs",
+            "startLine": 55,
+            "endLine": 83
+          },
+          "contentHash": "d27108152e5c128af5e16ffecf50429387b16fc9c03711cf9de8ef15635f8d3b",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "核对版本摘要及功能范围结构，拒绝越界或超量的会话声明。"
+        },
+        {
+          "id": "lan-private-cache-save",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/collaboration.rs::save",
+          "symbolName": "save",
+          "range": {
+            "file": "crates/reader-core/src/collaboration.rs",
+            "startLine": 197,
+            "endLine": 209
+          },
+          "contentHash": "5ca951a13dfd24726cb530122962abe1371f36c0c719763843d2a82577e473b3",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "连接与副本写在应用私有目录，以临时文件原子保存，Unix 权限为0600。"
+        }
+      ],
+      "delivery": {
+        "deliveryId": "codetrail-lan-v03-verified-20261031",
+        "summary": "实现局域网第二版，保留旧项目与个人反馈；实际验证范围按交付报告说明。",
+        "evidenceDigest": "4e35f8dfc682b305c625f9dc203abde6948b5ca27b24ecba74bed03460926209",
         "matchesSource": true
       }
     },
@@ -1553,8 +2225,8 @@
           "symbolName": "beginBinding",
           "range": {
             "file": "src/App.tsx",
-            "startLine": 850,
-            "endLine": 881
+            "startLine": 852,
+            "endLine": 883
           },
           "contentHash": "d8047fb4e8802e18b8b66cd9bf1e7eec169256cc7226ebaf6c7e3d2fce4b503a",
           "status": "exact",
@@ -1569,8 +2241,8 @@
           "symbolName": "save_feature",
           "range": {
             "file": "crates/reader-core/src/lib.rs",
-            "startLine": 114,
-            "endLine": 165
+            "startLine": 115,
+            "endLine": 166
           },
           "contentHash": "a87735fe0314490e4fdfe60624348f72b8af1f438eebd525c11c84726b9db9ba",
           "status": "exact",
@@ -1585,8 +2257,8 @@
           "symbolName": "bind_anchor",
           "range": {
             "file": "crates/reader-core/src/lib.rs",
-            "startLine": 191,
-            "endLine": 278
+            "startLine": 192,
+            "endLine": 279
           },
           "contentHash": "4e43bdc02780319d60e8a7bc9068c3a4b998ea24db67006f4a7035896a614a72",
           "status": "exact",
@@ -1601,8 +2273,8 @@
           "symbolName": "resolve_anchor",
           "range": {
             "file": "crates/reader-core/src/lib.rs",
-            "startLine": 820,
-            "endLine": 912
+            "startLine": 821,
+            "endLine": 913
           },
           "contentHash": "4cd1423979f3ba89528ed73abe1029e7b00d3d891fbd6aef7d001e4d335f9875",
           "status": "exact",
@@ -1649,8 +2321,8 @@
           "symbolName": null,
           "range": {
             "file": "src/App.tsx",
-            "startLine": 1579,
-            "endLine": 1872
+            "startLine": 1582,
+            "endLine": 1875
           },
           "contentHash": "033df699ae7a855c170de5959f66dd77a428ee44cb9c7f69598a0651b334ee88",
           "status": "exact",
@@ -1660,7 +2332,7 @@
         }
       ],
       "delivery": {
-        "deliveryId": "homepage-reviewed-doc-associations-20261031",
+        "deliveryId": "codetrail-lan-v03-verified-20261031",
         "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
         "evidenceDigest": "0738f5f563c033c1c53b08ae7dc37aab738260804ee99ef9f346b96fc46d121a",
         "matchesSource": true
@@ -1677,8 +2349,8 @@
           "symbolName": null,
           "range": {
             "file": "src/App.tsx",
-            "startLine": 1291,
-            "endLine": 1551
+            "startLine": 1294,
+            "endLine": 1554
           },
           "contentHash": "666508907d8f9b8878cae4858bf21839a1089199004dd759b4b1abd565e16213",
           "status": "exact",
@@ -1693,8 +2365,8 @@
           "symbolName": "exportReport",
           "range": {
             "file": "src/App.tsx",
-            "startLine": 968,
-            "endLine": 970
+            "startLine": 970,
+            "endLine": 972
           },
           "contentHash": "6c544de35078201ff726dd282485170f5135d4e60f77d044e99db3506157da0a",
           "status": "exact",
@@ -1709,8 +2381,8 @@
           "symbolName": "export_review",
           "range": {
             "file": "crates/reader-core/src/lib.rs",
-            "startLine": 356,
-            "endLine": 427
+            "startLine": 357,
+            "endLine": 428
           },
           "contentHash": "1c3228793d9e01970701415aa0d7965aeff9388d36729857a9e89ec4c96b32eb",
           "status": "exact",
@@ -1838,9 +2510,9 @@
           "range": {
             "file": "docs/AGENT_DELIVERY.md",
             "startLine": 1,
-            "endLine": 192
+            "endLine": 247
           },
-          "contentHash": "9322cb1abf7def0bafd8a58131cb59e98d6c7cf73e3f424a83e40ae70d296028",
+          "contentHash": "fc0ca4a4b116fb4cfd57061ae9fe28abdc5bab757479b39b058b588da86442f4",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -1854,9 +2526,9 @@
           "range": {
             "file": "AGENTS.md",
             "startLine": 1,
-            "endLine": 68
+            "endLine": 103
           },
-          "contentHash": "aacdb809bee201e1c0cbb3e82b1e1f05cfc715c305143dec8bbd4ef958c82045",
+          "contentHash": "2d89d01ad490fe5fc0288cc5d616a02315e4169b2c424ebfdf7e3488ae1ca016",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -1864,9 +2536,9 @@
         }
       ],
       "delivery": {
-        "deliveryId": "homepage-reviewed-doc-associations-20261031",
-        "summary": "整理双平台下载、安装与上手文档；校正普通用户入口、功能关联前提和右侧批注说明，原功能及运行路径不变。",
-        "evidenceDigest": "27e730d02e4829b786aea4b2db2838d2f862101c800919f4d1a4a66200ce3948",
+        "deliveryId": "codetrail-lan-v03-verified-20261031",
+        "summary": "接入局域网共读与任务协作；保留现有个人批注、阅读记录和项目访问边界，补齐新增职责与协议。",
+        "evidenceDigest": "bf08f8b0ae980b2a568bb53b334d77aed4b7a073cec3400ef07c4b144973191d",
         "matchesSource": true
       }
     },
@@ -1881,8 +2553,8 @@
           "symbolName": "openProject",
           "range": {
             "file": "src/App.tsx",
-            "startLine": 933,
-            "endLine": 947
+            "startLine": 935,
+            "endLine": 949
           },
           "contentHash": "f8ef9583bb9725ddb64f004d8387fd5d7a0dafc4b6d928b79a1eb273197929b3",
           "status": "exact",
@@ -1929,8 +2601,8 @@
           "symbolName": "open_project",
           "range": {
             "file": "crates/reader-core/src/lib.rs",
-            "startLine": 47,
-            "endLine": 99
+            "startLine": 48,
+            "endLine": 100
           },
           "contentHash": "f677eb3d1663f2e5c6276ec8f87918a695aa7feb9449bbf234ff088e675b33b4",
           "status": "exact",
@@ -1945,8 +2617,8 @@
           "symbolName": "scan_repository",
           "range": {
             "file": "crates/reader-core/src/lib.rs",
-            "startLine": 501,
-            "endLine": 595
+            "startLine": 502,
+            "endLine": 596
           },
           "contentHash": "40298370945614018de009a4fac84f4fac53bbb71da708b21fc5b74e28d09888",
           "status": "exact",
@@ -1961,8 +2633,8 @@
           "symbolName": "safe_source_path",
           "range": {
             "file": "crates/reader-core/src/lib.rs",
-            "startLine": 459,
-            "endLine": 471
+            "startLine": 460,
+            "endLine": 472
           },
           "contentHash": "6a5ecfba77a7db2f37f685d9406ed770e29e32ec24b5e18eba08c4faf373c708",
           "status": "exact",
@@ -1988,8 +2660,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "homepage-reviewed-doc-associations-20261031",
-        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
+        "deliveryId": "codetrail-lan-v03-verified-20261031",
+        "summary": "接入局域网共读与任务协作；保留现有个人批注、阅读记录和项目访问边界，补齐新增职责与协议。",
         "evidenceDigest": "bde0f7297ec6f642937430e1b320d4acf7800461c60fce5048904628430c33eb",
         "matchesSource": true
       }
@@ -2160,7 +2832,7 @@
         }
       ],
       "delivery": {
-        "deliveryId": "homepage-reviewed-doc-associations-20261031",
+        "deliveryId": "codetrail-lan-v03-verified-20261031",
         "summary": "修复 Windows 盘符大小写引起的 Node 权限拒绝，为同一精确目录授权两种盘符写法；移除临时诊断并保留真实 Pyright 回归。",
         "evidenceDigest": "1d9eea72a89d925db60dea6acc925258f959e90eb3241b7035bd1b69b065851d",
         "matchesSource": true
@@ -2393,12 +3065,28 @@
           "note": "",
           "role": "constraint",
           "responsibility": "把快照复核根目录统一规范化，再比较源码指纹，避免 Windows 普通路径和设备路径混用导致误判。"
+        },
+        {
+          "id": "relations-collaboration-hints",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/relations.rs::collaboration_dependencies",
+          "symbolName": "collaboration_dependencies",
+          "range": {
+            "file": "crates/reader-core/src/relations.rs",
+            "startLine": 1768,
+            "endLine": 1827
+          },
+          "contentHash": "d406160a6be8afa2e33e1589c21d6fb19925660f0d1e98b5b3f2f10c6416529d",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "为协作分工提供正向 Python 功能调用线索，不将未解析或缺失关系认定为独立。"
         }
       ],
       "delivery": {
-        "deliveryId": "homepage-reviewed-doc-associations-20261031",
-        "summary": "整理双平台下载、安装与上手文档；校正普通用户入口、功能关联前提和右侧批注说明，原功能及运行路径不变。",
-        "evidenceDigest": "af70ec388229038c9ee5ce8051c053e50fae8e7669abd2bcaed351b978ebc872",
+        "deliveryId": "codetrail-lan-v03-verified-20261031",
+        "summary": "接入局域网共读与任务协作；保留现有个人批注、阅读记录和项目访问边界，补齐新增职责与协议。",
+        "evidenceDigest": "c03d88f2d353f3a451f0d7745d95892f9f04586af84ddf58bfac4ada4e335fb6",
         "matchesSource": true
       }
     },
@@ -2413,8 +3101,8 @@
           "symbolName": "onEditorMount",
           "range": {
             "file": "src/App.tsx",
-            "startLine": 696,
-            "endLine": 729
+            "startLine": 698,
+            "endLine": 731
           },
           "contentHash": "c04cc7fde77a5d30e3dc0ed3b2616a915707e91bec93e5a2e364cdfdaa231eb2",
           "status": "exact",
@@ -2429,8 +3117,8 @@
           "symbolName": "onDiffMount",
           "range": {
             "file": "src/App.tsx",
-            "startLine": 731,
-            "endLine": 749
+            "startLine": 733,
+            "endLine": 751
           },
           "contentHash": "7537789725946e82b569db5b16f4ed1cc374089650344c087b62f44de15460f1",
           "status": "exact",
@@ -2445,8 +3133,8 @@
           "symbolName": "goToAnchor",
           "range": {
             "file": "src/App.tsx",
-            "startLine": 763,
-            "endLine": 777
+            "startLine": 765,
+            "endLine": 779
           },
           "contentHash": "6ea9580282482e129537fa789bf31a78bb435eda67dcdf64ea97d0c9a8845f92",
           "status": "exact",
@@ -2477,8 +3165,8 @@
           "symbolName": "navigateRelation",
           "range": {
             "file": "src/App.tsx",
-            "startLine": 821,
-            "endLine": 839
+            "startLine": 823,
+            "endLine": 841
           },
           "contentHash": "8e77792e54dbf8a36f5d8a9f8d69915220914b02a4784add942df8ba9135e11f",
           "status": "exact",
@@ -2496,7 +3184,7 @@
             "startLine": 277,
             "endLine": 330
           },
-          "contentHash": "9dcf8dae0e9b5ca46a403ada212f65a37903f225fc39ea6f50a0e437b86207fb",
+          "contentHash": "0973bf60a282c4553572c93364ff38cc81c8a6393bb0656e7cbc63b6c03c4e72",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -2512,7 +3200,7 @@
             "startLine": 1030,
             "endLine": 1290
           },
-          "contentHash": "1fbb4f5e8520f4fad6be6b354e67d0b09fa68d36aacc907c0a86f166ff07d15b",
+          "contentHash": "d23355fcfd6ebf5e8e3a6ec252ea3ab1058482872b93f00690c3a8d91b379ba7",
           "status": "exact",
           "note": "",
           "role": "entry",
@@ -2525,8 +3213,8 @@
           "symbolName": null,
           "range": {
             "file": "src/App.tsx",
-            "startLine": 425,
-            "endLine": 449
+            "startLine": 427,
+            "endLine": 451
           },
           "contentHash": "09ce22e7bfe098e131a2240862d10aa812a96f1e5cf0f40cebe4b30ae84b2b4a",
           "status": "exact",
@@ -2589,8 +3277,8 @@
           "symbolName": "selectFeature",
           "range": {
             "file": "src/App.tsx",
-            "startLine": 779,
-            "endLine": 786
+            "startLine": 781,
+            "endLine": 788
           },
           "contentHash": "c513ca28900ddc6134e8444dc70919c488c33b4d59e056870db0167ba5170e18",
           "status": "exact",
@@ -2616,9 +3304,9 @@
         }
       ],
       "delivery": {
-        "deliveryId": "homepage-reviewed-doc-associations-20261031",
-        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
-        "evidenceDigest": "b8c26934f931d023b10ae0db4366af0b985103fa7e645c943f54addf79c485a0",
+        "deliveryId": "codetrail-lan-v03-verified-20261031",
+        "summary": "接入局域网共读与任务协作；保留现有个人批注、阅读记录和项目访问边界，补齐新增职责与协议。",
+        "evidenceDigest": "5b9148f0c212e8dc5e4675438b201d7e930c0c0e93d258306c9d39f8a4ea3a3e",
         "matchesSource": true
       }
     },
@@ -2745,8 +3433,8 @@
           "symbolName": "NoteEditor",
           "range": {
             "file": "src/components/WorkPanel.tsx",
-            "startLine": 26,
-            "endLine": 64
+            "startLine": 28,
+            "endLine": 66
           },
           "contentHash": "0e595d630f9aaff4a76eba70bed6a56e92af2b4be9689e6b4f25b17c26a8b278",
           "status": "exact",
@@ -2761,10 +3449,10 @@
           "symbolName": "WorkPanel",
           "range": {
             "file": "src/components/WorkPanel.tsx",
-            "startLine": 65,
-            "endLine": 113
+            "startLine": 67,
+            "endLine": 117
           },
-          "contentHash": "fcb1996ae7cb5583d3bfaa2e5f1baea6b871e2a6e92baf6d7c2e3e1fe4ab41d5",
+          "contentHash": "da2307d66b58d48520cc510a00c74e85081c57b92d3b88bc2b00210fe8d2037b",
           "status": "exact",
           "note": "",
           "role": "implementation",
@@ -2777,8 +3465,8 @@
           "symbolName": "draftKey",
           "range": {
             "file": "src/components/WorkPanel.tsx",
-            "startLine": 24,
-            "endLine": 24
+            "startLine": 26,
+            "endLine": 26
           },
           "contentHash": "dbbdc9b56fe3e0276ad9e218603fb8cb2cce860fb1ed28576b6b1d96b5f7ba22",
           "status": "exact",
@@ -2793,8 +3481,8 @@
           "symbolName": "remember",
           "range": {
             "file": "src/components/WorkPanel.tsx",
-            "startLine": 25,
-            "endLine": 25
+            "startLine": 27,
+            "endLine": 27
           },
           "contentHash": "aef6044a63df53485f984d0861a47d5b6e6f077ee44d14caa7a58675171b5530",
           "status": "exact",
@@ -2860,7 +3548,7 @@
             "startLine": 1569,
             "endLine": 1578
           },
-          "contentHash": "0642f0ee6b53736c74288287a10a488c895f0d67b4c4ca4865578672ef952418",
+          "contentHash": "2fb1398cc048ecd3a82d26124ed11de53d8c80ea4f63e158262d1533140292c5",
           "status": "exact",
           "note": "",
           "role": "entry",
@@ -2953,8 +3641,8 @@
           "symbolName": "command",
           "range": {
             "file": "src/components/WorkPanel.tsx",
-            "startLine": 23,
-            "endLine": 23
+            "startLine": 25,
+            "endLine": 25
           },
           "contentHash": "2a79477379b72525f270bc87cb7e2e2331b87ee8ad43552a20f38b0aa874ef3f",
           "status": "exact",
@@ -2964,9 +3652,9 @@
         }
       ],
       "delivery": {
-        "deliveryId": "homepage-reviewed-doc-associations-20261031",
-        "summary": "整理双平台下载、安装与上手文档；校正普通用户入口、功能关联前提和右侧批注说明，原功能及运行路径不变。",
-        "evidenceDigest": "1e1e1b0caf89c3edc80185b45725a310143f6d3924fc19f258f023794aa03157",
+        "deliveryId": "codetrail-lan-v03-verified-20261031",
+        "summary": "接入局域网共读与任务协作；保留现有个人批注、阅读记录和项目访问边界，补齐新增职责与协议。",
+        "evidenceDigest": "cc979a23cec079071e604fee9ab7fe492c21ed6961000075e9782d62ee695082",
         "matchesSource": true
       }
     },
@@ -3157,8 +3845,8 @@
           "symbolName": "openRuntimeCode",
           "range": {
             "file": "src/App.tsx",
-            "startLine": 797,
-            "endLine": 801
+            "startLine": 799,
+            "endLine": 803
           },
           "contentHash": "761d206b262e55892f166344810a70eb050460f7338dde71aa88d382f2078f7b",
           "status": "exact",
@@ -3317,8 +4005,8 @@
           "symbolName": null,
           "range": {
             "file": "README.md",
-            "startLine": 58,
-            "endLine": 67
+            "startLine": 60,
+            "endLine": 69
           },
           "contentHash": "c6e68fefb0ccb2d259c531d0a779e9b2ffe468f420fa5107993fcce21751020b",
           "status": "exact",
@@ -3349,8 +4037,8 @@
           "symbolName": null,
           "range": {
             "file": "src/App.tsx",
-            "startLine": 1347,
-            "endLine": 1347
+            "startLine": 1350,
+            "endLine": 1350
           },
           "contentHash": "f4c9f24194111bcc5d3be358371def30e53b5da85729e644108af813317bd74b",
           "status": "exact",
@@ -3365,8 +4053,8 @@
           "symbolName": "selectFile",
           "range": {
             "file": "src/App.tsx",
-            "startLine": 788,
-            "endLine": 795
+            "startLine": 790,
+            "endLine": 797
           },
           "contentHash": "b9e5afb62453133b4d50bc9da25c91f7664325b82ae4de571a1a85bdf428c4fb",
           "status": "exact",
@@ -3376,9 +4064,149 @@
         }
       ],
       "delivery": {
-        "deliveryId": "homepage-reviewed-doc-associations-20261031",
+        "deliveryId": "codetrail-lan-v03-verified-20261031",
         "summary": "整理双平台下载、安装与上手文档；校正普通用户入口、功能关联前提和右侧批注说明，原功能及运行路径不变。",
         "evidenceDigest": "6d8a62966fdc7469a75e888bcfa2ef75f5fb96d8665b42f89e9eb683a06cefa4",
+        "matchesSource": true
+      }
+    },
+    "codetrail-shared-comments": {
+      "name": "共享批注与回复",
+      "description": "共享讨论与个人自动保存批注分离。明确提交后同步，保留作者与原文；重复提交不重复写入，断线保留本机草稿与已同步副本，导航先验证版本。",
+      "anchors": [
+        {
+          "id": "shared-panel",
+          "kind": "symbol",
+          "symbolId": "src/components/CollaborationPanel.tsx::CollaborationPanel",
+          "symbolName": "CollaborationPanel",
+          "range": {
+            "file": "src/components/CollaborationPanel.tsx",
+            "startLine": 16,
+            "endLine": 113
+          },
+          "contentHash": "c89cf2a037efa2ac7e9d8e7998bb2031c52be367f259919f4deb92039d200910",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "提供共读入口、明确共享与回复、成员审批及本机草稿恢复；不自动上传个人批注。"
+        },
+        {
+          "id": "shared-draft",
+          "kind": "symbol",
+          "symbolId": "src/components/CollaborationPanel.tsx::CollaborationPanel::remember",
+          "symbolName": "remember",
+          "range": {
+            "file": "src/components/CollaborationPanel.tsx",
+            "startLine": 41,
+            "endLine": 41
+          },
+          "contentHash": "5cf46a8c17531f23b8218b90c750ba20ad99c43fde8e814cde52b107fe4a37da",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "按项目及会话保留共享草稿，提交成功后才清理。"
+        },
+        {
+          "id": "shared-response-boundary",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/collaboration.rs::validate_view",
+          "symbolName": "validate_view",
+          "range": {
+            "file": "crates/reader-core/src/collaboration.rs",
+            "startLine": 235,
+            "endLine": 268
+          },
+          "contentHash": "e96457a229c2ac1723406d4097c29c068fed40006c7a7bfc4d4866aa3acc16dc",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "校验会话、版本、当前成员和响应结构，拒绝含凭证字段或错误项目的响应。"
+        },
+        {
+          "id": "shared-local-boundary",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/collaboration.rs::action",
+          "symbolName": "action",
+          "range": {
+            "file": "crates/reader-core/src/collaboration.rs",
+            "startLine": 271,
+            "endLine": 535
+          },
+          "contentHash": "fe14d2ba5f199913bc8e624d98099f75c53eb5974a59368a8f09240b6573ea3f",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "隔离连接凭证、维护同步副本，校验旧批注文件摘要并在导航前检查本轮源码。"
+        },
+        {
+          "id": "shared-retry-test",
+          "kind": "symbol",
+          "symbolId": "crates/reader-collab/tests/collaboration.rs::retries_are_idempotent_concurrent_writes_do_not_silently_overwrite",
+          "symbolName": "retries_are_idempotent_concurrent_writes_do_not_silently_overwrite",
+          "range": {
+            "file": "crates/reader-collab/tests/collaboration.rs",
+            "startLine": 133,
+            "endLine": 158
+          },
+          "contentHash": "38f5a0422138b9c787f28c1a970bdfbf22d0119064a9e2e12f2613790627f03b",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "验证重复批注 ID 幂等、过期讨论 revision 拒绝覆盖。"
+        },
+        {
+          "id": "shared-offline-test",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/tests/collaboration.rs::credentials_stay_outside_project_shared_drafts_recover_and_old_comments_remain_exportable",
+          "symbolName": "credentials_stay_outside_project_shared_drafts_recover_and_old_comments_remain_exportable",
+          "range": {
+            "file": "crates/reader-core/tests/collaboration.rs",
+            "startLine": 48,
+            "endLine": 129
+          },
+          "contentHash": "4886eccd25d2c209e018a349080204207cd9621978238e14725d224cd4bee8e5",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "真实双客户端验证凭证不进入 .reader、旧上下文拒绝提交及断线后副本和导出保留。"
+        },
+        {
+          "id": "shared-comment-protocol",
+          "kind": "symbol",
+          "symbolId": "crates/reader-collab/src/lib.rs::CommentInput",
+          "symbolName": "CommentInput",
+          "range": {
+            "file": "crates/reader-collab/src/lib.rs",
+            "startLine": 66,
+            "endLine": 74
+          },
+          "contentHash": "52a64e76efa743f204ccb322ee01ec5d4ebc9c83055f73bf653dcc1e0fd3da84",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "定义不可混入人工已读字段的共享批注输入，保留作者关联与回复目标。"
+        },
+        {
+          "id": "shared-ui-contract",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "src/collaboration.ts",
+            "startLine": 1,
+            "endLine": 22
+          },
+          "contentHash": "8e9a2d5f5acda9fb28144b3c0ce9e9711f0fb7656ce239e8982281cbb0a156df",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "前端共读、批注、任务和成员的数据接口，不将身份凭证暴露给阅读组件。"
+        }
+      ],
+      "delivery": {
+        "deliveryId": "codetrail-lan-v03-verified-20261031",
+        "summary": "实现局域网第二版，保留旧项目与个人反馈；实际验证范围按交付报告说明。",
+        "evidenceDigest": "0dfc66ac3779792b31f21ac46e2f82783726c501432be06b566cb47cc4ae95b9",
         "matchesSource": true
       }
     },
@@ -3452,7 +4280,7 @@
         }
       ],
       "delivery": {
-        "deliveryId": "homepage-reviewed-doc-associations-20261031",
+        "deliveryId": "codetrail-lan-v03-verified-20261031",
         "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
         "evidenceDigest": "4a73ff886a973555d732e9155eb4572458b423bd917a9bb43693d4f722b20101",
         "matchesSource": true

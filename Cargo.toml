@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/reader-core", "crates/reader-cli"]
+members = ["crates/reader-core", "crates/reader-cli", "crates/reader-collab"]
 exclude = ["src-tauri"]
 resolver = "2"
 

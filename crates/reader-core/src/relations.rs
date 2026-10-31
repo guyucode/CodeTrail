@@ -1763,6 +1763,69 @@ fn is_builtin(name: &str) -> bool {
     )
 }
 
+/// Positive-only, bounded Python call hints for collaboration. Missing edges
+/// are never evidence of independence; no language server or project execution.
+pub(crate) fn collaboration_dependencies(
+    contents: &BTreeMap<String, String>,
+    symbols: &[Symbol],
+    features: &[Feature],
+) -> Result<BTreeMap<String, Vec<String>>> {
+    let mut owners: BTreeMap<String, BTreeSet<String>> = BTreeMap::new();
+    for symbol in symbols
+        .iter()
+        .filter(|s| crate::parse::language_for(&s.range.file) == "python")
+    {
+        for feature in features.iter().filter(|f| {
+            f.anchors.iter().any(|a| {
+                a.range.file == symbol.range.file
+                    && a.range.start_line <= symbol.range.end_line
+                    && symbol.range.start_line <= a.range.end_line
+            })
+        }) {
+            owners
+                .entry(symbol.id.clone())
+                .or_default()
+                .insert(feature.id.clone());
+        }
+    }
+    let Some(focus) = symbols.iter().find(|s| owners.contains_key(&s.id)) else {
+        return Ok(BTreeMap::new());
+    };
+    let mut warnings = Vec::new();
+    let mut graph = PythonGraph::capture(contents, symbols, &mut warnings)?;
+    let targets = owners.keys().cloned().collect();
+    let (relations, _) = graph.resolve(contents, symbols, focus, &targets, false, &mut warnings)?;
+    let mut dependencies: BTreeMap<String, BTreeSet<String>> = BTreeMap::new();
+    for relation in relations
+        .iter()
+        .filter(|r| r.kind == RelationKind::Call && r.resolution == RelationResolution::Resolved)
+    {
+        let (Some(source), Some(target)) = (&relation.source_symbol_id, &relation.target_symbol_id)
+        else {
+            continue;
+        };
+        if graph.decorated_symbols.contains(target) {
+            continue;
+        }
+        if let (Some(sources), Some(targets)) = (owners.get(source), owners.get(target)) {
+            for source in sources {
+                for target in targets {
+                    if source != target {
+                        dependencies
+                            .entry(source.clone())
+                            .or_default()
+                            .insert(target.clone());
+                    }
+                }
+            }
+        }
+    }
+    Ok(dependencies
+        .into_iter()
+        .map(|(k, v)| (k, v.into_iter().collect()))
+        .collect())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

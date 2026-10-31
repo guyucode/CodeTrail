@@ -3289,3 +3289,22 @@ summary { cursor: pointer; }
 .runtime-step pre { max-height:300px; overflow:auto; white-space:pre-wrap; background:#0e1620; padding:12px; font-size:12px; }
 .runtime-warning { color:#f1c486; }
 .runtime-error { border-color:#e89696; }
+
+/* Shared reading reuses the work panel; task organization stays in one dialog. */
+.shared-panel-body { min-height:0; overflow:auto; }
+.shared-panel-body[hidden],.work-scroll[hidden] { display:none; }
+.shared-reading { display:flex; flex-direction:column; gap:10px; }
+.shared-heading,.shared-composer,.shared-task-form { display:flex; gap:10px; flex-direction:column; }
+.shared-heading { flex-direction:row; align-items:center; justify-content:space-between; }
+.shared-reading small { display:block; color:var(--text-muted); overflow-wrap:anywhere; }
+.shared-reading p,.collab-dialog p { white-space:pre-wrap; overflow-wrap:anywhere; }
+.shared-composer textarea,.collab-dialog textarea,.collab-dialog input:not([type=checkbox]),.collab-dialog select { width:100%; border:1px solid #3a4358; border-radius:6px; background:#101720; color:#e5eaf4; padding:9px; font:inherit; }
+.shared-composer textarea,.collab-dialog textarea { min-height:84px; resize:vertical; }
+.collab-dialog label { display:block; margin:10px 0; color:#cdd6e7; }
+.collab-dialog fieldset { border:1px solid #3a4358; border-radius:6px; max-height:230px; overflow:auto; }
+.collab-dialog .shared-check { display:flex; gap:8px; align-items:start; }
+.collab-dialog button,.shared-reading button { border:1px solid #3a4358; background:#202d40; color:#e0d4ff; border-radius:6px; padding:6px 10px; margin:3px; cursor:pointer; }
+.collab-dialog button:disabled,.shared-reading button:disabled { opacity:.45; cursor:default; }
+.shared-task-form { border:1px solid #77639e; border-radius:8px; padding:14px; margin:12px 0; }
+.collab-dialog .shared-markdown { min-height:230px; font-family:monospace; }
+.shared-comments b { display:block; }

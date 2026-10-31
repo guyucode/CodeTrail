@@ -1,5 +1,6 @@
 //! Local, source-read-only feature reading and review engine.
 pub mod agent;
+pub mod collaboration;
 pub mod git;
 pub mod journal;
 pub mod parse;

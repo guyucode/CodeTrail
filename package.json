@@ -1,7 +1,7 @@
 {
   "name": "codetrail-reader",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "module",
   "description": "Local, read-only feature-oriented code reader built with Rust, Tauri and Monaco",
   "scripts": {
@@ -16,7 +16,8 @@
     "desktop": "tauri dev",
     "desktop:build": "tauri build",
     "doctor": "node scripts/doctor.mjs",
-    "demo:init": "node scripts/init-demo.mjs"
+    "demo:init": "node scripts/init-demo.mjs",
+    "test:collaboration:ui": "node scripts/smoke-collaboration.mjs"
   },
   "overrides": {
     "dompurify": "3.4.17"
