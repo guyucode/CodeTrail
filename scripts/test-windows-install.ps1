@@ -11,8 +11,19 @@ $notice = Get-ChildItem $installRoot -Recurse -File -Filter THIRD_PARTY_NOTICES.
 if (-not $notice) { throw 'Installed third-party notices missing' }
 $script = Get-ChildItem $installRoot -Recurse -File -Filter langserver.index.js
 if (-not $script) { throw 'Installed Pyright resource missing' }
-$builtHash = (Get-FileHash 'src-tauri/target/release/codetrail-desktop.exe').Hash
-if ((Get-FileHash $app).Hash -ne $builtHash) { throw 'Installed executable differs from built executable' }
+$builtBytes = [System.IO.File]::ReadAllBytes((Join-Path $PWD 'src-tauri/target/release/codetrail-desktop.exe'))
+# Tauri patches exactly this bundle-type token before NSIS packaging, then
+# restores the original build file. Compare every byte against that expected
+# NSIS variant, rather than accepting arbitrary installer changes.
+# https://github.com/tauri-apps/tauri/blob/dev/crates/tauri-bundler/src/bundle.rs
+$token = [Text.Encoding]::ASCII.GetBytes('__TAURI_BUNDLE_TYPE_VAR_UNK')
+$replacement = [Text.Encoding]::ASCII.GetBytes('__TAURI_BUNDLE_TYPE_VAR_NSS')
+$tokenOffset = [Text.Encoding]::ASCII.GetString($builtBytes).IndexOf('__TAURI_BUNDLE_TYPE_VAR_UNK',[StringComparison]::Ordinal)
+if ($tokenOffset -lt 0) { throw 'Expected Tauri bundle-type token missing' }
+[Array]::Copy($replacement,0,$builtBytes,$tokenOffset,$token.Length)
+$sha = [Security.Cryptography.SHA256]::Create()
+try { $expectedHash = [BitConverter]::ToString($sha.ComputeHash($builtBytes)).Replace('-','') } finally { $sha.Dispose() }
+if ((Get-FileHash $app).Hash -ne $expectedHash) { throw 'Installed executable differs from expected NSIS build variant' }
 $bytes = [System.IO.File]::ReadAllBytes($app)
 $peOffset = [BitConverter]::ToInt32($bytes,0x3c)
 if ([BitConverter]::ToUInt16($bytes,$peOffset+4) -ne 0x8664) { throw 'Expected Windows x64 executable' }
@@ -53,6 +64,8 @@ try {
         architecture = 'x64'
         installerExitCode = $installed.ExitCode
         installedBinaryMatchesBuild = $true
+        comparison = 'Exact SHA-256 match after the single documented UNK-to-NSS Tauri bundle token patch.'
+        installedBinarySha256 = $expectedHash.ToLowerInvariant()
         licenseResourcesPresent = $true
         windowTitle = $process.MainWindowTitle
         renderedControls = $names

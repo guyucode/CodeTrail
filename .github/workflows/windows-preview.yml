@@ -36,7 +36,9 @@ jobs:
             ~/.cargo/git
             target
             src-tauri/target
-          key: windows-rust-${{ hashFiles('Cargo.lock', 'src-tauri/Cargo.lock') }}
+          key: windows-rust-${{ hashFiles('Cargo.lock', 'src-tauri/Cargo.lock') }}-${{ github.sha }}
+          restore-keys: |
+            windows-rust-${{ hashFiles('Cargo.lock', 'src-tauri/Cargo.lock') }}
       - name: Prepare toolchain
         shell: pwsh
         run: |
@@ -69,6 +71,7 @@ jobs:
           python scripts/collect-release-licenses.py --target x86_64-pc-windows-msvc
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - name: Build installer and tools
+        id: build
         shell: pwsh
         run: |
           npm run desktop:build -- --bundles nsis --config src-tauri/tauri.windows.conf.json
@@ -77,11 +80,16 @@ jobs:
           cargo build --release --locked -p reader-cli
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           Remove-Item Env:RUSTFLAGS
+          & ./target/release/reader-cli.exe agent inspect "$PWD/demo/agent" | Out-File (Join-Path $env:RUNNER_TEMP 'codetrail-windows-release-cli.json') -Encoding utf8
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           ./scripts/package-windows.ps1
       - name: Install and inspect native application
-        shell: pwsh
-        run: ./scripts/test-windows-install.ps1
+        shell: powershell
+        run: |
+          $source = [IO.File]::ReadAllText((Join-Path $PWD 'scripts/test-windows-install.ps1'),[Text.Encoding]::UTF8)
+          & ([scriptblock]::Create($source))
       - name: Upload release candidates
+        if: always() && steps.build.outcome == 'success'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: CodeTrail-Windows-x64

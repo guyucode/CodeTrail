@@ -628,8 +628,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-drive-case-20261031",
-        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
+        "deliveryId": "windows-nsis-exact-verification-20261031",
+        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
         "evidenceDigest": "6c4be404ec0ffef65f2cf36eaa9bc93855bf1dffd065b73531c047101ac7ff7b",
         "matchesSource": true
       }
@@ -864,8 +864,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-drive-case-20261031",
-        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
+        "deliveryId": "windows-nsis-exact-verification-20261031",
+        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
         "evidenceDigest": "e4eb6107ce9ca2b0bb48c255f07590defe033c9eda882cbb4543ac2b3c0b25a2",
         "matchesSource": true
       }
@@ -1138,13 +1138,13 @@
           "range": {
             "file": "scripts/test-windows-install.ps1",
             "startLine": 1,
-            "endLine": 66
+            "endLine": 79
           },
-          "contentHash": "3f5adbc1de3041ab26b306fac8eef6e8beee96bba89a9067627c5ad657c4f74b",
+          "contentHash": "13c335988fd4b44aadbfc4d070b60e667a28b98513656560ab0992e94ec6cac0",
           "status": "exact",
           "note": "",
           "role": "test",
-          "responsibility": "在 Windows 构建机隔离安装并检查可执行文件、资源和原生 WebView2 演示内容。"
+          "responsibility": "静默安装并按 Tauri 单一 NSIS 标记补丁精确核对程序、架构、许可和原生渲染；产生验证报告与截图，不声称 Windows 10/11 实机验收。"
         },
         {
           "id": "windows-docs-windows_release-md",
@@ -1164,9 +1164,9 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-drive-case-20261031",
-        "summary": "Windows x64 独立预览发布流水线：完整校验、平台许可、静态链接 CLI、安装与原生界面检查及 SHA-256；保持现有 Mac 发行版。",
-        "evidenceDigest": "adf9d997988037f50f844c7cd5cac179be9faf70f65b368f889034360a3aa987",
+        "deliveryId": "windows-nsis-exact-verification-20261031",
+        "summary": "Windows 全套校验与生产打包通过后，核对 NSIS 唯一框架标记与程序 SHA-256，再执行原生窗口检查；附带 release CLI 启动验证。",
+        "evidenceDigest": "4f09dca7e9d77aaa513ec2d56d7422328af9eae2ede243fb560df9e08275bd76",
         "matchesSource": true
       }
     },
@@ -1240,8 +1240,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-drive-case-20261031",
-        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
+        "deliveryId": "windows-nsis-exact-verification-20261031",
+        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
         "evidenceDigest": "2486a61e2552f3ff14f7d685d83f4139bfda9fc4fb480644886a877a89e63ec1",
         "matchesSource": true
       }
@@ -1428,8 +1428,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-drive-case-20261031",
-        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
+        "deliveryId": "windows-nsis-exact-verification-20261031",
+        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
         "evidenceDigest": "8dd8af635d7460192410774c8f9a02ca9aea69c6d0b84d0594ed809215725e88",
         "matchesSource": true
       }
@@ -1536,8 +1536,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-drive-case-20261031",
-        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
+        "deliveryId": "windows-nsis-exact-verification-20261031",
+        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
         "evidenceDigest": "480545e055ee827eddb17a5b1a6a7d41d8ad0cbeff9a89f5123b5102cf1195a1",
         "matchesSource": true
       }
@@ -1660,8 +1660,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-drive-case-20261031",
-        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
+        "deliveryId": "windows-nsis-exact-verification-20261031",
+        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
         "evidenceDigest": "0738f5f563c033c1c53b08ae7dc37aab738260804ee99ef9f346b96fc46d121a",
         "matchesSource": true
       }
@@ -1864,8 +1864,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-drive-case-20261031",
-        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
+        "deliveryId": "windows-nsis-exact-verification-20261031",
+        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
         "evidenceDigest": "dc478d08a0b7cea6ce7863b70ff1046e060f287c2df6b2302f30a07438667314",
         "matchesSource": true
       }
@@ -1988,8 +1988,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-drive-case-20261031",
-        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
+        "deliveryId": "windows-nsis-exact-verification-20261031",
+        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
         "evidenceDigest": "bde0f7297ec6f642937430e1b320d4acf7800461c60fce5048904628430c33eb",
         "matchesSource": true
       }
@@ -2160,8 +2160,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-drive-case-20261031",
-        "summary": "修复 Windows 盘符大小写引起的 Node 权限拒绝，为同一精确目录授权两种盘符写法；移除临时诊断并保留真实 Pyright 回归。",
+        "deliveryId": "windows-nsis-exact-verification-20261031",
+        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
         "evidenceDigest": "1d9eea72a89d925db60dea6acc925258f959e90eb3241b7035bd1b69b065851d",
         "matchesSource": true
       }
@@ -2396,8 +2396,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-drive-case-20261031",
-        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
+        "deliveryId": "windows-nsis-exact-verification-20261031",
+        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
         "evidenceDigest": "f8f892e0e0137bad4166ac5c267c1106b0aa4bce1e8e7609b6dde18437ffb355",
         "matchesSource": true
       }
@@ -2616,8 +2616,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-drive-case-20261031",
-        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
+        "deliveryId": "windows-nsis-exact-verification-20261031",
+        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
         "evidenceDigest": "b8c26934f931d023b10ae0db4366af0b985103fa7e645c943f54addf79c485a0",
         "matchesSource": true
       }
@@ -2964,8 +2964,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-drive-case-20261031",
-        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
+        "deliveryId": "windows-nsis-exact-verification-20261031",
+        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
         "evidenceDigest": "94786ea773268284499e3fbec98df3f146226600865e26ca145e64de116a9c43",
         "matchesSource": true
       }
@@ -3376,8 +3376,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-drive-case-20261031",
-        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
+        "deliveryId": "windows-nsis-exact-verification-20261031",
+        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
         "evidenceDigest": "5dfb485bc12e433f3841123a414c0a625fad3fa092a96db3247ef61deb489cb7",
         "matchesSource": true
       }
@@ -3452,8 +3452,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-drive-case-20261031",
-        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
+        "deliveryId": "windows-nsis-exact-verification-20261031",
+        "summary": "TODO: 核对说明、职责和范围后填写本次变更摘要",
         "evidenceDigest": "4a73ff886a973555d732e9155eb4572458b423bd917a9bb43693d4f722b20101",
         "matchesSource": true
       }
