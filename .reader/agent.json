@@ -628,8 +628,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-diagnostic-20261031",
-        "summary": "核对 Windows x64 发布流程及平台差异，保留现有职责、人工审阅隔离和项目概览。",
+        "deliveryId": "windows-pyright-observe-20261031",
+        "summary": "核对 Windows x64 平台兼容及发布流程；补充真实 Pyright 故障诊断，生产读取边界与现有功能保持一致。",
         "evidenceDigest": "6c4be404ec0ffef65f2cf36eaa9bc93855bf1dffd065b73531c047101ac7ff7b",
         "matchesSource": true
       }
@@ -864,8 +864,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-diagnostic-20261031",
-        "summary": "核对 Windows x64 发布流程及平台差异，保留现有职责、人工审阅隔离和项目概览。",
+        "deliveryId": "windows-pyright-observe-20261031",
+        "summary": "核对 Windows x64 平台兼容及发布流程；补充真实 Pyright 故障诊断，生产读取边界与现有功能保持一致。",
         "evidenceDigest": "e4eb6107ce9ca2b0bb48c255f07590defe033c9eda882cbb4543ac2b3c0b25a2",
         "matchesSource": true
       }
@@ -1164,8 +1164,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-diagnostic-20261031",
-        "summary": "核对 Windows x64 发布流程及平台差异，保留现有职责、人工审阅隔离和项目概览。",
+        "deliveryId": "windows-pyright-observe-20261031",
+        "summary": "核对 Windows x64 平台兼容及发布流程；补充真实 Pyright 故障诊断，生产读取边界与现有功能保持一致。",
         "evidenceDigest": "adf9d997988037f50f844c7cd5cac179be9faf70f65b368f889034360a3aa987",
         "matchesSource": true
       }
@@ -1240,8 +1240,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-diagnostic-20261031",
-        "summary": "核对 Windows x64 发布流程及平台差异，保留现有职责、人工审阅隔离和项目概览。",
+        "deliveryId": "windows-pyright-observe-20261031",
+        "summary": "核对 Windows x64 平台兼容及发布流程；补充真实 Pyright 故障诊断，生产读取边界与现有功能保持一致。",
         "evidenceDigest": "2486a61e2552f3ff14f7d685d83f4139bfda9fc4fb480644886a877a89e63ec1",
         "matchesSource": true
       }
@@ -1428,8 +1428,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-diagnostic-20261031",
-        "summary": "核对 Windows x64 发布流程及平台差异，保留现有职责、人工审阅隔离和项目概览。",
+        "deliveryId": "windows-pyright-observe-20261031",
+        "summary": "核对 Windows x64 平台兼容及发布流程；补充真实 Pyright 故障诊断，生产读取边界与现有功能保持一致。",
         "evidenceDigest": "8dd8af635d7460192410774c8f9a02ca9aea69c6d0b84d0594ed809215725e88",
         "matchesSource": true
       }
@@ -1536,8 +1536,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-diagnostic-20261031",
-        "summary": "核对 Windows x64 发布流程及平台差异，保留现有职责、人工审阅隔离和项目概览。",
+        "deliveryId": "windows-pyright-observe-20261031",
+        "summary": "核对 Windows x64 平台兼容及发布流程；补充真实 Pyright 故障诊断，生产读取边界与现有功能保持一致。",
         "evidenceDigest": "480545e055ee827eddb17a5b1a6a7d41d8ad0cbeff9a89f5123b5102cf1195a1",
         "matchesSource": true
       }
@@ -1660,8 +1660,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-diagnostic-20261031",
-        "summary": "核对 Windows x64 发布流程及平台差异，保留现有职责、人工审阅隔离和项目概览。",
+        "deliveryId": "windows-pyright-observe-20261031",
+        "summary": "核对 Windows x64 平台兼容及发布流程；补充真实 Pyright 故障诊断，生产读取边界与现有功能保持一致。",
         "evidenceDigest": "0738f5f563c033c1c53b08ae7dc37aab738260804ee99ef9f346b96fc46d121a",
         "matchesSource": true
       }
@@ -1864,8 +1864,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-diagnostic-20261031",
-        "summary": "核对 Windows x64 发布流程及平台差异，保留现有职责、人工审阅隔离和项目概览。",
+        "deliveryId": "windows-pyright-observe-20261031",
+        "summary": "核对 Windows x64 平台兼容及发布流程；补充真实 Pyright 故障诊断，生产读取边界与现有功能保持一致。",
         "evidenceDigest": "dc478d08a0b7cea6ce7863b70ff1046e060f287c2df6b2302f30a07438667314",
         "matchesSource": true
       }
@@ -1988,8 +1988,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-diagnostic-20261031",
-        "summary": "核对 Windows x64 发布流程及平台差异，保留现有职责、人工审阅隔离和项目概览。",
+        "deliveryId": "windows-pyright-observe-20261031",
+        "summary": "核对 Windows x64 平台兼容及发布流程；补充真实 Pyright 故障诊断，生产读取边界与现有功能保持一致。",
         "evidenceDigest": "bde0f7297ec6f642937430e1b320d4acf7800461c60fce5048904628430c33eb",
         "matchesSource": true
       }
@@ -2053,8 +2053,8 @@
           "symbolName": "enrich_using_policy",
           "range": {
             "file": "crates/reader-core/src/semantic.rs",
-            "startLine": 1165,
-            "endLine": 1419
+            "startLine": 1177,
+            "endLine": 1431
           },
           "contentHash": "df8aa6405a07592c753979fa3657733ea15ffaee43ef27e997aea8866eb130b3",
           "status": "exact",
@@ -2128,8 +2128,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-diagnostic-20261031",
-        "summary": "核对 Windows x64 发布流程及平台差异，保留现有职责、人工审阅隔离和项目概览。",
+        "deliveryId": "windows-pyright-observe-20261031",
+        "summary": "核对 Windows x64 平台兼容及发布流程；补充真实 Pyright 故障诊断，生产读取边界与现有功能保持一致。",
         "evidenceDigest": "06b6acf1a1959e5d992539016cf865b71e8c9193e72553c5eebde2d41ef04d34",
         "matchesSource": true
       }
@@ -2364,8 +2364,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-diagnostic-20261031",
-        "summary": "核对 Windows x64 发布流程及平台差异，保留现有职责、人工审阅隔离和项目概览。",
+        "deliveryId": "windows-pyright-observe-20261031",
+        "summary": "核对 Windows x64 平台兼容及发布流程；补充真实 Pyright 故障诊断，生产读取边界与现有功能保持一致。",
         "evidenceDigest": "f8f892e0e0137bad4166ac5c267c1106b0aa4bce1e8e7609b6dde18437ffb355",
         "matchesSource": true
       }
@@ -2584,8 +2584,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-diagnostic-20261031",
-        "summary": "核对 Windows x64 发布流程及平台差异，保留现有职责、人工审阅隔离和项目概览。",
+        "deliveryId": "windows-pyright-observe-20261031",
+        "summary": "核对 Windows x64 平台兼容及发布流程；补充真实 Pyright 故障诊断，生产读取边界与现有功能保持一致。",
         "evidenceDigest": "b8c26934f931d023b10ae0db4366af0b985103fa7e645c943f54addf79c485a0",
         "matchesSource": true
       }
@@ -2932,8 +2932,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-diagnostic-20261031",
-        "summary": "核对 Windows x64 发布流程及平台差异，保留现有职责、人工审阅隔离和项目概览。",
+        "deliveryId": "windows-pyright-observe-20261031",
+        "summary": "核对 Windows x64 平台兼容及发布流程；补充真实 Pyright 故障诊断，生产读取边界与现有功能保持一致。",
         "evidenceDigest": "94786ea773268284499e3fbec98df3f146226600865e26ca145e64de116a9c43",
         "matchesSource": true
       }
@@ -3344,8 +3344,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-diagnostic-20261031",
-        "summary": "核对 Windows x64 发布流程及平台差异，保留现有职责、人工审阅隔离和项目概览。",
+        "deliveryId": "windows-pyright-observe-20261031",
+        "summary": "核对 Windows x64 平台兼容及发布流程；补充真实 Pyright 故障诊断，生产读取边界与现有功能保持一致。",
         "evidenceDigest": "5dfb485bc12e433f3841123a414c0a625fad3fa092a96db3247ef61deb489cb7",
         "matchesSource": true
       }
@@ -3420,8 +3420,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows-pyright-diagnostic-20261031",
-        "summary": "核对 Windows x64 发布流程及平台差异，保留现有职责、人工审阅隔离和项目概览。",
+        "deliveryId": "windows-pyright-observe-20261031",
+        "summary": "核对 Windows x64 平台兼容及发布流程；补充真实 Pyright 故障诊断，生产读取边界与现有功能保持一致。",
         "evidenceDigest": "4a73ff886a973555d732e9155eb4572458b423bd917a9bb43693d4f722b20101",
         "matchesSource": true
       }

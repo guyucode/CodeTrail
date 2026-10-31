@@ -594,6 +594,11 @@ impl LspClient {
                 match stderr.read(&mut buffer) {
                     Ok(0) => return,
                     Ok(count) => {
+                        #[cfg(all(test, windows))]
+                        eprintln!(
+                            "Pyright stderr: {}",
+                            String::from_utf8_lossy(&buffer[..count])
+                        );
                         total += count;
                         if total > MAX_STDERR_BYTES {
                             let _ = sender.send(Err("Pyright stderr 超过 64 KiB 上限".into()));
@@ -670,6 +675,13 @@ impl LspClient {
                 .with_context(|| format!("Pyright 请求超时或进程已结束：{method}"))?
                 .map_err(|error| anyhow!(error))?;
             if let Some(incoming_method) = message.get("method").and_then(Value::as_str) {
+                #[cfg(all(test, windows))]
+                if matches!(
+                    incoming_method,
+                    "window/logMessage" | "textDocument/publishDiagnostics"
+                ) {
+                    eprintln!("Pyright notification: {message}");
+                }
                 if let Some(request_id) = message.get("id") {
                     self.answer_request(incoming_method, request_id.clone(), &message, snapshot)?;
                 } else if matches!(incoming_method, "window/logMessage" | "window/showMessage")

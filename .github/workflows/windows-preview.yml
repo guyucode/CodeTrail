@@ -49,6 +49,9 @@ jobs:
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           cargo build --locked -p reader-cli
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Check real Python language server
+        shell: pwsh
+        run: cargo test --locked -p reader-core real_pyright -- --nocapture
       - name: Validate source, feature evidence and regressions
         shell: pwsh
         run: |
