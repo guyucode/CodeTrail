@@ -1336,7 +1336,7 @@
             "startLine": 1,
             "endLine": 91
           },
-          "contentHash": "7acee3ff8c2702f6186c83f124908cb70b7dc88fbf6d6d601a3989563de16f00",
+          "contentHash": "bac79c5e9322f618f4e08f9daa99708095db9f8c9f632439fc3ec5cae2e09906",
           "status": "exact",
           "note": "",
           "role": "entry",
@@ -1430,9 +1430,9 @@
           "range": {
             "file": "scripts/windows-check-plan.py",
             "startLine": 1,
-            "endLine": 55
+            "endLine": 38
           },
-          "contentHash": "c383fea7e360e979f159e75854fcd5ad4a71a083d355b0e10fa43c8fc3961df6",
+          "contentHash": "bb4c885621c708dd4c7e4526797a8a71f1077ce376d2c64a543dcf0ed6f43f36",
           "status": "exact",
           "note": "",
           "role": "entry",
@@ -1462,9 +1462,9 @@
           "range": {
             "file": "docs/WINDOWS_RELEASE.md",
             "startLine": 1,
-            "endLine": 32
+            "endLine": 34
           },
-          "contentHash": "21d7c139c66e976c4672bd36468dcad3a47935c70567c55423f0d5491cf3437a",
+          "contentHash": "45d561509d8a3c3579e77120125cfa834a44e5ecd08b24d144c1eb67d512f7c8",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -1504,9 +1504,9 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-lan-v03-verified-20261031",
-        "summary": "接入局域网共读与任务协作；保留现有个人批注、阅读记录和项目访问边界，补齐新增职责与协议。",
-        "evidenceDigest": "415122cc5d66d99ee60d16e058ba4050f4a345ba77962f5797a2c25b1e9e6b33",
+        "deliveryId": "windows03-download-final-20261102",
+        "summary": "明确Windows 0.3与Mac在线0.2下载区别，列出局域网和加载优化。",
+        "evidenceDigest": "16d9b939fefa234cc3b1f58ea61115724b2f2ac5b8bea5d24cc2254d6b21397d",
         "matchesSource": true
       }
     },
@@ -4072,7 +4072,7 @@
             "startLine": 60,
             "endLine": 69
           },
-          "contentHash": "c6e68fefb0ccb2d259c531d0a779e9b2ffe468f420fa5107993fcce21751020b",
+          "contentHash": "ad823539f8eb8254f9a017ad2768fe117b797ad5392f6d4988d5a8e84a0aea79",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -4128,9 +4128,9 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-lan-v03-verified-20261031",
-        "summary": "整理双平台下载、安装与上手文档；校正普通用户入口、功能关联前提和右侧批注说明，原功能及运行路径不变。",
-        "evidenceDigest": "6d8a62966fdc7469a75e888bcfa2ef75f5fb96d8665b42f89e9eb683a06cefa4",
+        "deliveryId": "windows03-download-final-20261102",
+        "summary": "明确Windows 0.3与Mac在线0.2下载区别，列出局域网和加载优化。",
+        "evidenceDigest": "a7517972f0b2f6f8e2c33ca16248003189fc8e53144db0d61da658a5c217f04a",
         "matchesSource": true
       }
     },

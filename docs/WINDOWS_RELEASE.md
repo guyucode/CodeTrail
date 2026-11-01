@@ -1,6 +1,8 @@
-# Windows x64 预览版
+# Windows x64 0.3 预览版
 
-从 GitHub Releases 下载 `CodeTrail_0.2.0_windows_x64_setup.exe` 安装器；配套工具为 `CodeTrail-tools-0.2.0-windows-x64.zip`，含 reader-cli.exe、Python SDK、协议文档、许可和第三方源码。下载后用 SHA256SUMS-windows.txt 核对。
+本版增加可信局域网共读、共享批注及任务整合，并优化 Git 批量读取、隐藏后台 Git/Node 控制台。两台物理设备联机和 Windows 10/11 人工验收仍待完成。
+
+从 GitHub Releases 下载 `CodeTrail_0.3.0_windows_x64_setup.exe` 安装器；配套工具为 `CodeTrail-tools-0.3.0-windows-x64.zip`，含 reader-cli.exe、Python SDK、协议文档、许可和第三方源码。下载后用 SHA256SUMS-windows.txt 核对。
 
 基本阅读不需要 Rust、npm、模型或 API Key。Git 差异功能需要 Git；可选 Pyright 语义增强需要 Node.js 22.12+。首次安装如缺少 Microsoft WebView2，安装器从微软下载并安装该运行时，需要联网。
 
