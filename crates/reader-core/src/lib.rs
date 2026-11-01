@@ -4,6 +4,7 @@ pub mod collaboration;
 pub mod git;
 pub mod journal;
 pub mod parse;
+mod process;
 pub mod relations;
 pub mod semantic;
 pub mod trace;

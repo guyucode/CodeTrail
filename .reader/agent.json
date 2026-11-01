@@ -753,8 +753,8 @@
           "symbolName": "atomic_json",
           "range": {
             "file": "crates/reader-core/src/lib.rs",
-            "startLine": 740,
-            "endLine": 764
+            "startLine": 741,
+            "endLine": 765
           },
           "contentHash": "51939efbfebd17d3c2c97a613563a9edb6e0d467abffe27779d4f9a88c092ae2",
           "status": "exact",
@@ -908,8 +908,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-lan-v03-verified-20261031",
-        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
+        "deliveryId": "codetrail-load-speed-20261101",
+        "summary": "优化后台读取：Git比较复用批量对象进程，Git和Node在Windows禁止创建控制台；保留文本限制和版本校验。",
         "evidenceDigest": "a842e3b764890925ce45729f5c5d25805de0131c43e6e80ce09930da04215fc0",
         "matchesSource": true
       }
@@ -1613,10 +1613,10 @@
           "symbolName": "compare",
           "range": {
             "file": "crates/reader-core/src/git.rs",
-            "startLine": 469,
-            "endLine": 623
+            "startLine": 541,
+            "endLine": 696
           },
-          "contentHash": "f8178f822e63524eabeccaf6df42b3503b713ae56db86cf97c0e893ff9b7cb65",
+          "contentHash": "7c31ca2b5f5560d05830f806cbf17e0e7a8d4456fcfcf0764e7a9250902fda3e",
           "status": "exact",
           "note": "",
           "role": "implementation",
@@ -1629,8 +1629,8 @@
           "symbolName": "changes",
           "range": {
             "file": "crates/reader-core/src/git.rs",
-            "startLine": 671,
-            "endLine": 800
+            "startLine": 744,
+            "endLine": 873
           },
           "contentHash": "7e31fe07338fb3c8862f72b79e8af65c4699a4ece57c544954b7e795b6a2f61e",
           "status": "exact",
@@ -1645,10 +1645,10 @@
           "symbolName": "git",
           "range": {
             "file": "crates/reader-core/src/git.rs",
-            "startLine": 42,
-            "endLine": 72
+            "startLine": 75,
+            "endLine": 79
           },
-          "contentHash": "2391c168d3922254c89ad9853cc6147cddd948e225489b75e6a35643f7543d6b",
+          "contentHash": "da574c49e709bd0b2a2bbccfcbcca0e5b1142292bcdfb99570212b677bb04740",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -1661,8 +1661,8 @@
           "symbolName": "final_worktree_combines_staged_unstaged_and_untracked",
           "range": {
             "file": "crates/reader-core/src/git.rs",
-            "startLine": 915,
-            "endLine": 964
+            "startLine": 1013,
+            "endLine": 1062
           },
           "contentHash": "bfcfc2d040ef5b34bc7b4c2db1be6665c0538add4d0bc7d98506aa68231ab0af",
           "status": "exact",
@@ -1677,10 +1677,10 @@
           "symbolName": "blob_bytes",
           "range": {
             "file": "crates/reader-core/src/git.rs",
-            "startLine": 243,
-            "endLine": 250
+            "startLine": 320,
+            "endLine": 322
           },
-          "contentHash": "98d7cccc685681c1dd74eb22add0845a3f8e9f1d35d781deaf0b7885a952ea9f",
+          "contentHash": "c25285d50e2b1f8c5704ff975f9fa8925e15699ab2557def1d637fefbc94db2f",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -1693,8 +1693,8 @@
           "symbolName": "blob",
           "range": {
             "file": "crates/reader-core/src/git.rs",
-            "startLine": 252,
-            "endLine": 254
+            "startLine": 324,
+            "endLine": 326
           },
           "contentHash": "c4da913c420034894609a2b416868674650c672fcf41d391e2a124edbf5a9153",
           "status": "exact",
@@ -1709,8 +1709,8 @@
           "symbolName": "worktree_bytes",
           "range": {
             "file": "crates/reader-core/src/git.rs",
-            "startLine": 263,
-            "endLine": 311
+            "startLine": 335,
+            "endLine": 383
           },
           "contentHash": "948bebe79479c5c82c7f262bddbbc69614da6fd9544a61d62e26fbcf65ea88b4",
           "status": "exact",
@@ -1725,8 +1725,8 @@
           "symbolName": "worktree_file",
           "range": {
             "file": "crates/reader-core/src/git.rs",
-            "startLine": 313,
-            "endLine": 317
+            "startLine": 385,
+            "endLine": 389
           },
           "contentHash": "82314a297bdc2f7dc1cf30ad4e8f262ca1c4d291564611cfd2dc18d817443a63",
           "status": "exact",
@@ -1741,8 +1741,8 @@
           "symbolName": "index_modes",
           "range": {
             "file": "crates/reader-core/src/git.rs",
-            "startLine": 443,
-            "endLine": 467
+            "startLine": 515,
+            "endLine": 539
           },
           "contentHash": "1a5e1861275b3213d9c7db589813898ef533647ba07acd53ff48586d1308daeb",
           "status": "exact",
@@ -1757,20 +1757,68 @@
           "symbolName": "index_modes_preserve_executable_files_when_filemode_is_disabled",
           "range": {
             "file": "crates/reader-core/src/git.rs",
-            "startLine": 896,
-            "endLine": 913
+            "startLine": 994,
+            "endLine": 1011
           },
           "contentHash": "1ee439ecc2f2a55cdfc89a1e72be76b66529902c72055e864c00702904bafcb0",
           "status": "exact",
           "note": "",
           "role": "test",
           "responsibility": "验证不支持权限位的工作区不会误报未变脚本，但仍能检测暂存的权限位变化。"
+        },
+        {
+          "id": "speed-batch-read",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/git.rs::BlobReader::read",
+          "symbolName": "read",
+          "range": {
+            "file": "crates/reader-core/src/git.rs",
+            "startLine": 272,
+            "endLine": 306
+          },
+          "contentHash": "9186f37636e485b0dd1418efbe2fe6091a2009e6366b07692092d44c13a62a4e",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "复用同一Git批量进程读取对象，超大对象通过树清单大小预先拒绝，检查响应边界。"
+        },
+        {
+          "id": "speed-batch-start",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/git.rs::BlobReader::new",
+          "symbolName": "new",
+          "range": {
+            "file": "crates/reader-core/src/git.rs",
+            "startLine": 258,
+            "endLine": 271
+          },
+          "contentHash": "923d8ee727bf0d62f4e4037e91ce18ab5d11dddabf2736bc894445afbda93335",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "每次比较只启动一个对象读取进程，继承既有只读Git环境。"
+        },
+        {
+          "id": "speed-batch-test",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/git.rs::tests::batch_reader_reuses_process_and_recovers_after_oversized_blob",
+          "symbolName": "batch_reader_reuses_process_and_recovers_after_oversized_blob",
+          "range": {
+            "file": "crates/reader-core/src/git.rs",
+            "startLine": 945,
+            "endLine": 968
+          },
+          "contentHash": "79564c00f3a5f0e7feb779194d4244faca376add0f69e132d9a0e0ad16f86d2c",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "连续100次读取验证进程不重建，超限对象后仍可正确读取。"
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-lan-v03-verified-20261031",
-        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
-        "evidenceDigest": "8dd8af635d7460192410774c8f9a02ca9aea69c6d0b84d0594ed809215725e88",
+        "deliveryId": "codetrail-load-speed-20261101",
+        "summary": "优化后台读取：Git比较复用批量对象进程，Git和Node在Windows禁止创建控制台；保留文本限制和版本校验。",
+        "evidenceDigest": "0c90fa018b3eef57693d5ed8ec3921a84e6c9d46a86f8f417568ee96e85c815b",
         "matchesSource": true
       }
     },
@@ -1801,8 +1849,8 @@
           "symbolName": "set_review",
           "range": {
             "file": "crates/reader-core/src/lib.rs",
-            "startLine": 299,
-            "endLine": 355
+            "startLine": 300,
+            "endLine": 356
           },
           "contentHash": "052fbba48dab962ec5d5810565f20af1480c0937b8c624060518a97f48a05041",
           "status": "exact",
@@ -1817,8 +1865,8 @@
           "symbolName": "review_digest",
           "range": {
             "file": "crates/reader-core/src/lib.rs",
-            "startLine": 915,
-            "endLine": 945
+            "startLine": 916,
+            "endLine": 946
           },
           "contentHash": "40ca3fa5175b8ec48218463a34680ad2205347d033ea81f25ea1a68e00af99fb",
           "status": "exact",
@@ -1876,8 +1924,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-lan-v03-verified-20261031",
-        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
+        "deliveryId": "codetrail-load-speed-20261101",
+        "summary": "优化后台读取：Git比较复用批量对象进程，Git和Node在Windows禁止创建控制台；保留文本限制和版本校验。",
         "evidenceDigest": "480545e055ee827eddb17a5b1a6a7d41d8ad0cbeff9a89f5123b5102cf1195a1",
         "matchesSource": true
       }
@@ -2208,8 +2256,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-lan-v03-verified-20261031",
-        "summary": "实现局域网第二版，保留旧项目与个人反馈；实际验证范围按交付报告说明。",
+        "deliveryId": "codetrail-load-speed-20261101",
+        "summary": "优化后台读取：Git比较复用批量对象进程，Git和Node在Windows禁止创建控制台；保留文本限制和版本校验。",
         "evidenceDigest": "4e35f8dfc682b305c625f9dc203abde6948b5ca27b24ecba74bed03460926209",
         "matchesSource": true
       }
@@ -2241,8 +2289,8 @@
           "symbolName": "save_feature",
           "range": {
             "file": "crates/reader-core/src/lib.rs",
-            "startLine": 115,
-            "endLine": 166
+            "startLine": 116,
+            "endLine": 167
           },
           "contentHash": "a87735fe0314490e4fdfe60624348f72b8af1f438eebd525c11c84726b9db9ba",
           "status": "exact",
@@ -2257,8 +2305,8 @@
           "symbolName": "bind_anchor",
           "range": {
             "file": "crates/reader-core/src/lib.rs",
-            "startLine": 192,
-            "endLine": 279
+            "startLine": 193,
+            "endLine": 280
           },
           "contentHash": "4e43bdc02780319d60e8a7bc9068c3a4b998ea24db67006f4a7035896a614a72",
           "status": "exact",
@@ -2273,8 +2321,8 @@
           "symbolName": "resolve_anchor",
           "range": {
             "file": "crates/reader-core/src/lib.rs",
-            "startLine": 821,
-            "endLine": 913
+            "startLine": 822,
+            "endLine": 914
           },
           "contentHash": "4cd1423979f3ba89528ed73abe1029e7b00d3d891fbd6aef7d001e4d335f9875",
           "status": "exact",
@@ -2332,8 +2380,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-lan-v03-verified-20261031",
-        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
+        "deliveryId": "codetrail-load-speed-20261101",
+        "summary": "优化后台读取：Git比较复用批量对象进程，Git和Node在Windows禁止创建控制台；保留文本限制和版本校验。",
         "evidenceDigest": "0738f5f563c033c1c53b08ae7dc37aab738260804ee99ef9f346b96fc46d121a",
         "matchesSource": true
       }
@@ -2381,8 +2429,8 @@
           "symbolName": "export_review",
           "range": {
             "file": "crates/reader-core/src/lib.rs",
-            "startLine": 357,
-            "endLine": 428
+            "startLine": 358,
+            "endLine": 429
           },
           "contentHash": "1c3228793d9e01970701415aa0d7965aeff9388d36729857a9e89ec4c96b32eb",
           "status": "exact",
@@ -2536,8 +2584,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-lan-v03-verified-20261031",
-        "summary": "接入局域网共读与任务协作；保留现有个人批注、阅读记录和项目访问边界，补齐新增职责与协议。",
+        "deliveryId": "codetrail-load-speed-20261101",
+        "summary": "优化后台读取：Git比较复用批量对象进程，Git和Node在Windows禁止创建控制台；保留文本限制和版本校验。",
         "evidenceDigest": "bf08f8b0ae980b2a568bb53b334d77aed4b7a073cec3400ef07c4b144973191d",
         "matchesSource": true
       }
@@ -2601,8 +2649,8 @@
           "symbolName": "open_project",
           "range": {
             "file": "crates/reader-core/src/lib.rs",
-            "startLine": 48,
-            "endLine": 100
+            "startLine": 49,
+            "endLine": 101
           },
           "contentHash": "f677eb3d1663f2e5c6276ec8f87918a695aa7feb9449bbf234ff088e675b33b4",
           "status": "exact",
@@ -2617,8 +2665,8 @@
           "symbolName": "scan_repository",
           "range": {
             "file": "crates/reader-core/src/lib.rs",
-            "startLine": 502,
-            "endLine": 596
+            "startLine": 503,
+            "endLine": 597
           },
           "contentHash": "40298370945614018de009a4fac84f4fac53bbb71da708b21fc5b74e28d09888",
           "status": "exact",
@@ -2633,8 +2681,8 @@
           "symbolName": "safe_source_path",
           "range": {
             "file": "crates/reader-core/src/lib.rs",
-            "startLine": 460,
-            "endLine": 472
+            "startLine": 461,
+            "endLine": 473
           },
           "contentHash": "6a5ecfba77a7db2f37f685d9406ed770e29e32ec24b5e18eba08c4faf373c708",
           "status": "exact",
@@ -2657,12 +2705,28 @@
           "note": "",
           "role": "test",
           "responsibility": "检查只读打开的确定性以及不会隐式创建 .reader。"
+        },
+        {
+          "id": "speed-background",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/process.rs::background",
+          "symbolName": "background",
+          "range": {
+            "file": "crates/reader-core/src/process.rs",
+            "startLine": 4,
+            "endLine": 14
+          },
+          "contentHash": "1b64f8b57e4784e33afa3485efacaed8de054e53bca80b0b12f1244e14057615",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "统一后台进程构造，在Windows使用CREATE_NO_WINDOW，避免Git和Node弹出控制台。"
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-lan-v03-verified-20261031",
-        "summary": "接入局域网共读与任务协作；保留现有个人批注、阅读记录和项目访问边界，补齐新增职责与协议。",
-        "evidenceDigest": "bde0f7297ec6f642937430e1b320d4acf7800461c60fce5048904628430c33eb",
+        "deliveryId": "codetrail-load-speed-20261101",
+        "summary": "优化后台读取：Git比较复用批量对象进程，Git和Node在Windows禁止创建控制台；保留文本限制和版本校验。",
+        "evidenceDigest": "d87abf24b72b4fb0a191806f0194c250e854af8de3dbb23f334bb3d1372e89be",
         "matchesSource": true
       }
     },
@@ -2712,7 +2776,7 @@
             "startLine": 180,
             "endLine": 208
           },
-          "contentHash": "afe4fdd4960dc2f4bd6ac438418b2102ed1d91b786046f2e24a9cf57f38aebaf",
+          "contentHash": "2ee3bf48b0e8dee5527239f30d67ec7fcd73c862dc5ccab3a56f7a48504eba19",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -2832,9 +2896,9 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-lan-v03-verified-20261031",
-        "summary": "修复 Windows 盘符大小写引起的 Node 权限拒绝，为同一精确目录授权两种盘符写法；移除临时诊断并保留真实 Pyright 回归。",
-        "evidenceDigest": "1d9eea72a89d925db60dea6acc925258f959e90eb3241b7035bd1b69b065851d",
+        "deliveryId": "codetrail-load-speed-20261101",
+        "summary": "优化后台读取：Git比较复用批量对象进程，Git和Node在Windows禁止创建控制台；保留文本限制和版本校验。",
+        "evidenceDigest": "833259d15ac2ca0955359b81a0bc664444909c5daff8e798e48d857c1f684821",
         "matchesSource": true
       }
     },
@@ -4204,8 +4268,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-lan-v03-verified-20261031",
-        "summary": "实现局域网第二版，保留旧项目与个人反馈；实际验证范围按交付报告说明。",
+        "deliveryId": "codetrail-load-speed-20261101",
+        "summary": "优化后台读取：Git比较复用批量对象进程，Git和Node在Windows禁止创建控制台；保留文本限制和版本校验。",
         "evidenceDigest": "0dfc66ac3779792b31f21ac46e2f82783726c501432be06b566cb47cc4ae95b9",
         "matchesSource": true
       }

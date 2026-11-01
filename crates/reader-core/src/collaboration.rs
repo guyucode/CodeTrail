@@ -7,7 +7,7 @@ use std::io::{BufRead, BufReader};
 use std::process::{Command, Stdio};
 
 fn git_command(root: &Path) -> Command {
-    let mut c = Command::new("git");
+    let mut c = crate::process::background("git");
     c.arg("--no-optional-locks")
         .arg("-c")
         .arg("core.fsmonitor=false")

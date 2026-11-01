@@ -179,7 +179,7 @@ impl ServerCommand {
 
     fn command(&self, snapshot: &Snapshot) -> Result<Command> {
         let package = self.script.parent().context("Pyright 入口没有父目录")?;
-        let mut command = Command::new(&self.node);
+        let mut command = crate::process::background(&self.node);
         command
             .env_clear()
             .current_dir(&snapshot.workspace)
@@ -307,7 +307,7 @@ fn find_node(root: &Path) -> Result<PathBuf> {
 }
 
 fn node_version(node: &Path) -> Result<String> {
-    let mut child = Command::new(node)
+    let mut child = crate::process::background(node)
         .arg("--version")
         .env_clear()
         .stdin(Stdio::null())

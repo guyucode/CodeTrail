@@ -9,9 +9,9 @@ use anyhow::{anyhow, bail, Context, Result};
 use similar::{ChangeTag, TextDiff};
 use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
-use std::io::Read;
+use std::io::{BufRead, BufReader, Read, Write};
 use std::path::{Component, Path, PathBuf};
-use std::process::{Command, Output};
+use std::process::{Child, ChildStdin, ChildStdout, Output, Stdio};
 
 const MAX_FILE_BYTES: u64 = 2 * 1024 * 1024;
 const MAX_COMPARED_FILES: usize = 2000;
@@ -21,6 +21,7 @@ const MAX_COMPARED_BYTES: usize = 64 * 1024 * 1024;
 struct TreeEntry {
     oid: String,
     mode: String,
+    size: u64,
 }
 
 #[derive(Clone)]
@@ -39,8 +40,8 @@ struct Comparison {
     head_oid: Option<String>,
 }
 
-fn git(root: &Path, args: &[&str]) -> Result<Output> {
-    let mut command = Command::new("git");
+fn git_command(root: &Path, args: &[&str]) -> std::process::Command {
+    let mut command = crate::process::background("git");
     command
         .arg("--no-pager")
         .args([
@@ -68,7 +69,13 @@ fn git(root: &Path, args: &[&str]) -> Result<Output> {
     ] {
         command.env_remove(key);
     }
-    command.output().context("无法运行 Git，请确认已安装 Git")
+    command
+}
+
+fn git(root: &Path, args: &[&str]) -> Result<Output> {
+    git_command(root, args)
+        .output()
+        .context("无法运行 Git，请确认已安装 Git")
 }
 
 fn git_ok(root: &Path, args: &[&str]) -> Result<Vec<u8>> {
@@ -182,7 +189,7 @@ fn tree(
     let Some(revision) = revision else {
         return Ok(BTreeMap::new());
     };
-    let bytes = git_ok(root, &["ls-tree", "-rz", "--full-tree", revision])?;
+    let bytes = git_ok(root, &["ls-tree", "-rlz", "--full-tree", revision])?;
     let mut entries = BTreeMap::new();
     for item in bytes.split(|b| *b == 0).filter(|item| !item.is_empty()) {
         let Some(tab) = item.iter().position(|b| *b == b'\t') else {
@@ -217,6 +224,7 @@ fn tree(
             TreeEntry {
                 oid: oid.into(),
                 mode: mode.into(),
+                size: fields.next().context("Git 文件大小缺失")?.parse()?,
             },
         );
     }
@@ -240,13 +248,77 @@ fn file_names(root: &Path, args: &[&str], warnings: &mut Vec<String>) -> Result<
     Ok(names)
 }
 
-fn blob_bytes(root: &Path, entry: &TreeEntry) -> Result<Vec<u8>> {
-    let size: u64 = git_text(root, &["cat-file", "-s", &entry.oid])?.parse()?;
-    if size > MAX_FILE_BYTES {
-        bail!("文件超过 2 MiB，已跳过文本比较");
+// A comparison opens one reader, instead of two Git processes per file.
+struct BlobReader {
+    child: Child,
+    input: ChildStdin,
+    output: BufReader<ChildStdout>,
+}
+impl BlobReader {
+    fn new(root: &Path) -> Result<Self> {
+        let mut child = git_command(root, &["cat-file", "--batch"])
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::null())
+            .spawn()?;
+        let input = child.stdin.take().context("Git stdin 不可用")?;
+        let output = BufReader::new(child.stdout.take().context("Git stdout 不可用")?);
+        Ok(Self {
+            child,
+            input,
+            output,
+        })
     }
-    let bytes = git_ok(root, &["cat-file", "blob", &entry.oid])?;
-    Ok(bytes)
+    fn read(&mut self, entry: &TreeEntry) -> Result<Vec<u8>> {
+        // Tree object IDs, never user-supplied revision expressions.
+        ensure_oid(&entry.oid)?;
+        if entry.size > MAX_FILE_BYTES {
+            bail!("文件超过 2 MiB，已跳过文本比较");
+        }
+        writeln!(self.input, "{}", entry.oid)?;
+        self.input.flush()?;
+        let mut header = String::new();
+        self.output.read_line(&mut header)?;
+        let fields: Vec<_> = header.split_whitespace().collect();
+        if fields.len() != 3 || fields[0] != entry.oid || fields[1] != "blob" {
+            bail!("Git 对象响应无效");
+        }
+        let size: u64 = fields[2].parse()?;
+        if size > MAX_FILE_BYTES {
+            // Drain without allocating the rejected blob, keeping the next response aligned.
+            let copied = std::io::copy(
+                &mut self.output.by_ref().take(size + 1),
+                &mut std::io::sink(),
+            )?;
+            if copied != size + 1 {
+                bail!("Git 对象读取不完整");
+            }
+            bail!("文件超过 2 MiB，已跳过文本比较");
+        }
+        let mut bytes = vec![0; size as usize];
+        self.output.read_exact(&mut bytes)?;
+        let mut newline = [0];
+        self.output.read_exact(&mut newline)?;
+        if newline != *b"\n" {
+            bail!("Git 对象边界无效");
+        }
+        Ok(bytes)
+    }
+}
+impl Drop for BlobReader {
+    fn drop(&mut self) {
+        let _ = self.child.kill();
+        let _ = self.child.wait();
+    }
+}
+fn ensure_oid(oid: &str) -> Result<()> {
+    if !matches!(oid.len(), 40 | 64) || !oid.bytes().all(|b| b.is_ascii_hexdigit()) {
+        bail!("Git 对象 ID 无效");
+    }
+    Ok(())
+}
+fn blob_bytes(root: &Path, entry: &TreeEntry) -> Result<Vec<u8>> {
+    BlobReader::new(root)?.read(entry)
 }
 
 fn blob(root: &Path, entry: &TreeEntry) -> Result<String> {
@@ -510,10 +582,11 @@ fn compare(root: &Path, base: &str, head: &str) -> Result<Comparison> {
     };
     let mut records = Vec::new();
     let mut compared_bytes = 0usize;
+    let mut blobs = BlobReader::new(root)?;
     for path in names.into_iter().take(MAX_COMPARED_FILES) {
         let old = match old_tree
             .get(&path)
-            .map(|entry| blob_bytes(root, entry))
+            .map(|entry| blobs.read(entry))
             .transpose()
         {
             Ok(value) => value,
@@ -525,7 +598,7 @@ fn compare(root: &Path, base: &str, head: &str) -> Result<Comparison> {
         let new = if head_oid.is_some() {
             new_tree
                 .get(&path)
-                .map(|entry| blob_bytes(root, entry).map(|text| (text, entry.mode.clone())))
+                .map(|entry| blobs.read(entry).map(|text| (text, entry.mode.clone())))
                 .transpose()
         } else if tracked.contains(&path) || untracked.contains(&path) {
             worktree_bytes(root, &path)
@@ -852,7 +925,7 @@ mod tests {
     use tempfile::TempDir;
 
     fn run(root: &Path, args: &[&str]) {
-        let output = Command::new("git")
+        let output = crate::process::background("git")
             .arg("-C")
             .arg(root)
             .args(args)
@@ -867,6 +940,31 @@ mod tests {
             "{}",
             String::from_utf8_lossy(&output.stderr)
         );
+    }
+
+    #[test]
+    fn batch_reader_reuses_process_and_recovers_after_oversized_blob() {
+        let temp = repo();
+        fs::write(
+            temp.path().join("large.txt"),
+            vec![b'x'; MAX_FILE_BYTES as usize + 1],
+        )
+        .unwrap();
+        fs::write(temp.path().join("small.txt"), "hello\n").unwrap();
+        commit(temp.path());
+        let entries = tree(temp.path(), Some("HEAD"), &mut Vec::new()).unwrap();
+        let mut reader = BlobReader::new(temp.path()).unwrap();
+        let process = reader.child.id();
+        assert!(reader
+            .read(&entries["large.txt"])
+            .unwrap_err()
+            .to_string()
+            .contains("2 MiB"));
+        for _ in 0..100 {
+            assert_eq!(reader.read(&entries["small.txt"]).unwrap(), b"hello\n");
+            assert_eq!(reader.child.id(), process);
+        }
+        assert!(reader.child.try_wait().unwrap().is_none());
     }
 
     fn repo() -> TempDir {
