@@ -2,7 +2,7 @@ $ErrorActionPreference = 'Stop'
 $version = (Get-Content 'src-tauri/tauri.conf.json' -Raw | ConvertFrom-Json).version
 $out = Join-Path $PWD 'release-artifacts/windows'
 New-Item -ItemType Directory -Force $out | Out-Null
-$installers = @(Get-ChildItem 'src-tauri/target/release/bundle/nsis/*-setup.exe')
+$installers = @(Get-ChildItem "src-tauri/target/release/bundle/nsis/CodeTrail_${version}_x64-setup.exe")
 if ($installers.Count -ne 1) { throw 'Expected exactly one NSIS installer' }
 Copy-Item $installers[0].FullName (Join-Path $out "CodeTrail_${version}_windows_x64_setup.exe")
 $tools = Join-Path $env:RUNNER_TEMP "CodeTrail-tools-${version}-windows-x64"

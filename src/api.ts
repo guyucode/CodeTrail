@@ -1,7 +1,7 @@
 import { invoke, isTauri } from '@tauri-apps/api/core';
 import { open } from '@tauri-apps/plugin-dialog';
 import { demo } from './demo';
-import type { BindRequest, ChangeSummary, FeatureDraft, FileContent, FileDiff, ProjectSnapshot, ReviewState, SymbolRelations } from './types';
+import type { BindRequest, ChangeSummary, FeatureDraft, FileContent, FileDiff, ProjectSnapshot, ReviewState, SymbolRelations, CodeSearchResult } from './types';
 
 let demoMode = true;
 const desktop = isTauri();
@@ -22,6 +22,18 @@ export const api = {
   },
   refresh: () => demoMode ? demo.refresh() : invoke<ProjectSnapshot>('refresh_project'),
   readFile: (path: string) => demoMode ? demo.readFile(path) : invoke<FileContent>('read_file', { path }),
+  async searchCode(query: string, projectRoot: string): Promise<CodeSearchResult> {
+    if (!demoMode) return invoke<CodeSearchResult>('search_code', { query, projectRoot });
+    const snapshot = await demo.load();
+    const matches = [];
+    for (const entry of snapshot.files) {
+      const file = await demo.readFile(entry.path);
+      for (const [i, line] of file.content.split('\n').entries()) {
+        if (line.toLowerCase().includes(query.trim().toLowerCase())) matches.push({ path: entry.path, line: i + 1, preview: line.trim().slice(0, 240), fileHash: file.hash });
+      }
+    }
+    return { query: query.trim(), matches: matches.slice(0, 200), warnings: [], truncated: matches.length > 200 };
+  },
   saveFeature: (draft: FeatureDraft) => demoMode ? demo.saveFeature(draft) : invoke<ProjectSnapshot>('save_feature', { draft }),
   deleteFeature: (featureId: string) => demoMode ? demo.deleteFeature(featureId) : invoke<ProjectSnapshot>('delete_feature', { featureId }),
   bindAnchor: (request: BindRequest) => demoMode ? demo.bindAnchor(request) : invoke<ProjectSnapshot>('bind_anchor', { request }),

@@ -51,6 +51,7 @@ try {
         Start-Sleep -Seconds 1
     } while ((Get-Date) -lt $deadline)
     if (-not ($rendered.Contains('选功能') -and $rendered.Contains('模型路由'))) { throw 'Frontend content not found in native accessibility tree' }
+    if (-not $rendered.Contains('搜索函数、变量、功能或文件')) { throw 'New code search entry missing from installed frontend' }
     Add-Type -AssemblyName System.Drawing
     $rect = $window.Current.BoundingRectangle
     $bitmap = New-Object System.Drawing.Bitmap ([int]$rect.Width),([int]$rect.Height)

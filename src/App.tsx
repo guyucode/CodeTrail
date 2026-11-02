@@ -1,3 +1,4 @@
+import CodeSearch from "./components/CodeSearch";
 import RuntimePane, { type RuntimeLocation } from "./components/RuntimePane";
 import WorkPanel from "./components/WorkPanel";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -152,6 +153,7 @@ function languageLabel(language: string) {
   );
 }
 function monacoLanguage(language: string) {
+  if (language === "c") return "cpp";
   return language === "tsx"
     ? "typescript"
     : language === "jsx"
@@ -1052,7 +1054,7 @@ export default function App() {
             <div className="project-title">
               <h1>{project?.name || "还没有打开项目"}</h1>
               {demo && <span className="demo-tag">演示项目</span>}
-              <span className="version-tag">v0.3 开发版</span>
+              <span className="version-tag">v0.3.1 Preview</span>
             </div>
             <div className="project-meta">
               <GitBranch size={12} />
@@ -1117,10 +1119,9 @@ export default function App() {
                 ref={searchRef}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder={
-                  navTab === "features" ? "搜索功能或说明…" : "搜索文件路径…"
-                }
-                aria-label="搜索功能或文件"
+                placeholder="搜索函数、变量、功能或文件…"
+                maxLength={200}
+                aria-label="搜索函数、变量、功能或文件"
               />
               {search ? (
                 <button aria-label="清除搜索" onClick={() => setSearch("")}>
@@ -1159,6 +1160,13 @@ export default function App() {
             </span>
           </div>
           <div className="navigation-list">
+            {project && query && <CodeSearch key={project.root} project={project} query={search} revision={dataVersion} changedPaths={onlyChanged ? changedPaths : undefined} onNavigate={match => {
+              setRuntimeOrigin(false); setEvidenceOrigin(null); setSelectedFile(match.path);
+              setActiveFeatureId(project.features.find(f => f.anchors.some(a => a.range.file === match.path && a.range.startLine <= match.line && a.range.endLine >= match.line))?.id || null);
+              setJump({ file: match.path, startLine: match.line, endLine: match.line, expectedHash: match.fileHash || undefined, stamp: Date.now() });
+              setCursorLine(match.line); setView("source");
+            }} />}
+
             {navTab === "features" &&
               filteredFeatures.map((feature) => (
                 <button

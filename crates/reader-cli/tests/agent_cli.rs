@@ -222,3 +222,40 @@ fn draft_preserves_overview_and_check_rejects_damaged_guide_links() {
     fs::write(path, serde_json::to_vec(&stored).unwrap()).unwrap();
     assert!(!repo.call("check", None).0);
 }
+
+#[test]
+fn cli_delivers_c_and_cpp_symbols_and_refreshes_moved_evidence() {
+    let repo = Repo::new();
+    fs::write(
+        repo.0.join("sum.c"),
+        "int add(int a, int b) { return a+b; }\n",
+    )
+    .unwrap();
+    let cpp = "namespace api { class Engine { public: int run(int x) { return x; } }; }\n";
+    fs::write(repo.0.join("engine.hpp"), cpp).unwrap();
+    let (ok, inventory) = repo.call("inspect", None);
+    assert!(ok);
+    let evidence: Vec<_> = ["add", "api::Engine::run"].iter().enumerate().map(|(i, name)| {
+        let symbol = inventory["project"]["symbols"].as_array().unwrap().iter().find(|s| s["qualifiedName"] == *name).unwrap();
+        let path = symbol["range"]["file"].as_str().unwrap();
+        json!({"id":format!("impl-{i}"),"path":path,"symbolId":symbol["id"],"expectedFileHash":inventory["fileHashes"][path],"role":"implementation","responsibility":"Compute the documented fixture result"})
+    }).collect();
+    let payload = json!({"schemaVersion":1,"deliveryId":"c-family-fixture","expectedRevision":inventory["revision"],"features":[{"id":"native-compute","name":"Native compute","description":"Read C and C++ entry points","summary":"Synthetic integration fixture","expectedDigest":null,"evidence":evidence}]});
+    assert!(repo.call("deliver", Some(&payload)).0);
+    assert!(repo.call("check", None).0);
+    fs::write(
+        repo.0.join("engine.hpp"),
+        format!(
+            "// moved by fixture\n{}",
+            cpp.replace("return x;", "return x + 1;")
+        ),
+    )
+    .unwrap();
+    assert!(!repo.call("check", None).0);
+    let (ok, mut draft) = repo.call("draft", None);
+    assert!(ok);
+    draft["deliveryId"] = json!("c-family-fixture-moved");
+    draft["features"][0]["summary"] = json!("Refresh actual moved C++ source evidence");
+    assert!(repo.call("deliver", Some(&draft)).0);
+    assert!(repo.call("check", None).0);
+}

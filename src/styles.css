@@ -3308,3 +3308,9 @@ summary { cursor: pointer; }
 .shared-task-form { border:1px solid #77639e; border-radius:8px; padding:14px; margin:12px 0; }
 .collab-dialog .shared-markdown { min-height:230px; font-family:monospace; }
 .shared-comments b { display:block; }
+
+.code-search { border-bottom:1px solid var(--border, #343848); margin-bottom:12px; }
+.code-search p { color:#9fa9ba; font-size:11px; padding:6px 12px; overflow-wrap:anywhere; }
+.code-search .file-nav-item { width:100%; text-align:left; }
+.code-search .file-nav-item span { min-width:0; }
+.code-search .file-nav-item strong,.code-search .file-nav-item small { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }

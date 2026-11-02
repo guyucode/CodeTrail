@@ -53,3 +53,6 @@ export interface OverviewModule { id: string; name: string; responsibility: stri
 export interface ReadingStep { id: string; title: string; description: string; moduleId: string; featureId: string; evidenceId: string }
 export interface ReadingPath { id: string; name: string; description: string; steps: ReadingStep[] }
 export interface ProjectOverview { summary: string; modules: OverviewModule[]; paths: ReadingPath[] }
+
+export interface CodeMatch { path: string; line: number; preview: string; fileHash: string }
+export interface CodeSearchResult { query: string; matches: CodeMatch[]; warnings: string[]; truncated: boolean }

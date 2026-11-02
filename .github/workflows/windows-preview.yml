@@ -82,6 +82,8 @@ jobs:
           Remove-Item Env:RUSTFLAGS
           & ./target/release/reader-cli.exe agent inspect "$PWD/demo/agent" | Out-File (Join-Path $env:RUNNER_TEMP 'codetrail-windows-release-cli.json') -Encoding utf8
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python scripts/check-release-cli.py ./target/release/reader-cli.exe
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           ./scripts/package-windows.ps1
       - name: Install and inspect native application
         shell: powershell

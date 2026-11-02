@@ -68,6 +68,14 @@ async fn read_file(path: String, session: State<'_, Session>) -> Result<FileCont
 }
 
 #[tauri::command]
+async fn search_code(query: String, project_root: String, session: State<'_, Session>) -> Result<reader_core::search::SearchResult, String> {
+    with_root(session.inner().clone(), move |root| {
+        if root.to_string_lossy() != project_root { return Err("项目已切换，请重新搜索".into()); }
+        reader_core::search::search_code(root, &query).map_err(|e| e.to_string())
+    }).await
+}
+
+#[tauri::command]
 async fn save_feature(
     draft: FeatureDraft,
     session: State<'_, Session>,
@@ -328,6 +336,7 @@ pub fn run() {
             open_project,
             refresh_project,
             read_file,
+            search_code,
             save_feature,
             delete_feature,
             bind_anchor,

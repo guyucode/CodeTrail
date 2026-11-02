@@ -150,6 +150,14 @@
             "evidenceId": "overview-App-selectFeature"
           },
           {
+            "id": "search-code",
+            "title": "搜索函数和变量",
+            "description": "在已有搜索框查找定义或代码中的文字，点击结果定位到对应文件和行。",
+            "moduleId": "ui",
+            "featureId": "codetrail-code-search",
+            "evidenceId": "search-ui"
+          },
+          {
             "id": "runtime",
             "title": "回看一次实际运行",
             "description": "选择运行编号，查看真实结果、变量和分支原因；版本相同才跳到当前代码。",
@@ -421,8 +429,8 @@
           "symbolName": "journal_action",
           "range": {
             "file": "src-tauri/src/lib.rs",
-            "startLine": 178,
-            "endLine": 225
+            "startLine": 186,
+            "endLine": 233
           },
           "contentHash": "fbe870b6ec05ba690892d57e8872983e52e00d9966f53acfc64b55cde69b6ea7",
           "status": "exact",
@@ -672,8 +680,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-lan-v03-verified-20261031",
-        "summary": "整理双平台下载、安装与上手文档；校正普通用户入口、功能关联前提和右侧批注说明，原功能及运行路径不变。",
+        "deliveryId": "codetrail-031-release",
+        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
         "evidenceDigest": "df77fbfaf6f6fb0fe21c1c641ddc1b4eee02772e45b165e4b3b95bfa95dc5865",
         "matchesSource": true
       }
@@ -753,8 +761,8 @@
           "symbolName": "atomic_json",
           "range": {
             "file": "crates/reader-core/src/lib.rs",
-            "startLine": 741,
-            "endLine": 765
+            "startLine": 747,
+            "endLine": 771
           },
           "contentHash": "51939efbfebd17d3c2c97a613563a9edb6e0d467abffe27779d4f9a88c092ae2",
           "status": "exact",
@@ -786,9 +794,9 @@
           "range": {
             "file": "docs/AGENT_DELIVERY.md",
             "startLine": 1,
-            "endLine": 247
+            "endLine": 257
           },
-          "contentHash": "fc0ca4a4b116fb4cfd57061ae9fe28abdc5bab757479b39b058b588da86442f4",
+          "contentHash": "85b73d882401782927b479032b49f7ee71b222a5ee43497ece1e875f735373b2",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -866,9 +874,9 @@
           "range": {
             "file": "crates/reader-cli/tests/agent_cli.rs",
             "startLine": 1,
-            "endLine": 224
+            "endLine": 261
           },
-          "contentHash": "34d5ef35e583a1a389ccbe485c5072b39a2bf54352dd627d83060e8624ebca3b",
+          "contentHash": "0350e9caba90ff46260f7c23a2ab0251eeb890480d44b676cf9ec2bfcd1b0627",
           "status": "exact",
           "note": "",
           "role": "test",
@@ -905,12 +913,168 @@
           "note": "",
           "role": "constraint",
           "responsibility": "在原有独立 Agent 存储中可选保存概览，旧数据缺省兼容。"
+        },
+        {
+          "id": "cpp-cli-delivery",
+          "kind": "symbol",
+          "symbolId": "crates/reader-cli/tests/agent_cli.rs::cli_delivers_c_and_cpp_symbols_and_refreshes_moved_evidence",
+          "symbolName": "cli_delivers_c_and_cpp_symbols_and_refreshes_moved_evidence",
+          "range": {
+            "file": "crates/reader-cli/tests/agent_cli.rs",
+            "startLine": 226,
+            "endLine": 261
+          },
+          "contentHash": "a97e19d9dfab5a91c8d0b970b318315a5f3a5df1e75bbb16f75eb98bb44caf85",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "真实执行 C/C++ 的 inspect、deliver、check 与 draft；源码移动并改变后检测过期，再刷新交付。"
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-load-speed-20261101",
-        "summary": "优化后台读取：Git比较复用批量对象进程，Git和Node在Windows禁止创建控制台；保留文本限制和版本校验。",
-        "evidenceDigest": "a842e3b764890925ce45729f5c5d25805de0131c43e6e80ce09930da04215fc0",
+        "deliveryId": "codetrail-031-release",
+        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
+        "evidenceDigest": "553773841c9807510d6f89949a1ac5910aa907003562bf34df726b4b382078e2",
+        "matchesSource": true
+      }
+    },
+    "codetrail-code-search": {
+      "name": "函数与变量代码搜索",
+      "description": "沿用左侧搜索框显示索引定义与当前项目的字面文字匹配，变量与调用位置也能查找。点击文字结果核对源码摘要后跳转到行；忽略规则、范围和数量受限，搜索不执行项目或启动外部工具。",
+      "anchors": [
+        {
+          "id": "search-ui",
+          "kind": "symbol",
+          "symbolId": "src/components/CodeSearch.tsx::CodeSearch",
+          "symbolName": "CodeSearch",
+          "range": {
+            "file": "src/components/CodeSearch.tsx",
+            "startLine": 5,
+            "endLine": 43
+          },
+          "contentHash": "9b793d681e51951e8cb0dd8f7337c8ffa60ea2902eb54d0977c46de6e3f0dfe7",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "合并定义与文字结果，400毫秒防抖，取消旧请求展示并明确搜索状态、限制与语义边界。"
+        },
+        {
+          "id": "search-core",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/search.rs::search_code",
+          "symbolName": "search_code",
+          "range": {
+            "file": "crates/reader-core/src/search.rs",
+            "startLine": 21,
+            "endLine": 105
+          },
+          "contentHash": "94f87e502177a13d029879988c98b0b89fa3091416e2329b2248ab8e3fd3efab",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "遵守共享源码目录边界，只读扫描受限文本，按行匹配并返回当次文件摘要；不重建语法索引或启动进程。"
+        },
+        {
+          "id": "search-source-boundary",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/lib.rs::source_walker",
+          "symbolName": "source_walker",
+          "range": {
+            "file": "crates/reader-core/src/lib.rs",
+            "startLine": 504,
+            "endLine": 529
+          },
+          "contentHash": "e3cf563ad3291ed6fedd6b8a236024b9980c6f160f1199c273ca87207dc78ed7",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "项目加载与搜索共用忽略、生成目录排除和不跟随符号链接规则。"
+        },
+        {
+          "id": "search-desktop",
+          "kind": "symbol",
+          "symbolId": "src-tauri/src/lib.rs::search_code",
+          "symbolName": "search_code",
+          "range": {
+            "file": "src-tauri/src/lib.rs",
+            "startLine": 70,
+            "endLine": 76
+          },
+          "contentHash": "6e559e0f2d78f8d7f6346d991d2cd145ca82eed748a64576d588d7673b892cc4",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "仅搜索当前已打开会话根目录，项目已切换则拒绝旧请求。"
+        },
+        {
+          "id": "search-text-test",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/tests/search.rs::literal_search_finds_variables_calls_and_unicode_without_tools",
+          "symbolName": "literal_search_finds_variables_calls_and_unicode_without_tools",
+          "range": {
+            "file": "crates/reader-core/tests/search.rs",
+            "startLine": 3,
+            "endLine": 18
+          },
+          "contentHash": "aaddbe5dbe31316fa6ff6604f2a02c7d24d44505f61587a1eeaf54023ba27899",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "验证函数调用、变量、中文、大小写和查询长度边界。"
+        },
+        {
+          "id": "search-boundary-test",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/tests/search.rs::search_obeys_ignores_budgets_and_tracks_source_changes",
+          "symbolName": "search_obeys_ignores_budgets_and_tracks_source_changes",
+          "range": {
+            "file": "crates/reader-core/tests/search.rs",
+            "startLine": 19,
+            "endLine": 53
+          },
+          "contentHash": "abce426aa67b0241d2132284fbec4bf66c377194549ed11acbfbb452cb7284c2",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "验证忽略目录、二进制、结果预算、符号链接与源码改变后的摘要变化。"
+        },
+        {
+          "id": "search-browser-test",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "scripts/smoke-search.mjs",
+            "startLine": 1,
+            "endLine": 25
+          },
+          "contentHash": "e30ec7e43e149d1491cb32e24a3af2c243319a488362f1969a33fa91716668e5",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "隔离浏览器演示验证实际搜索、变量结果点击、源码导航、清空和恢复原功能入口；不冒充桌面传输。"
+        },
+        {
+          "id": "search-render-test",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "tests/search.test.tsx",
+            "startLine": 1,
+            "endLine": 13
+          },
+          "contentHash": "f2a5227d4801e8b2e1d66418af739a58204fc1c3b852654ec74175c41abf56d3",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "验证函数定义结果可在默认入口渲染并带文件与行号。"
+        }
+      ],
+      "delivery": {
+        "deliveryId": "codetrail-031-release",
+        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
+        "evidenceDigest": "7ac290569e21cb8255dff5e9d0f7e8b4c4a9cfbd7736c84b3d8a6f1db6a5b1bd",
         "matchesSource": true
       }
     },
@@ -957,8 +1121,8 @@
           "symbolName": "save_collaboration_export",
           "range": {
             "file": "src-tauri/src/lib.rs",
-            "startLine": 269,
-            "endLine": 311
+            "startLine": 277,
+            "endLine": 319
           },
           "contentHash": "7a545bb2978d1505c7859bf3f4d488f55985eb7f9c7dc9dfbbc76c270e50d57d",
           "status": "exact",
@@ -1032,8 +1196,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-lan-v03-verified-20261031",
-        "summary": "实现局域网第二版，保留旧项目与个人反馈；实际验证范围按交付报告说明。",
+        "deliveryId": "codetrail-031-release",
+        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
         "evidenceDigest": "ef2a704b8c1e1f63a540b0cf957ecd626f80a04e402aab267131f0e0a47489d9",
         "matchesSource": true
       }
@@ -1172,8 +1336,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-lan-v03-verified-20261031",
-        "summary": "实现局域网第二版，保留旧项目与个人反馈；实际验证范围按交付报告说明。",
+        "deliveryId": "codetrail-031-release",
+        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
         "evidenceDigest": "121bb6b0f9dcd189a11ca119b5eb792eafac2d83f8b194f5247aacf3ab6e6d39",
         "matchesSource": true
       }
@@ -1222,9 +1386,9 @@
           "range": {
             "file": "crates/reader-cli/tests/agent_cli.rs",
             "startLine": 1,
-            "endLine": 224
+            "endLine": 261
           },
-          "contentHash": "34d5ef35e583a1a389ccbe485c5072b39a2bf54352dd627d83060e8624ebca3b",
+          "contentHash": "0350e9caba90ff46260f7c23a2ab0251eeb890480d44b676cf9ec2bfcd1b0627",
           "status": "exact",
           "note": "",
           "role": "test",
@@ -1336,7 +1500,7 @@
             "startLine": 1,
             "endLine": 91
           },
-          "contentHash": "b03cbfc18741a0d0f557c110a93ff6728d398037d972b32b4a8f6d8adee68547",
+          "contentHash": "9aac088429e45f69bbadc473a282d5b03a51ee73b343c5dc39d2e487f8a508fc",
           "status": "exact",
           "note": "",
           "role": "entry",
@@ -1350,9 +1514,9 @@
           "range": {
             "file": "src-tauri/tauri.conf.json",
             "startLine": 1,
-            "endLine": 50
+            "endLine": 53
           },
-          "contentHash": "8722c6249c5f86e7372cce1c83039b5a1384c02b24fcebefb57b05f5065c04d8",
+          "contentHash": "ad28a532325c8c8a13d0da942d27b423e6222158a8b3a97609cdf4e4acb89db1",
           "status": "exact",
           "note": "",
           "role": "implementation",
@@ -1416,7 +1580,7 @@
             "startLine": 1,
             "endLine": 18
           },
-          "contentHash": "40622d0947dacaf59e18bd110e3d9a240cc7d35da359519711488538036fbe54",
+          "contentHash": "93bc72a6ed4e711a997355c466c82982ea38766cafcebb5eebce1dff050fe329",
           "status": "exact",
           "note": "",
           "role": "implementation",
@@ -1430,9 +1594,9 @@
           "range": {
             "file": "scripts/windows-check-plan.py",
             "startLine": 1,
-            "endLine": 38
+            "endLine": 100
           },
-          "contentHash": "ed622ad81091701aff27574e16b32b1dc68b34aebd50b2d4c1f280230bb98f97",
+          "contentHash": "5af5e0b06b6918c09a5a439672bc336c466591ad2c0504bda0e06bb987cdcc9a",
           "status": "exact",
           "note": "",
           "role": "entry",
@@ -1446,9 +1610,9 @@
           "range": {
             "file": "scripts/test-windows-install.ps1",
             "startLine": 1,
-            "endLine": 80
+            "endLine": 81
           },
-          "contentHash": "6428c4442afa3830f7bdd67eb6835fbe10abad39215090e68a3a91cf5804d73a",
+          "contentHash": "6b9e64ee84e85668829bd4cde059294f1470967b438d9a2aefc2698e120abe75",
           "status": "exact",
           "note": "",
           "role": "test",
@@ -1464,7 +1628,7 @@
             "startLine": 1,
             "endLine": 34
           },
-          "contentHash": "45d561509d8a3c3579e77120125cfa834a44e5ecd08b24d144c1eb67d512f7c8",
+          "contentHash": "c2d38c66c0cd917e53420cacbca2db5d516825d14dad29152c300a1d07f2cb46",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -1512,17 +1676,33 @@
             "startLine": 1,
             "endLine": 15
           },
-          "contentHash": "4783a3f7218e9e4335b1e486fe1dc0986b6362f13854c567d2d1733feed7e3da",
+          "contentHash": "243099605e4365b8e311dc578d4651af5b586ea1f561528804d699d09ebd83df",
           "status": "exact",
           "note": "",
           "role": "constraint",
           "responsibility": "说明Mac安装、升级数据保留、同版本工具包、签名与架构验收边界。"
+        },
+        {
+          "id": "release-cli-c-family",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "scripts/check-release-cli.py",
+            "startLine": 1,
+            "endLine": 42
+          },
+          "contentHash": "6504979d0193be8373894d6a9537f4d7a54c615220c6f3cb5431f42a8d1e16e5",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "运行最终打包CLI，在隔离C/C++源码上建立并校验两处功能证据，不触碰真实用户记录。"
         }
       ],
       "delivery": {
-        "deliveryId": "mac03-download-release-20261102",
-        "summary": "发布Apple Silicon Mac 0.3；同步双平台首页和工具下载，明确数据保留、签名及实际验证范围。",
-        "evidenceDigest": "dd029b1b038b4b2aa4f8b57b46fe43b8aea53cd70d7758b52665fd6cf63f9828",
+        "deliveryId": "codetrail-031-release",
+        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
+        "evidenceDigest": "c37bcf93463f63ddd9948da6aa5b7c391218d45411a1c3dd72ad5adb2e7d26f7",
         "matchesSource": true
       }
     },
@@ -1556,7 +1736,7 @@
             "startLine": 8,
             "endLine": 34
           },
-          "contentHash": "775127d07c77fb94d567ac3afdd181c0f45b719174314004110dce394a57a87f",
+          "contentHash": "ee1a69f3f96f32a8dd61413c2b673484ca55ccf7fd7eeef3a1a742be6deeef3e",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -1596,9 +1776,9 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-lan-v03-verified-20261031",
-        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
-        "evidenceDigest": "2486a61e2552f3ff14f7d685d83f4139bfda9fc4fb480644886a877a89e63ec1",
+        "deliveryId": "codetrail-031-release",
+        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
+        "evidenceDigest": "c22266a65b1a0578589bfb8a324366b73ac95b15b74d50e800d2970557005009",
         "matchesSource": true
       }
     },
@@ -1613,8 +1793,8 @@
           "symbolName": "get_changes",
           "range": {
             "file": "src-tauri/src/lib.rs",
-            "startLine": 129,
-            "endLine": 140
+            "startLine": 137,
+            "endLine": 148
           },
           "contentHash": "3c7ef3f69974aa6d27f331ac1559e90c23761fd23f5ed662639342828322128b",
           "status": "exact",
@@ -1832,8 +2012,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-load-speed-20261101",
-        "summary": "优化后台读取：Git比较复用批量对象进程，Git和Node在Windows禁止创建控制台；保留文本限制和版本校验。",
+        "deliveryId": "codetrail-031-release",
+        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
         "evidenceDigest": "0c90fa018b3eef57693d5ed8ec3921a84e6c9d46a86f8f417568ee96e85c815b",
         "matchesSource": true
       }
@@ -1849,8 +2029,8 @@
           "symbolName": "updateReview",
           "range": {
             "file": "src/App.tsx",
-            "startLine": 951,
-            "endLine": 968
+            "startLine": 953,
+            "endLine": 970
           },
           "contentHash": "beb8f2072276a54a44d676814ad408c77c0c9f26a405890b9f0772f183984158",
           "status": "exact",
@@ -1865,8 +2045,8 @@
           "symbolName": "set_review",
           "range": {
             "file": "crates/reader-core/src/lib.rs",
-            "startLine": 300,
-            "endLine": 356
+            "startLine": 301,
+            "endLine": 357
           },
           "contentHash": "052fbba48dab962ec5d5810565f20af1480c0937b8c624060518a97f48a05041",
           "status": "exact",
@@ -1881,8 +2061,8 @@
           "symbolName": "review_digest",
           "range": {
             "file": "crates/reader-core/src/lib.rs",
-            "startLine": 916,
-            "endLine": 946
+            "startLine": 922,
+            "endLine": 952
           },
           "contentHash": "40ca3fa5175b8ec48218463a34680ad2205347d033ea81f25ea1a68e00af99fb",
           "status": "exact",
@@ -1929,8 +2109,8 @@
           "symbolName": null,
           "range": {
             "file": "src/App.tsx",
-            "startLine": 97,
-            "endLine": 102
+            "startLine": 98,
+            "endLine": 103
           },
           "contentHash": "4a1755b3fec61cd7fccbfb1452c9bfbc760c0279233898333a8dc6edfc291f2f",
           "status": "exact",
@@ -1940,8 +2120,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-load-speed-20261101",
-        "summary": "优化后台读取：Git比较复用批量对象进程，Git和Node在Windows禁止创建控制台；保留文本限制和版本校验。",
+        "deliveryId": "codetrail-031-release",
+        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
         "evidenceDigest": "480545e055ee827eddb17a5b1a6a7d41d8ad0cbeff9a89f5123b5102cf1195a1",
         "matchesSource": true
       }
@@ -2069,8 +2249,8 @@
           "symbolName": "collaboration_action",
           "range": {
             "file": "src-tauri/src/lib.rs",
-            "startLine": 230,
-            "endLine": 267
+            "startLine": 238,
+            "endLine": 275
           },
           "contentHash": "78f6bce7071dd8e12e1dddf94e5bb3da19c1590d9ccf39a932dc25836938cac3",
           "status": "exact",
@@ -2213,8 +2393,8 @@
           "symbolName": null,
           "range": {
             "file": "src/App.tsx",
-            "startLine": 1035,
-            "endLine": 1035
+            "startLine": 1037,
+            "endLine": 1037
           },
           "contentHash": "8183069fae5a3187f70ed87dcf45c7550800986dc006533898d1f8786503a4f8",
           "status": "exact",
@@ -2272,8 +2452,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-load-speed-20261101",
-        "summary": "优化后台读取：Git比较复用批量对象进程，Git和Node在Windows禁止创建控制台；保留文本限制和版本校验。",
+        "deliveryId": "codetrail-031-release",
+        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
         "evidenceDigest": "4e35f8dfc682b305c625f9dc203abde6948b5ca27b24ecba74bed03460926209",
         "matchesSource": true
       }
@@ -2289,8 +2469,8 @@
           "symbolName": "beginBinding",
           "range": {
             "file": "src/App.tsx",
-            "startLine": 852,
-            "endLine": 883
+            "startLine": 854,
+            "endLine": 885
           },
           "contentHash": "d8047fb4e8802e18b8b66cd9bf1e7eec169256cc7226ebaf6c7e3d2fce4b503a",
           "status": "exact",
@@ -2305,8 +2485,8 @@
           "symbolName": "save_feature",
           "range": {
             "file": "crates/reader-core/src/lib.rs",
-            "startLine": 116,
-            "endLine": 167
+            "startLine": 117,
+            "endLine": 168
           },
           "contentHash": "a87735fe0314490e4fdfe60624348f72b8af1f438eebd525c11c84726b9db9ba",
           "status": "exact",
@@ -2321,8 +2501,8 @@
           "symbolName": "bind_anchor",
           "range": {
             "file": "crates/reader-core/src/lib.rs",
-            "startLine": 193,
-            "endLine": 280
+            "startLine": 194,
+            "endLine": 281
           },
           "contentHash": "4e43bdc02780319d60e8a7bc9068c3a4b998ea24db67006f4a7035896a614a72",
           "status": "exact",
@@ -2337,8 +2517,8 @@
           "symbolName": "resolve_anchor",
           "range": {
             "file": "crates/reader-core/src/lib.rs",
-            "startLine": 822,
-            "endLine": 914
+            "startLine": 828,
+            "endLine": 920
           },
           "contentHash": "4cd1423979f3ba89528ed73abe1029e7b00d3d891fbd6aef7d001e4d335f9875",
           "status": "exact",
@@ -2385,8 +2565,8 @@
           "symbolName": null,
           "range": {
             "file": "src/App.tsx",
-            "startLine": 1582,
-            "endLine": 1875
+            "startLine": 1590,
+            "endLine": 1883
           },
           "contentHash": "033df699ae7a855c170de5959f66dd77a428ee44cb9c7f69598a0651b334ee88",
           "status": "exact",
@@ -2396,8 +2576,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-load-speed-20261101",
-        "summary": "优化后台读取：Git比较复用批量对象进程，Git和Node在Windows禁止创建控制台；保留文本限制和版本校验。",
+        "deliveryId": "codetrail-031-release",
+        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
         "evidenceDigest": "0738f5f563c033c1c53b08ae7dc37aab738260804ee99ef9f346b96fc46d121a",
         "matchesSource": true
       }
@@ -2413,8 +2593,8 @@
           "symbolName": null,
           "range": {
             "file": "src/App.tsx",
-            "startLine": 1294,
-            "endLine": 1554
+            "startLine": 1302,
+            "endLine": 1562
           },
           "contentHash": "666508907d8f9b8878cae4858bf21839a1089199004dd759b4b1abd565e16213",
           "status": "exact",
@@ -2429,8 +2609,8 @@
           "symbolName": "exportReport",
           "range": {
             "file": "src/App.tsx",
-            "startLine": 970,
-            "endLine": 972
+            "startLine": 972,
+            "endLine": 974
           },
           "contentHash": "6c544de35078201ff726dd282485170f5135d4e60f77d044e99db3506157da0a",
           "status": "exact",
@@ -2445,8 +2625,8 @@
           "symbolName": "export_review",
           "range": {
             "file": "crates/reader-core/src/lib.rs",
-            "startLine": 358,
-            "endLine": 429
+            "startLine": 359,
+            "endLine": 430
           },
           "contentHash": "1c3228793d9e01970701415aa0d7965aeff9388d36729857a9e89ec4c96b32eb",
           "status": "exact",
@@ -2542,9 +2722,9 @@
           "range": {
             "file": "src/types.ts",
             "startLine": 1,
-            "endLine": 55
+            "endLine": 58
           },
-          "contentHash": "69fa089bdbf6c33709d73b49ffaee429fad60752acc96ae04e3a84c6b52784ce",
+          "contentHash": "487a8b8f0a014a77e1d39c042bf2e8f5db325574e4ec8ac0301c5f40769bae30",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -2574,9 +2754,9 @@
           "range": {
             "file": "docs/AGENT_DELIVERY.md",
             "startLine": 1,
-            "endLine": 247
+            "endLine": 257
           },
-          "contentHash": "fc0ca4a4b116fb4cfd57061ae9fe28abdc5bab757479b39b058b588da86442f4",
+          "contentHash": "85b73d882401782927b479032b49f7ee71b222a5ee43497ece1e875f735373b2",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -2600,9 +2780,9 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-load-speed-20261101",
-        "summary": "优化后台读取：Git比较复用批量对象进程，Git和Node在Windows禁止创建控制台；保留文本限制和版本校验。",
-        "evidenceDigest": "bf08f8b0ae980b2a568bb53b334d77aed4b7a073cec3400ef07c4b144973191d",
+        "deliveryId": "codetrail-031-release",
+        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
+        "evidenceDigest": "091b8061a70ae4f0f84b63acee3f38705b9b2662fda259bdb783e1e00d08329d",
         "matchesSource": true
       }
     },
@@ -2617,8 +2797,8 @@
           "symbolName": "openProject",
           "range": {
             "file": "src/App.tsx",
-            "startLine": 935,
-            "endLine": 949
+            "startLine": 937,
+            "endLine": 951
           },
           "contentHash": "f8ef9583bb9725ddb64f004d8387fd5d7a0dafc4b6d928b79a1eb273197929b3",
           "status": "exact",
@@ -2665,8 +2845,8 @@
           "symbolName": "open_project",
           "range": {
             "file": "crates/reader-core/src/lib.rs",
-            "startLine": 49,
-            "endLine": 101
+            "startLine": 50,
+            "endLine": 102
           },
           "contentHash": "f677eb3d1663f2e5c6276ec8f87918a695aa7feb9449bbf234ff088e675b33b4",
           "status": "exact",
@@ -2681,10 +2861,10 @@
           "symbolName": "scan_repository",
           "range": {
             "file": "crates/reader-core/src/lib.rs",
-            "startLine": 503,
-            "endLine": 597
+            "startLine": 531,
+            "endLine": 603
           },
-          "contentHash": "40298370945614018de009a4fac84f4fac53bbb71da708b21fc5b74e28d09888",
+          "contentHash": "43f4aff4f5aa40d6291a9faa490c32a22aba8211b61bf04bd7267b9784e8cc13",
           "status": "exact",
           "note": "",
           "role": "implementation",
@@ -2697,8 +2877,8 @@
           "symbolName": "safe_source_path",
           "range": {
             "file": "crates/reader-core/src/lib.rs",
-            "startLine": 461,
-            "endLine": 473
+            "startLine": 462,
+            "endLine": 474
           },
           "contentHash": "6a5ecfba77a7db2f37f685d9406ed770e29e32ec24b5e18eba08c4faf373c708",
           "status": "exact",
@@ -2740,9 +2920,9 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-load-speed-20261101",
-        "summary": "优化后台读取：Git比较复用批量对象进程，Git和Node在Windows禁止创建控制台；保留文本限制和版本校验。",
-        "evidenceDigest": "d87abf24b72b4fb0a191806f0194c250e854af8de3dbb23f334bb3d1372e89be",
+        "deliveryId": "codetrail-031-release",
+        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
+        "evidenceDigest": "39f93db011970f971111e4bd2ff0f82a9c0119072371740c6c3e88db6bb88ffb",
         "matchesSource": true
       }
     },
@@ -2912,8 +3092,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-load-speed-20261101",
-        "summary": "优化后台读取：Git比较复用批量对象进程，Git和Node在Windows禁止创建控制台；保留文本限制和版本校验。",
+        "deliveryId": "codetrail-031-release",
+        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
         "evidenceDigest": "833259d15ac2ca0955359b81a0bc664444909c5daff8e798e48d857c1f684821",
         "matchesSource": true
       }
@@ -3164,8 +3344,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-lan-v03-verified-20261031",
-        "summary": "接入局域网共读与任务协作；保留现有个人批注、阅读记录和项目访问边界，补齐新增职责与协议。",
+        "deliveryId": "codetrail-031-release",
+        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
         "evidenceDigest": "c03d88f2d353f3a451f0d7745d95892f9f04586af84ddf58bfac4ada4e335fb6",
         "matchesSource": true
       }
@@ -3181,8 +3361,8 @@
           "symbolName": "onEditorMount",
           "range": {
             "file": "src/App.tsx",
-            "startLine": 698,
-            "endLine": 731
+            "startLine": 700,
+            "endLine": 733
           },
           "contentHash": "c04cc7fde77a5d30e3dc0ed3b2616a915707e91bec93e5a2e364cdfdaa231eb2",
           "status": "exact",
@@ -3197,8 +3377,8 @@
           "symbolName": "onDiffMount",
           "range": {
             "file": "src/App.tsx",
-            "startLine": 733,
-            "endLine": 751
+            "startLine": 735,
+            "endLine": 753
           },
           "contentHash": "7537789725946e82b569db5b16f4ed1cc374089650344c087b62f44de15460f1",
           "status": "exact",
@@ -3213,8 +3393,8 @@
           "symbolName": "goToAnchor",
           "range": {
             "file": "src/App.tsx",
-            "startLine": 765,
-            "endLine": 779
+            "startLine": 767,
+            "endLine": 781
           },
           "contentHash": "6ea9580282482e129537fa789bf31a78bb435eda67dcdf64ea97d0c9a8845f92",
           "status": "exact",
@@ -3229,8 +3409,8 @@
           "symbolName": "featureAt",
           "range": {
             "file": "src/App.tsx",
-            "startLine": 175,
-            "endLine": 185
+            "startLine": 177,
+            "endLine": 187
           },
           "contentHash": "486fff1f0547dc1dd64ef22592d1c8355e52d6e514670453c69e2e79e7e71452",
           "status": "exact",
@@ -3245,8 +3425,8 @@
           "symbolName": "navigateRelation",
           "range": {
             "file": "src/App.tsx",
-            "startLine": 823,
-            "endLine": 841
+            "startLine": 825,
+            "endLine": 843
           },
           "contentHash": "8e77792e54dbf8a36f5d8a9f8d69915220914b02a4784add942df8ba9135e11f",
           "status": "exact",
@@ -3261,8 +3441,8 @@
           "symbolName": null,
           "range": {
             "file": "src/App.tsx",
-            "startLine": 277,
-            "endLine": 330
+            "startLine": 279,
+            "endLine": 332
           },
           "contentHash": "0973bf60a282c4553572c93364ff38cc81c8a6393bb0656e7cbc63b6c03c4e72",
           "status": "exact",
@@ -3277,10 +3457,10 @@
           "symbolName": null,
           "range": {
             "file": "src/App.tsx",
-            "startLine": 1030,
-            "endLine": 1290
+            "startLine": 1031,
+            "endLine": 1291
           },
-          "contentHash": "d23355fcfd6ebf5e8e3a6ec252ea3ab1058482872b93f00690c3a8d91b379ba7",
+          "contentHash": "c34361ce615e4608d631544c81c524cf8b5e02a5e2f02896fa6e864fcdb91106",
           "status": "exact",
           "note": "",
           "role": "entry",
@@ -3293,8 +3473,8 @@
           "symbolName": null,
           "range": {
             "file": "src/App.tsx",
-            "startLine": 427,
-            "endLine": 451
+            "startLine": 429,
+            "endLine": 453
           },
           "contentHash": "09ce22e7bfe098e131a2240862d10aa812a96f1e5cf0f40cebe4b30ae84b2b4a",
           "status": "exact",
@@ -3357,8 +3537,8 @@
           "symbolName": "selectFeature",
           "range": {
             "file": "src/App.tsx",
-            "startLine": 781,
-            "endLine": 788
+            "startLine": 783,
+            "endLine": 790
           },
           "contentHash": "c513ca28900ddc6134e8444dc70919c488c33b4d59e056870db0167ba5170e18",
           "status": "exact",
@@ -3384,9 +3564,9 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-lan-v03-verified-20261031",
-        "summary": "接入局域网共读与任务协作；保留现有个人批注、阅读记录和项目访问边界，补齐新增职责与协议。",
-        "evidenceDigest": "5b9148f0c212e8dc5e4675438b201d7e930c0c0e93d258306c9d39f8a4ea3a3e",
+        "deliveryId": "codetrail-031-release",
+        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
+        "evidenceDigest": "2a8e9d5df46a0b06b42795a29cfef86298065b48d630efe0831626d3895fffcf",
         "matchesSource": true
       }
     },
@@ -3577,8 +3757,8 @@
           "symbolName": "journal_action",
           "range": {
             "file": "src-tauri/src/lib.rs",
-            "startLine": 178,
-            "endLine": 225
+            "startLine": 186,
+            "endLine": 233
           },
           "contentHash": "fbe870b6ec05ba690892d57e8872983e52e00d9966f53acfc64b55cde69b6ea7",
           "status": "exact",
@@ -3594,9 +3774,9 @@
           "range": {
             "file": "crates/reader-core/tests/journal.rs",
             "startLine": 1,
-            "endLine": 130
+            "endLine": 242
           },
-          "contentHash": "3b0cd12ca134a75e52d473a8c22a18c91e5015c5b7b8a17610c8165b3097ce79",
+          "contentHash": "f86c177b0d66e4f0b26f543981b5dbc954e876a7f247db1445beb287dbe51106",
           "status": "exact",
           "note": "",
           "role": "test",
@@ -3625,8 +3805,8 @@
           "symbolName": null,
           "range": {
             "file": "src/App.tsx",
-            "startLine": 1569,
-            "endLine": 1578
+            "startLine": 1577,
+            "endLine": 1586
           },
           "contentHash": "2fb1398cc048ecd3a82d26124ed11de53d8c80ea4f63e158262d1533140292c5",
           "status": "exact",
@@ -3732,9 +3912,9 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-lan-v03-verified-20261031",
-        "summary": "接入局域网共读与任务协作；保留现有个人批注、阅读记录和项目访问边界，补齐新增职责与协议。",
-        "evidenceDigest": "cc979a23cec079071e604fee9ab7fe492c21ed6961000075e9782d62ee695082",
+        "deliveryId": "codetrail-031-release",
+        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
+        "evidenceDigest": "3ef25cb341c1c269d317dd65a003a584b96232fb17ce1c60bc8f42e9ac114f5c",
         "matchesSource": true
       }
     },
@@ -3877,8 +4057,8 @@
           "symbolName": "journal_action",
           "range": {
             "file": "src-tauri/src/lib.rs",
-            "startLine": 178,
-            "endLine": 225
+            "startLine": 186,
+            "endLine": 233
           },
           "contentHash": "fbe870b6ec05ba690892d57e8872983e52e00d9966f53acfc64b55cde69b6ea7",
           "status": "exact",
@@ -3925,8 +4105,8 @@
           "symbolName": "openRuntimeCode",
           "range": {
             "file": "src/App.tsx",
-            "startLine": 799,
-            "endLine": 803
+            "startLine": 801,
+            "endLine": 805
           },
           "contentHash": "761d206b262e55892f166344810a70eb050460f7338dde71aa88d382f2078f7b",
           "status": "exact",
@@ -4006,9 +4186,9 @@
           "range": {
             "file": "sdk/python/test_codetrail_trace.py",
             "startLine": 1,
-            "endLine": 37
+            "endLine": 38
           },
-          "contentHash": "02204b2e79a236bd6f38caacefb5367e57e71d0e67394515a93c70bb503fc2a1",
+          "contentHash": "95729e748d731135d3e594531a0dd33a9fcb96327f55b645a2284c875a451f64",
           "status": "exact",
           "note": "",
           "role": "test",
@@ -4088,7 +4268,7 @@
             "startLine": 60,
             "endLine": 69
           },
-          "contentHash": "ad823539f8eb8254f9a017ad2768fe117b797ad5392f6d4988d5a8e84a0aea79",
+          "contentHash": "1b3b36d7fd7586ba59f236afcb1ebab3a1046e9e234e7bb5759a229a44c7eed2",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -4117,8 +4297,8 @@
           "symbolName": null,
           "range": {
             "file": "src/App.tsx",
-            "startLine": 1350,
-            "endLine": 1350
+            "startLine": 1358,
+            "endLine": 1358
           },
           "contentHash": "f4c9f24194111bcc5d3be358371def30e53b5da85729e644108af813317bd74b",
           "status": "exact",
@@ -4133,8 +4313,8 @@
           "symbolName": "selectFile",
           "range": {
             "file": "src/App.tsx",
-            "startLine": 790,
-            "endLine": 797
+            "startLine": 792,
+            "endLine": 799
           },
           "contentHash": "b9e5afb62453133b4d50bc9da25c91f7664325b82ae4de571a1a85bdf428c4fb",
           "status": "exact",
@@ -4144,9 +4324,9 @@
         }
       ],
       "delivery": {
-        "deliveryId": "mac03-download-release-20261102",
-        "summary": "发布Apple Silicon Mac 0.3；同步双平台首页和工具下载，明确数据保留、签名及实际验证范围。",
-        "evidenceDigest": "a7517972f0b2f6f8e2c33ca16248003189fc8e53144db0d61da658a5c217f04a",
+        "deliveryId": "codetrail-031-release",
+        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
+        "evidenceDigest": "b0f813121908142edd56d987f300c55cd51436886e3668a1eada75cfff3fa10e",
         "matchesSource": true
       }
     },
@@ -4284,15 +4464,15 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-load-speed-20261101",
-        "summary": "优化后台读取：Git比较复用批量对象进程，Git和Node在Windows禁止创建控制台；保留文本限制和版本校验。",
+        "deliveryId": "codetrail-031-release",
+        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
         "evidenceDigest": "0dfc66ac3779792b31f21ac46e2f82783726c501432be06b566cb47cc4ae95b9",
         "matchesSource": true
       }
     },
     "codetrail-symbol-index": {
       "name": "03 · 多语言语法符号索引",
-      "description": "用 tree-sitter 提取 Python、Rust、TS/TSX、JS/JSX 的声明与范围。此功能是语法索引，不声称已解析跨语言调用。",
+      "description": "通过语法树提取 Python、Rust、C/C++ 与 TypeScript/JavaScript 声明。C/C++ 可按函数、声明、命名空间、类和宏建立关联；头文件兼容两种语法。这里只解释源码结构，不推断编译后的调用关系。",
       "anchors": [
         {
           "id": "e-0bd2040d18ca5842c86e",
@@ -4301,10 +4481,10 @@
           "symbolName": "parse_with_status",
           "range": {
             "file": "crates/reader-core/src/parse.rs",
-            "startLine": 51,
-            "endLine": 75
+            "startLine": 57,
+            "endLine": 93
           },
-          "contentHash": "9252304fc11646118919143f2fd56bc0e231998df9d401cde27b03e7689aef2b",
+          "contentHash": "0612608bdc5eb803d1d00dfd5f89ba25bce31843be180f2bbbe34d6c9573deaf",
           "status": "exact",
           "note": "",
           "role": "entry",
@@ -4317,10 +4497,10 @@
           "symbolName": "visit",
           "range": {
             "file": "crates/reader-core/src/parse.rs",
-            "startLine": 89,
-            "endLine": 166
+            "startLine": 167,
+            "endLine": 212
           },
-          "contentHash": "615d02cfe9ae7860f3ea48edaabcd3a9e01cc5d68a6d48bc2b75388f09355af3",
+          "contentHash": "6d88b446348a379432a5554ac54c35d23e470bd9fedc99b4553607cf6c35f390",
           "status": "exact",
           "note": "",
           "role": "implementation",
@@ -4333,10 +4513,10 @@
           "symbolName": "declaration",
           "range": {
             "file": "crates/reader-core/src/parse.rs",
-            "startLine": 168,
-            "endLine": 200
+            "startLine": 323,
+            "endLine": 358
           },
-          "contentHash": "1b8d70876cdd077c1f5532a9f6d30e88198d48f4441dcb49de1572bde623cc57",
+          "contentHash": "e6a8f6c8c9eb7b32281a2d71fa89463bac147c6ca6db84ee88fa172a9607e655",
           "status": "exact",
           "note": "",
           "role": "implementation",
@@ -4357,12 +4537,172 @@
           "note": "",
           "role": "test",
           "responsibility": "验证支持语言中的真实定义、嵌套作用域与行范围。"
+        },
+        {
+          "id": "cpp-editor-language",
+          "kind": "symbol",
+          "symbolId": "src/App.tsx::monacoLanguage",
+          "symbolName": "monacoLanguage",
+          "range": {
+            "file": "src/App.tsx",
+            "startLine": 155,
+            "endLine": 162
+          },
+          "contentHash": "2f6f0ebe2b5b9f7f295d2af0de1ccc2b5de7a634713e1bb530ee6f3a2469f3ae",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "Map C files to the existing Monaco C/C++ highlighter without changing core language identity."
+        },
+        {
+          "id": "cpp-declarations",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/parse.rs::Extraction<'_>::c_declaration",
+          "symbolName": "c_declaration",
+          "range": {
+            "file": "crates/reader-core/src/parse.rs",
+            "startLine": 287,
+            "endLine": 321
+          },
+          "contentHash": "41c989a7dca96edf01ad5cf2ec856d860eb3c6d0fbcbc05bbae79bacc6f6a409",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "识别 C/C++ 的命名空间、类、结构体、类型别名和宏；函数声明交给有界声明器分析。"
+        },
+        {
+          "id": "cpp-declarator-name",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/parse.rs::c_name",
+          "symbolName": "c_name",
+          "range": {
+            "file": "crates/reader-core/src/parse.rs",
+            "startLine": 108,
+            "endLine": 133
+          },
+          "contentHash": "15bbdebcf148f623440e0a6cd50853c676442a0e3b1b4776639ded5298404386",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "沿声明器提取实际名称，保留命名空间、模板、析构和转换运算符，避免错取参数名。"
+        },
+        {
+          "id": "cpp-callable",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/parse.rs::c_callable",
+          "symbolName": "c_callable",
+          "range": {
+            "file": "crates/reader-core/src/parse.rs",
+            "startLine": 134,
+            "endLine": 153
+          },
+          "contentHash": "6e9b5f170a988237fade9bc2a34bc3e1649fba6d79d081c02551a8f04c68fa03",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "区分函数与函数指针变量，并覆盖返回函数指针的函数声明。"
+        },
+        {
+          "id": "cpp-record",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/parse.rs::Extraction<'_>::record",
+          "symbolName": "record",
+          "range": {
+            "file": "crates/reader-core/src/parse.rs",
+            "startLine": 214,
+            "endLine": 285
+          },
+          "contentHash": "aee7f063e9376d53b5c91252739478e0be26f4eb5bcb3be7a2c46d6963d3fc9a",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "复用既有符号 ID、重名编号、签名和行范围规则，保留 C++ 所属作用域。"
+        },
+        {
+          "id": "cpp-test-c_functions_prototypes_types_macros_and_pointer_variables",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/tests/c_family.rs::c_functions_prototypes_types_macros_and_pointer_variables",
+          "symbolName": "c_functions_prototypes_types_macros_and_pointer_variables",
+          "range": {
+            "file": "crates/reader-core/tests/c_family.rs",
+            "startLine": 4,
+            "endLine": 34
+          },
+          "contentHash": "994cdb88cd3e1279485e52d31fd2fe6ab035156d4b9764991868c6470518254b",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "用真实 C/C++ 片段验证符号、签名、行范围、头文件兼容或语法不完整边界。"
+        },
+        {
+          "id": "cpp-test-cpp_namespaces_templates_overloads_and_out_of_class_methods",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/tests/c_family.rs::cpp_namespaces_templates_overloads_and_out_of_class_methods",
+          "symbolName": "cpp_namespaces_templates_overloads_and_out_of_class_methods",
+          "range": {
+            "file": "crates/reader-core/tests/c_family.rs",
+            "startLine": 36,
+            "endLine": 73
+          },
+          "contentHash": "660fdd00e76c03a68dc0a123e6a4c0e821a3ce6dadfb7fc3afac835634a15ff5",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "用真实 C/C++ 片段验证符号、签名、行范围、头文件兼容或语法不完整边界。"
+        },
+        {
+          "id": "cpp-test-headers_extensions_and_syntax_errors_keep_partial_navigation",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/tests/c_family.rs::headers_extensions_and_syntax_errors_keep_partial_navigation",
+          "symbolName": "headers_extensions_and_syntax_errors_keep_partial_navigation",
+          "range": {
+            "file": "crates/reader-core/tests/c_family.rs",
+            "startLine": 75,
+            "endLine": 108
+          },
+          "contentHash": "4c5dfa18036daee4bc0215e35fb90597e7744ec02416e1dc85d40a9062717d3e",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "用真实 C/C++ 片段验证符号、签名、行范围、头文件兼容或语法不完整边界。"
+        },
+        {
+          "id": "cpp-test-cpp_nested_namespaces_conversions_and_multiple_prototypes",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/tests/c_family.rs::cpp_nested_namespaces_conversions_and_multiple_prototypes",
+          "symbolName": "cpp_nested_namespaces_conversions_and_multiple_prototypes",
+          "range": {
+            "file": "crates/reader-core/tests/c_family.rs",
+            "startLine": 110,
+            "endLine": 123
+          },
+          "contentHash": "7399733b949e2a9a7e1e7de4dba66ba47c16e692b678954502fd83260aa8b422",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "用真实 C/C++ 片段验证符号、签名、行范围、头文件兼容或语法不完整边界。"
+        },
+        {
+          "id": "cpp-test-typedef_does_not_invent_a_lexical_scope_for_the_struct_tag",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/tests/c_family.rs::typedef_does_not_invent_a_lexical_scope_for_the_struct_tag",
+          "symbolName": "typedef_does_not_invent_a_lexical_scope_for_the_struct_tag",
+          "range": {
+            "file": "crates/reader-core/tests/c_family.rs",
+            "startLine": 125,
+            "endLine": 133
+          },
+          "contentHash": "a2bd12c2836bf01cfdbe68f6487e67f19192ad7f920efb3354fe0627d4665865",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "用真实 C/C++ 片段验证符号、签名、行范围、头文件兼容或语法不完整边界。"
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-lan-v03-verified-20261031",
-        "summary": "复核 Windows 路径与发布兼容变更，保留既有功能和人工审阅隔离。",
-        "evidenceDigest": "4a73ff886a973555d732e9155eb4572458b423bd917a9bb43693d4f722b20101",
+        "deliveryId": "codetrail-031-release",
+        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
+        "evidenceDigest": "3a84134664bfa6791dfccc8c549ec3d47fd0f0361b7ba21979b2a8978328c08e",
         "matchesSource": true
       }
     }

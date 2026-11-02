@@ -1,8 +1,8 @@
-# Mac Apple Silicon 0.3 预览版
+# Mac Apple Silicon 0.3.1 预览版
 
-下载 `CodeTrail_0.3.0_aarch64.dmg`，打开后把 CodeTrail 拖入“应用程序”。已有安装可退出旧版后替换应用；项目 `.reader/` 与应用私有数据位于应用包之外，更新不清理这些数据，建议先备份项目。
+下载 `CodeTrail_0.3.1_aarch64.dmg`，打开后把 CodeTrail 拖入“应用程序”。已有安装可退出旧版后替换应用；项目 `.reader/` 与应用私有数据位于应用包之外，更新不清理这些数据，建议先备份项目。
 
-配套 `CodeTrail-tools-0.3.0-macos-arm64.tar.gz` 包含同版本 reader-cli、Python SDK、协议文档和第三方许可。SHA256SUMS-mac.txt 提供附件校验。
+配套 `CodeTrail-tools-0.3.1-macos-arm64.tar.gz` 包含同版本 reader-cli、Python SDK、协议文档和第三方许可。SHA256SUMS-mac.txt 提供附件校验。
 
 本版包含可信 IPv4 局域网共读、共享批注、任务整合与耦合分工，以及 Git 批量读取优化。共享需要相同代码和功能关联版本；个人批注与人工阅读确认保持独立。局域网为明文 HTTP，主持电脑需保持应用运行，不提供公网穿透。
 

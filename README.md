@@ -4,18 +4,18 @@
 
 独立的本地桌面应用：从项目概览进入功能和对应代码，阅读改动、记录批注，也能回看显式采集的运行结果。源码区只读；阅读时不需要模型、GPU 或 API Key。
 
-**Mac / Windows 0.3 预览版：** 新增无需独立服务器的局域网共读、共享批注、任务整合与耦合分工，见 [局域网协作说明](docs/LAN_COLLABORATION.md)。Mac 和 Windows 0.3 均包含上述能力及加载优化。
+**Mac / Windows 0.3.1 预览版：** 新增无需独立服务器的局域网共读、共享批注、任务整合与耦合分工，见 [局域网协作说明](docs/LAN_COLLABORATION.md)。Mac 和 Windows 0.3.1 还包含函数/变量代码搜索，以及 C/C++ 函数、类、头文件和宏的符号关联；需配合同版本 reader-cli 使用。
 
 [下载](#下载) · [安装](#安装) · [三步开始使用](#三步开始使用) · [完整使用指南](docs/USER_GUIDE.md)
 
 ## 下载
 
-当前下载：**Mac v0.3.0 Preview · Windows v0.3.0 Preview**。请选择你的电脑类型，点击安装包即可；**不要下载 GitHub 的「Code → Download ZIP」或「Source code」来安装软件**，它们是源码。
+当前下载：**Mac v0.3.1 Preview · Windows v0.3.1 Preview**。请选择你的电脑类型，点击安装包即可；**不要下载 GitHub 的「Code → Download ZIP」或「Source code」来安装软件**，它们是源码。
 
 | 你的电脑 | 直接下载安装包 | 版本与验证说明 |
 | --- | --- | --- |
-| **Mac · Apple Silicon**（M1 / M2 / M3 / M4 等 M 系列） | **[下载 Mac 版（DMG）](https://github.com/guyucode/CodeTrail/releases/download/v0.3.0-mac-preview.1/CodeTrail_0.3.0_aarch64.dmg)** | [Mac 发行页](https://github.com/guyucode/CodeTrail/releases/tag/v0.3.0-mac-preview.1) |
-| **Windows · x64**（Intel / AMD 64 位） | **[下载 Windows 版（EXE）](https://github.com/guyucode/CodeTrail/releases/download/v0.3.0-windows-preview.1/CodeTrail_0.3.0_windows_x64_setup.exe)** | [Windows 发行页](https://github.com/guyucode/CodeTrail/releases/tag/v0.3.0-windows-preview.1) |
+| **Mac · Apple Silicon**（M1 / M2 / M3 / M4 等 M 系列） | **[下载 Mac 版（DMG）](https://github.com/guyucode/CodeTrail/releases/download/v0.3.1-mac-preview.1/CodeTrail_0.3.1_aarch64.dmg)** | [Mac 发行页](https://github.com/guyucode/CodeTrail/releases/tag/v0.3.1-mac-preview.1) |
+| **Windows · x64**（Intel / AMD 64 位） | **[下载 Windows 版（EXE）](https://github.com/guyucode/CodeTrail/releases/download/v0.3.1-windows-preview.1/CodeTrail_0.3.1_windows_x64_setup.exe)** | [Windows 发行页](https://github.com/guyucode/CodeTrail/releases/tag/v0.3.1-windows-preview.1) |
 
 Intel Mac、Windows ARM 和 32 位系统暂不提供安装包。[全部版本与附件](https://github.com/guyucode/CodeTrail/releases)
 
@@ -33,7 +33,7 @@ Intel Mac、Windows ARM 和 32 位系统暂不提供安装包。[全部版本与
 
 ### Windows
 
-1. 下载并双击 `CodeTrail_0.3.0_windows_x64_setup.exe`，按向导为当前用户安装。
+1. 下载并双击 `CodeTrail_0.3.1_windows_x64_setup.exe`，按向导为当前用户安装。
 2. 若提示缺少 **Microsoft WebView2**，允许安装器联网安装该运行时。
 3. 安装后从开始菜单打开 **CodeTrail**，首次会显示演示项目。
 
@@ -55,7 +55,7 @@ CodeTrail **不会自动猜测业务功能**。没有功能关联的项目仍可
 
 > 请按 CodeTrail 的 Agent 交付协议，为当前项目建立简短的功能索引、带职责的代码关联和项目概览。使用 reader-cli 维护并运行校验；以后修改代码时同步更新关联，不替我确认已读。
 
-Agent 使用的同版本工具包（含 `reader-cli`、Python SDK 和协议文档）：[Mac arm64 工具包](https://github.com/guyucode/CodeTrail/releases/download/v0.3.0-mac-preview.1/CodeTrail-tools-0.3.0-macos-arm64.tar.gz) · [Windows x64 工具包](https://github.com/guyucode/CodeTrail/releases/download/v0.3.0-windows-preview.1/CodeTrail-tools-0.3.0-windows-x64.zip)。解压后可使用其中的 CLI；协议中的源码构建步骤仅供开发者。
+Agent 使用的同版本工具包（含 `reader-cli`、Python SDK 和协议文档）：[Mac arm64 工具包](https://github.com/guyucode/CodeTrail/releases/download/v0.3.1-mac-preview.1/CodeTrail-tools-0.3.1-macos-arm64.tar.gz) · [Windows x64 工具包](https://github.com/guyucode/CodeTrail/releases/download/v0.3.1-windows-preview.1/CodeTrail-tools-0.3.1-windows-x64.zip)。解压后可使用其中的 CLI；协议中的源码构建步骤仅供开发者。
 
 ### Agent 改代码时，怎样看进展？
 
@@ -63,7 +63,7 @@ Agent 使用的同版本工具包（含 `reader-cli`、Python SDK 和协议文�
 
 「运行记录」只显示项目显式接入采集器后留下的结果；阅读器不会自行运行项目或编造中间值。[接入运行记录](docs/RUNTIME_RECORDS.md)
 
-![CodeTrail Windows 桌面版：内置演示项目中的功能、代码和右侧工作面板](https://github.com/guyucode/CodeTrail/releases/download/v0.3.0-windows-preview.1/codetrail-windows-native.png)
+![CodeTrail Windows 桌面版：内置演示项目中的功能、代码和右侧工作面板](https://github.com/guyucode/CodeTrail/releases/download/v0.3.1-windows-preview.1/codetrail-windows-native.png)
 
 *Windows 预览版实际窗口，展示内置演示项目。*
 
@@ -72,7 +72,7 @@ Agent 使用的同版本工具包（含 `reader-cli`、Python SDK 和协议文�
 - 项目功能关联、人工阅读记录、批注和运行记录保存在项目的 `.reader/` 中，建议自行备份；内置演示数据与真实项目隔离。
 - 应用不上传源码、不修改源码，也不执行被阅读项目的代码。批注不会自动发送给 Agent。
 - 「确认已读」记录的是你阅读过的内容版本，不代表功能正确或测试通过。
-- Python 支持局部代码关系；Rust、TypeScript / JavaScript 支持符号阅读。大型仓库和动态关系有分析范围限制，详见使用指南。
+- Python 支持局部代码关系；Rust、C/C++、TypeScript / JavaScript 支持符号阅读。大型仓库和动态关系有分析范围限制，详见使用指南。
 
 ## 更多说明
 

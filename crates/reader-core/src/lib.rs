@@ -6,6 +6,7 @@ pub mod journal;
 pub mod parse;
 mod process;
 pub mod relations;
+pub mod search;
 pub mod semantic;
 pub mod trace;
 pub mod types;
@@ -500,13 +501,7 @@ fn read_limited_text(path: &Path, limit: u64) -> Result<String> {
     String::from_utf8(bytes).context("文件不是有效 UTF-8 文本")
 }
 
-fn scan_repository(root: &Path) -> Result<Scan> {
-    let mut scan = Scan {
-        files: Vec::new(),
-        symbols: Vec::new(),
-        contents: HashMap::new(),
-        warnings: Vec::new(),
-    };
+fn source_walker(root: &Path) -> WalkBuilder {
     let mut builder = WalkBuilder::new(root);
     builder
         .hidden(true)
@@ -530,6 +525,17 @@ fn scan_repository(root: &Path) -> Result<Scan> {
                         | "venv"
                 )
         });
+    builder
+}
+
+fn scan_repository(root: &Path) -> Result<Scan> {
+    let mut scan = Scan {
+        files: Vec::new(),
+        symbols: Vec::new(),
+        contents: HashMap::new(),
+        warnings: Vec::new(),
+    };
+    let builder = source_walker(root);
     let mut paths = Vec::new();
     for entry in builder.build() {
         let entry = match entry {
