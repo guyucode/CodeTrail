@@ -8,7 +8,7 @@ import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = '36183a3f8fb44e16d94fd3b434ff1f6997fa057a'
-REASONS = {'Cargo.lock': '锁定第二版共享网络、网卡枚举和持久化依赖；生成依赖图不属于业务源码片段。',
+REASONS = {'docs/MAC_RELEASE.md': 'Mac 0.3发布与数据保留说明，不改变Windows运行行为；保留实际平台验收边界。','Cargo.lock': '锁定第二版共享网络、网卡枚举和持久化依赖；生成依赖图不属于业务源码片段。',
  'Cargo.toml': '在现有 workspace 中增加协作库，原桌面 crate 隔离方式保持不变。',
  'crates/reader-cli/Cargo.toml': '将 CLI 包版本与第二版统一为0.3；命令和旧协议保持兼容。',
  'crates/reader-collab/Cargo.toml': '声明局域网协作库及其显式依赖；具体行为已绑定到主持、权限和分工实现。',

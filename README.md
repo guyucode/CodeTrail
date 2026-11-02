@@ -4,17 +4,17 @@
 
 独立的本地桌面应用：从项目概览进入功能和对应代码，阅读改动、记录批注，也能回看显式采集的运行结果。源码区只读；阅读时不需要模型、GPU 或 API Key。
 
-**Windows 0.3 预览版：** 新增无需独立服务器的局域网共读、共享批注、任务整合与耦合分工，见 [局域网协作说明](docs/LAN_COLLABORATION.md)。Windows 0.3 包含上述能力及加载优化；Mac 在线下载仍为 0.2，暂不包含这些能力。
+**Mac / Windows 0.3 预览版：** 新增无需独立服务器的局域网共读、共享批注、任务整合与耦合分工，见 [局域网协作说明](docs/LAN_COLLABORATION.md)。Mac 和 Windows 0.3 均包含上述能力及加载优化。
 
 [下载](#下载) · [安装](#安装) · [三步开始使用](#三步开始使用) · [完整使用指南](docs/USER_GUIDE.md)
 
 ## 下载
 
-当前下载：**Mac v0.2.0 Preview · Windows v0.3.0 Preview**。请选择你的电脑类型，点击安装包即可；**不要下载 GitHub 的「Code → Download ZIP」或「Source code」来安装软件**，它们是源码。
+当前下载：**Mac v0.3.0 Preview · Windows v0.3.0 Preview**。请选择你的电脑类型，点击安装包即可；**不要下载 GitHub 的「Code → Download ZIP」或「Source code」来安装软件**，它们是源码。
 
 | 你的电脑 | 直接下载安装包 | 版本与验证说明 |
 | --- | --- | --- |
-| **Mac · Apple Silicon**（M1 / M2 / M3 / M4 等 M 系列） | **[下载 Mac 版（DMG，约 12 MB）](https://github.com/guyucode/CodeTrail/releases/download/v0.2.0-mac-preview.1/CodeTrail_0.2.0_aarch64.dmg)** | [Mac 发行页](https://github.com/guyucode/CodeTrail/releases/tag/v0.2.0-mac-preview.1) |
+| **Mac · Apple Silicon**（M1 / M2 / M3 / M4 等 M 系列） | **[下载 Mac 版（DMG）](https://github.com/guyucode/CodeTrail/releases/download/v0.3.0-mac-preview.1/CodeTrail_0.3.0_aarch64.dmg)** | [Mac 发行页](https://github.com/guyucode/CodeTrail/releases/tag/v0.3.0-mac-preview.1) |
 | **Windows · x64**（Intel / AMD 64 位） | **[下载 Windows 版（EXE）](https://github.com/guyucode/CodeTrail/releases/download/v0.3.0-windows-preview.1/CodeTrail_0.3.0_windows_x64_setup.exe)** | [Windows 发行页](https://github.com/guyucode/CodeTrail/releases/tag/v0.3.0-windows-preview.1) |
 
 Intel Mac、Windows ARM 和 32 位系统暂不提供安装包。[全部版本与附件](https://github.com/guyucode/CodeTrail/releases)
@@ -27,9 +27,9 @@ Intel Mac、Windows ARM 和 32 位系统暂不提供安装包。[全部版本与
 
 1. 下载并打开 `.dmg`，把 **CodeTrail** 拖入「应用程序」。
 2. 从「应用程序」打开 CodeTrail，首次会显示演示项目。
-3. 本版**未签名、未公证**。若被系统拦截，先核对来源和发行页的 SHA-256，再按 macOS 的「隐私与安全性」提示处理；不要关闭系统安全保护。受管理设备请按组织要求处理。
+3. 本版**无 Developer ID 签名、未公证**。若被系统拦截，先核对来源和发行页的 SHA-256，再按 macOS 的「隐私与安全性」提示处理；不要关闭系统安全保护。受管理设备请按组织要求处理。
 
-安装包面向 Apple Silicon，构建部署目标为 macOS 11；目前仅在开发者的 macOS 27 设备验证，其他系统版本尚未逐一验收。
+安装包面向 Apple Silicon，构建部署目标为 macOS 11；目前仅在开发者的 macOS 27 设备验证，其他系统版本尚未逐一验收。[详细验证范围](docs/MAC_RELEASE.md)
 
 ### Windows
 
@@ -55,7 +55,7 @@ CodeTrail **不会自动猜测业务功能**。没有功能关联的项目仍可
 
 > 请按 CodeTrail 的 Agent 交付协议，为当前项目建立简短的功能索引、带职责的代码关联和项目概览。使用 reader-cli 维护并运行校验；以后修改代码时同步更新关联，不替我确认已读。
 
-Agent 使用的同版本工具包（含 `reader-cli`、Python SDK 和协议文档）：[Mac arm64 工具包](https://github.com/guyucode/CodeTrail/releases/download/v0.2.0-mac-preview.1/CodeTrail-tools-0.2.0-macos-arm64.tar.gz) · [Windows x64 工具包](https://github.com/guyucode/CodeTrail/releases/download/v0.3.0-windows-preview.1/CodeTrail-tools-0.3.0-windows-x64.zip)。解压后可使用其中的 CLI；协议中的源码构建步骤仅供开发者。
+Agent 使用的同版本工具包（含 `reader-cli`、Python SDK 和协议文档）：[Mac arm64 工具包](https://github.com/guyucode/CodeTrail/releases/download/v0.3.0-mac-preview.1/CodeTrail-tools-0.3.0-macos-arm64.tar.gz) · [Windows x64 工具包](https://github.com/guyucode/CodeTrail/releases/download/v0.3.0-windows-preview.1/CodeTrail-tools-0.3.0-windows-x64.zip)。解压后可使用其中的 CLI；协议中的源码构建步骤仅供开发者。
 
 ### Agent 改代码时，怎样看进展？
 

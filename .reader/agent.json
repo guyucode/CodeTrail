@@ -1336,7 +1336,7 @@
             "startLine": 1,
             "endLine": 91
           },
-          "contentHash": "bac79c5e9322f618f4e08f9daa99708095db9f8c9f632439fc3ec5cae2e09906",
+          "contentHash": "b03cbfc18741a0d0f557c110a93ff6728d398037d972b32b4a8f6d8adee68547",
           "status": "exact",
           "note": "",
           "role": "entry",
@@ -1432,7 +1432,7 @@
             "startLine": 1,
             "endLine": 38
           },
-          "contentHash": "bb4c885621c708dd4c7e4526797a8a71f1077ce376d2c64a543dcf0ed6f43f36",
+          "contentHash": "ed622ad81091701aff27574e16b32b1dc68b34aebd50b2d4c1f280230bb98f97",
           "status": "exact",
           "note": "",
           "role": "entry",
@@ -1501,12 +1501,28 @@
           "note": "",
           "role": "constraint",
           "responsibility": "提供开发版操作、权限、保存及跨设备验证边界。"
+        },
+        {
+          "id": "release-mac-guide",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "docs/MAC_RELEASE.md",
+            "startLine": 1,
+            "endLine": 15
+          },
+          "contentHash": "4783a3f7218e9e4335b1e486fe1dc0986b6362f13854c567d2d1733feed7e3da",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "说明Mac安装、升级数据保留、同版本工具包、签名与架构验收边界。"
         }
       ],
       "delivery": {
-        "deliveryId": "windows03-download-final-20261102",
-        "summary": "明确Windows 0.3与Mac在线0.2下载区别，列出局域网和加载优化。",
-        "evidenceDigest": "16d9b939fefa234cc3b1f58ea61115724b2f2ac5b8bea5d24cc2254d6b21397d",
+        "deliveryId": "mac03-download-release-20261102",
+        "summary": "发布Apple Silicon Mac 0.3；同步双平台首页和工具下载，明确数据保留、签名及实际验证范围。",
+        "evidenceDigest": "dd029b1b038b4b2aa4f8b57b46fe43b8aea53cd70d7758b52665fd6cf63f9828",
         "matchesSource": true
       }
     },
@@ -4128,8 +4144,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "windows03-download-final-20261102",
-        "summary": "明确Windows 0.3与Mac在线0.2下载区别，列出局域网和加载优化。",
+        "deliveryId": "mac03-download-release-20261102",
+        "summary": "发布Apple Silicon Mac 0.3；同步双平台首页和工具下载，明确数据保留、签名及实际验证范围。",
         "evidenceDigest": "a7517972f0b2f6f8e2c33ca16248003189fc8e53144db0d61da658a5c217f04a",
         "matchesSource": true
       }
