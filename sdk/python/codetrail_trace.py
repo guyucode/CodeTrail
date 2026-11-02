@@ -78,10 +78,19 @@ class Recorder:
             "inputs": selected_values(inputs or {}), "outputs": selected_values(outputs or {}),
             "location": source, "elapsedMs": max(0, int(elapsed_ms))}})
 
-    def finish(self, status, summary):
+    def finish(self, status, summary, *, verification=None):
         if not self.active or self.closed:
             return None
-        result = self._send("finish", {"runId": self.id, "status": status, "summary": summary})
+        payload = {"runId": self.id, "status": status, "summary": summary}
+        if verification is not None:
+            payload["verification"] = verification
+        result = self._send("finish", payload)
         if result is not None:
             self.closed = True
         return result
+
+
+def verification(goal, *, inputs, expected, actual, key_values=None, verdict="notCompared"):
+    """Build an explicit summary from observed values; never execute or infer results."""
+    return {"goal": goal, "inputs": selected_values(inputs), "expected": expected,
+            "actual": actual, "keyValues": selected_values(key_values or {}), "verdict": verdict}

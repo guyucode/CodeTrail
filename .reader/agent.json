@@ -129,7 +129,7 @@
           {
             "id": "validate",
             "title": "执行统一校验",
-            "description": "运行明确测试并复查源码和记录。",
+            "description": "简化运行记录：默认五项验证摘要，详细过程按需展开；交付检查可从真实命令生成记录，保留旧数据及人工审阅隔离。",
             "moduleId": "cli",
             "featureId": "codetrail-delivery-workflow",
             "evidenceId": "overview-validate"
@@ -159,11 +159,11 @@
           },
           {
             "id": "runtime",
-            "title": "回看一次实际运行",
-            "description": "选择运行编号，查看真实结果、变量和分支原因；版本相同才跳到当前代码。",
+            "title": "回看一次验证",
+            "description": "先看目标、输入、预期与实际，需要时再展开过程和对应代码。",
             "moduleId": "ui",
             "featureId": "codetrail-runtime-records",
-            "evidenceId": "trace-ui-steps"
+            "evidenceId": "runtime-verification-summary"
           },
           {
             "id": "navigate",
@@ -680,8 +680,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-031-release",
-        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
+        "deliveryId": "runtime-summary-release-032-final-20261102",
+        "summary": "发布 0.3.2：五项运行验证摘要、真实校验采集与旧记录兼容；同步双平台桌面及配套工具。",
         "evidenceDigest": "df77fbfaf6f6fb0fe21c1c641ddc1b4eee02772e45b165e4b3b95bfa95dc5865",
         "matchesSource": true
       }
@@ -794,9 +794,9 @@
           "range": {
             "file": "docs/AGENT_DELIVERY.md",
             "startLine": 1,
-            "endLine": 257
+            "endLine": 276
           },
-          "contentHash": "85b73d882401782927b479032b49f7ee71b222a5ee43497ece1e875f735373b2",
+          "contentHash": "ec5ea2b434e2d817d7b92f3a426414f719ad387feee77d7b40d0e413b487879a",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -874,9 +874,9 @@
           "range": {
             "file": "crates/reader-cli/tests/agent_cli.rs",
             "startLine": 1,
-            "endLine": 261
+            "endLine": 316
           },
-          "contentHash": "0350e9caba90ff46260f7c23a2ab0251eeb890480d44b676cf9ec2bfcd1b0627",
+          "contentHash": "e1486850afb7a2d08105707d91f575aa74f69229459070204468039f094f7673",
           "status": "exact",
           "note": "",
           "role": "test",
@@ -932,9 +932,9 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-031-release",
-        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
-        "evidenceDigest": "553773841c9807510d6f89949a1ac5910aa907003562bf34df726b4b382078e2",
+        "deliveryId": "runtime-summary-release-032-final-20261102",
+        "summary": "发布 0.3.2：五项运行验证摘要、真实校验采集与旧记录兼容；同步双平台桌面及配套工具。",
+        "evidenceDigest": "62fa8a62be68664eaa038a41a53f94b71cf8ba019fa5087b8ef61b1e0a95093f",
         "matchesSource": true
       }
     },
@@ -1072,8 +1072,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-031-release",
-        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
+        "deliveryId": "runtime-summary-release-032-final-20261102",
+        "summary": "发布 0.3.2：五项运行验证摘要、真实校验采集与旧记录兼容；同步双平台桌面及配套工具。",
         "evidenceDigest": "7ac290569e21cb8255dff5e9d0f7e8b4c4a9cfbd7736c84b3d8a6f1db6a5b1bd",
         "matchesSource": true
       }
@@ -1196,8 +1196,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-031-release",
-        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
+        "deliveryId": "runtime-summary-release-032-final-20261102",
+        "summary": "发布 0.3.2：五项运行验证摘要、真实校验采集与旧记录兼容；同步双平台桌面及配套工具。",
         "evidenceDigest": "ef2a704b8c1e1f63a540b0cf957ecd626f80a04e402aab267131f0e0a47489d9",
         "matchesSource": true
       }
@@ -1336,8 +1336,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-031-release",
-        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
+        "deliveryId": "runtime-summary-release-032-final-20261102",
+        "summary": "发布 0.3.2：五项运行验证摘要、真实校验采集与旧记录兼容；同步双平台桌面及配套工具。",
         "evidenceDigest": "121bb6b0f9dcd189a11ca119b5eb792eafac2d83f8b194f5247aacf3ab6e6d39",
         "matchesSource": true
       }
@@ -1354,9 +1354,9 @@
           "range": {
             "file": "crates/reader-cli/src/workflow.rs",
             "startLine": 1,
-            "endLine": 190
+            "endLine": 379
           },
-          "contentHash": "0b6ba5d95b445f79298544062aa77aff67e44c482b0ec504ee7ffbe1c0f8b722",
+          "contentHash": "a552f48c061db5b88d6994f6c4d2d079d92e0f0b1f93c84d10320bf0d9664aae",
           "status": "exact",
           "note": "",
           "role": "implementation",
@@ -1386,9 +1386,9 @@
           "range": {
             "file": "crates/reader-cli/tests/agent_cli.rs",
             "startLine": 1,
-            "endLine": 261
+            "endLine": 316
           },
-          "contentHash": "0350e9caba90ff46260f7c23a2ab0251eeb890480d44b676cf9ec2bfcd1b0627",
+          "contentHash": "e1486850afb7a2d08105707d91f575aa74f69229459070204468039f094f7673",
           "status": "exact",
           "note": "",
           "role": "test",
@@ -1449,8 +1449,8 @@
           "symbolName": "coverage",
           "range": {
             "file": "crates/reader-cli/src/workflow.rs",
-            "startLine": 68,
-            "endLine": 111
+            "startLine": 79,
+            "endLine": 122
           },
           "contentHash": "f4b32342ed64e56f9a4678738563db4f05cf5dc8d7e78138a923f2daaa164ded",
           "status": "exact",
@@ -1465,10 +1465,10 @@
           "symbolName": "validate",
           "range": {
             "file": "crates/reader-cli/src/workflow.rs",
-            "startLine": 122,
-            "endLine": 178
+            "startLine": 133,
+            "endLine": 240
           },
-          "contentHash": "6ba6b97e54b7faeb478253969abbc85cbc18f0bd8aa72f94880007da274345d8",
+          "contentHash": "9a713b597464b99c24b507975270f94ad03044fc6e489a1a773e69abb0fa0352",
           "status": "exact",
           "note": "",
           "role": "implementation",
@@ -1498,9 +1498,9 @@
           "range": {
             "file": "README.md",
             "startLine": 1,
-            "endLine": 91
+            "endLine": 93
           },
-          "contentHash": "9aac088429e45f69bbadc473a282d5b03a51ee73b343c5dc39d2e487f8a508fc",
+          "contentHash": "3ae2711f8dfbd657f3f05a3f2aa355f4e72f5d7107ab3771b170a0e6e3900237",
           "status": "exact",
           "note": "",
           "role": "entry",
@@ -1516,7 +1516,7 @@
             "startLine": 1,
             "endLine": 53
           },
-          "contentHash": "ad28a532325c8c8a13d0da942d27b423e6222158a8b3a97609cdf4e4acb89db1",
+          "contentHash": "fee10ba47261c32108cff7f61a4650f2fcbef754d1c4a3b394fc42e47741cd8a",
           "status": "exact",
           "note": "",
           "role": "implementation",
@@ -1530,9 +1530,9 @@
           "range": {
             "file": "AGENTS.md",
             "startLine": 1,
-            "endLine": 103
+            "endLine": 113
           },
-          "contentHash": "2d89d01ad490fe5fc0288cc5d616a02315e4169b2c424ebfdf7e3488ae1ca016",
+          "contentHash": "6f3435d3d6baf829afe7fcfc30e44de996751c375de61c2a260de335c057e45d",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -1594,9 +1594,9 @@
           "range": {
             "file": "scripts/windows-check-plan.py",
             "startLine": 1,
-            "endLine": 100
+            "endLine": 40
           },
-          "contentHash": "5af5e0b06b6918c09a5a439672bc336c466591ad2c0504bda0e06bb987cdcc9a",
+          "contentHash": "9e073ff2dfd5e006aeb36434394eb32a02839fd6f17402ad79b81fa2dbb52680",
           "status": "exact",
           "note": "",
           "role": "entry",
@@ -1626,9 +1626,9 @@
           "range": {
             "file": "docs/WINDOWS_RELEASE.md",
             "startLine": 1,
-            "endLine": 34
+            "endLine": 38
           },
-          "contentHash": "c2d38c66c0cd917e53420cacbca2db5d516825d14dad29152c300a1d07f2cb46",
+          "contentHash": "b6719d3be53ec2ea89a7b914825c768e54f0234a3b141c63c5a4111fa6547e2a",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -1674,9 +1674,9 @@
           "range": {
             "file": "docs/MAC_RELEASE.md",
             "startLine": 1,
-            "endLine": 15
+            "endLine": 19
           },
-          "contentHash": "243099605e4365b8e311dc578d4651af5b586ea1f561528804d699d09ebd83df",
+          "contentHash": "31f212503be95fabb324d81956bf158f7a8de257c9f706d4ed7bbd53b8c1fb8f",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -1690,19 +1690,35 @@
           "range": {
             "file": "scripts/check-release-cli.py",
             "startLine": 1,
-            "endLine": 42
+            "endLine": 71
           },
-          "contentHash": "6504979d0193be8373894d6a9537f4d7a54c615220c6f3cb5431f42a8d1e16e5",
+          "contentHash": "e5e2405c1d4a89d6b9e637d8b3f94c44f3616fff61ad0543c7d85a6455e17e72",
           "status": "exact",
           "note": "",
           "role": "test",
           "responsibility": "运行最终打包CLI，在隔离C/C++源码上建立并校验两处功能证据，不触碰真实用户记录。"
+        },
+        {
+          "id": "delivery-verification-record",
+          "kind": "symbol",
+          "symbolId": "crates/reader-cli/src/workflow.rs::begin_record",
+          "symbolName": "begin_record",
+          "range": {
+            "file": "crates/reader-cli/src/workflow.rs",
+            "startLine": 254,
+            "endLine": 286
+          },
+          "contentHash": "1922a314f267d1b131df52464c24206a894d2b2a6bcc8f489aeb8e868768774d",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "执行前为本次隔离检查创建独立记录并冻结验证目标；目标不是业务调用证据。"
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-031-release",
-        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
-        "evidenceDigest": "c37bcf93463f63ddd9948da6aa5b7c391218d45411a1c3dd72ad5adb2e7d26f7",
+        "deliveryId": "runtime-summary-release-032-final-20261102",
+        "summary": "发布 0.3.2：五项运行验证摘要、真实校验采集与旧记录兼容；同步双平台桌面及配套工具。",
+        "evidenceDigest": "fc82f2356796c1c63a7033899ffc2433ca37dcc3b59725d6cd1eec92e76453b1",
         "matchesSource": true
       }
     },
@@ -1776,8 +1792,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-031-release",
-        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
+        "deliveryId": "runtime-summary-release-032-final-20261102",
+        "summary": "发布 0.3.2：五项运行验证摘要、真实校验采集与旧记录兼容；同步双平台桌面及配套工具。",
         "evidenceDigest": "c22266a65b1a0578589bfb8a324366b73ac95b15b74d50e800d2970557005009",
         "matchesSource": true
       }
@@ -2012,8 +2028,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-031-release",
-        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
+        "deliveryId": "runtime-summary-release-032-final-20261102",
+        "summary": "发布 0.3.2：五项运行验证摘要、真实校验采集与旧记录兼容；同步双平台桌面及配套工具。",
         "evidenceDigest": "0c90fa018b3eef57693d5ed8ec3921a84e6c9d46a86f8f417568ee96e85c815b",
         "matchesSource": true
       }
@@ -2120,8 +2136,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-031-release",
-        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
+        "deliveryId": "runtime-summary-release-032-final-20261102",
+        "summary": "发布 0.3.2：五项运行验证摘要、真实校验采集与旧记录兼容；同步双平台桌面及配套工具。",
         "evidenceDigest": "480545e055ee827eddb17a5b1a6a7d41d8ad0cbeff9a89f5123b5102cf1195a1",
         "matchesSource": true
       }
@@ -2452,8 +2468,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-031-release",
-        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
+        "deliveryId": "runtime-summary-release-032-final-20261102",
+        "summary": "发布 0.3.2：五项运行验证摘要、真实校验采集与旧记录兼容；同步双平台桌面及配套工具。",
         "evidenceDigest": "4e35f8dfc682b305c625f9dc203abde6948b5ca27b24ecba74bed03460926209",
         "matchesSource": true
       }
@@ -2576,8 +2592,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-031-release",
-        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
+        "deliveryId": "runtime-summary-release-032-final-20261102",
+        "summary": "发布 0.3.2：五项运行验证摘要、真实校验采集与旧记录兼容；同步双平台桌面及配套工具。",
         "evidenceDigest": "0738f5f563c033c1c53b08ae7dc37aab738260804ee99ef9f346b96fc46d121a",
         "matchesSource": true
       }
@@ -2754,9 +2770,9 @@
           "range": {
             "file": "docs/AGENT_DELIVERY.md",
             "startLine": 1,
-            "endLine": 257
+            "endLine": 276
           },
-          "contentHash": "85b73d882401782927b479032b49f7ee71b222a5ee43497ece1e875f735373b2",
+          "contentHash": "ec5ea2b434e2d817d7b92f3a426414f719ad387feee77d7b40d0e413b487879a",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -2770,9 +2786,9 @@
           "range": {
             "file": "AGENTS.md",
             "startLine": 1,
-            "endLine": 103
+            "endLine": 113
           },
-          "contentHash": "2d89d01ad490fe5fc0288cc5d616a02315e4169b2c424ebfdf7e3488ae1ca016",
+          "contentHash": "6f3435d3d6baf829afe7fcfc30e44de996751c375de61c2a260de335c057e45d",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -2780,9 +2796,9 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-031-release",
-        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
-        "evidenceDigest": "091b8061a70ae4f0f84b63acee3f38705b9b2662fda259bdb783e1e00d08329d",
+        "deliveryId": "runtime-summary-release-032-final-20261102",
+        "summary": "发布 0.3.2：五项运行验证摘要、真实校验采集与旧记录兼容；同步双平台桌面及配套工具。",
+        "evidenceDigest": "f8eef34f521fb9743a927d69922cb171f5fe4403571846cd7237759ddac7dcd2",
         "matchesSource": true
       }
     },
@@ -2920,8 +2936,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-031-release",
-        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
+        "deliveryId": "runtime-summary-release-032-final-20261102",
+        "summary": "发布 0.3.2：五项运行验证摘要、真实校验采集与旧记录兼容；同步双平台桌面及配套工具。",
         "evidenceDigest": "39f93db011970f971111e4bd2ff0f82a9c0119072371740c6c3e88db6bb88ffb",
         "matchesSource": true
       }
@@ -3092,8 +3108,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-031-release",
-        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
+        "deliveryId": "runtime-summary-release-032-final-20261102",
+        "summary": "发布 0.3.2：五项运行验证摘要、真实校验采集与旧记录兼容；同步双平台桌面及配套工具。",
         "evidenceDigest": "833259d15ac2ca0955359b81a0bc664444909c5daff8e798e48d857c1f684821",
         "matchesSource": true
       }
@@ -3344,8 +3360,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-031-release",
-        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
+        "deliveryId": "runtime-summary-release-032-final-20261102",
+        "summary": "发布 0.3.2：五项运行验证摘要、真实校验采集与旧记录兼容；同步双平台桌面及配套工具。",
         "evidenceDigest": "c03d88f2d353f3a451f0d7745d95892f9f04586af84ddf58bfac4ada4e335fb6",
         "matchesSource": true
       }
@@ -3564,8 +3580,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-031-release",
-        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
+        "deliveryId": "runtime-summary-release-032-final-20261102",
+        "summary": "发布 0.3.2：五项运行验证摘要、真实校验采集与旧记录兼容；同步双平台桌面及配套工具。",
         "evidenceDigest": "2a8e9d5df46a0b06b42795a29cfef86298065b48d630efe0831626d3895fffcf",
         "matchesSource": true
       }
@@ -3912,15 +3928,15 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-031-release",
-        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
+        "deliveryId": "runtime-summary-release-032-final-20261102",
+        "summary": "发布 0.3.2：五项运行验证摘要、真实校验采集与旧记录兼容；同步双平台桌面及配套工具。",
         "evidenceDigest": "3ef25cb341c1c269d317dd65a003a584b96232fb17ce1c60bc8f42e9ac114f5c",
         "matchesSource": true
       }
     },
     "codetrail-runtime-records": {
       "name": "15 · 真实运行结果与代码回看",
-      "description": "程序显式采集每次运行的步骤、输入输出与分支原因，按运行编号回看；展开变量并按当时文件 SHA-256 定位代码。原项目后台用独立数据库和 DEMO 模型实际执行，未覆盖的前端或真实推理不冒充已验证。",
+      "description": "回看真实采集的验证目标、输入、预期、实际和少量关键值；旧记录不补猜缺失预期。完整步骤、来源、代码片段仍可展开；命令验证与业务执行明确区分。",
       "anchors": [
         {
           "id": "trace-module",
@@ -3930,9 +3946,9 @@
           "range": {
             "file": "crates/reader-core/src/trace.rs",
             "startLine": 1,
-            "endLine": 336
+            "endLine": 403
           },
-          "contentHash": "b37e04b7cd2111285fb4ec0878928cf1cd94d228102216d5ff864f8644e84506",
+          "contentHash": "032f2a3f773c23c880f78fd75d751e94658e02ba1bc5b356525ed207bb78f13a",
           "status": "exact",
           "note": "",
           "role": "implementation",
@@ -3945,10 +3961,10 @@
           "symbolName": "start",
           "range": {
             "file": "crates/reader-core/src/trace.rs",
-            "startLine": 173,
-            "endLine": 204
+            "startLine": 193,
+            "endLine": 225
           },
-          "contentHash": "c154f750d1324600d2e1e7de0bdacc84ff8ede6b2a160da6db5bb70c282b6619",
+          "contentHash": "dd9ca6c327809a1beab35b04b8b911ab6760720c663674b3276d9628cce1e8dc",
           "status": "exact",
           "note": "",
           "role": "entry",
@@ -3961,8 +3977,8 @@
           "symbolName": "append",
           "range": {
             "file": "crates/reader-core/src/trace.rs",
-            "startLine": 226,
-            "endLine": 271
+            "startLine": 247,
+            "endLine": 292
           },
           "contentHash": "cb889a5fa6234435a2f6381d03e38a5731440785fa9a412ef80d953b5f51ecc7",
           "status": "exact",
@@ -3977,8 +3993,8 @@
           "symbolName": "source",
           "range": {
             "file": "crates/reader-core/src/trace.rs",
-            "startLine": 205,
-            "endLine": 225
+            "startLine": 226,
+            "endLine": 246
           },
           "contentHash": "bb7b301db231de761e47d6a12a1c49c7f6ace8ead62bfd2ac570da4a8eb92b15",
           "status": "exact",
@@ -3993,10 +4009,10 @@
           "symbolName": "finish",
           "range": {
             "file": "crates/reader-core/src/trace.rs",
-            "startLine": 272,
-            "endLine": 299
+            "startLine": 293,
+            "endLine": 328
           },
-          "contentHash": "3fcc5b595dc69df12e5b9dbdc1d912f42970d738dcc9c7e9fdfaa0d0dbd3155e",
+          "contentHash": "815356c3fada58980604b8f5eac9b7ec2f8083b06979d950eb6fabba1e72ae86",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -4009,8 +4025,8 @@
           "symbolName": "read",
           "range": {
             "file": "crates/reader-core/src/trace.rs",
-            "startLine": 316,
-            "endLine": 336
+            "startLine": 345,
+            "endLine": 365
           },
           "contentHash": "efe12325411ecaaa5ea3f6aecdd813eb604dd5991e223d92e328904618232215",
           "status": "exact",
@@ -4025,8 +4041,8 @@
           "symbolName": "locked",
           "range": {
             "file": "crates/reader-core/src/trace.rs",
-            "startLine": 118,
-            "endLine": 133
+            "startLine": 133,
+            "endLine": 148
           },
           "contentHash": "fd975ccb13b1fadd94053b9acaacb66280847d0d95458fef93719508facb8f9f",
           "status": "exact",
@@ -4074,9 +4090,9 @@
           "range": {
             "file": "src/components/RuntimePane.tsx",
             "startLine": 1,
-            "endLine": 70
+            "endLine": 97
           },
-          "contentHash": "430dfb66ab2bfd03b134599f014a268f5de4d37f205e5195e9645ace142ab8b4",
+          "contentHash": "8c8e7d29c197287b02c08cc754b4feb4df52c7271a09150610579ba5eaf71af1",
           "status": "exact",
           "note": "",
           "role": "implementation",
@@ -4089,8 +4105,8 @@
           "symbolName": "RuntimeSteps",
           "range": {
             "file": "src/components/RuntimePane.tsx",
-            "startLine": 14,
-            "endLine": 33
+            "startLine": 15,
+            "endLine": 34
           },
           "contentHash": "c4e3a78647cc1122b2df1b0fb6d36b61a6a8531e29b4098dea2d0b60d89c7452",
           "status": "exact",
@@ -4122,9 +4138,9 @@
           "range": {
             "file": "sdk/python/codetrail_trace.py",
             "startLine": 1,
-            "endLine": 87
+            "endLine": 96
           },
-          "contentHash": "f7b057741c83a04e1f14c326ef9c483c8d14b2d8a6abd7e0708de5b854ea0172",
+          "contentHash": "44c72704cc2ecae9c131e2e1ad510c78eb981631a3cf97ce8eeeca2eca1d6e90",
           "status": "exact",
           "note": "",
           "role": "implementation",
@@ -4154,9 +4170,9 @@
           "range": {
             "file": "crates/reader-core/tests/runtime_traces.rs",
             "startLine": 1,
-            "endLine": 193
+            "endLine": 283
           },
-          "contentHash": "955f97cfa5ccc9bfb33c8ef4d355cc85f1d1575f0fb1f32df6dd40a4ff132ea2",
+          "contentHash": "c6ebfeeb86a2346b671c7388ba957bd9d3629958170db30bd43b94484216afef",
           "status": "exact",
           "note": "",
           "role": "test",
@@ -4170,9 +4186,9 @@
           "range": {
             "file": "tests/runtime.test.ts",
             "startLine": 1,
-            "endLine": 16
+            "endLine": 40
           },
-          "contentHash": "c92deb57f1199715d6e5a320aaccdac975cb622c266b58a19e37ee03b11efe32",
+          "contentHash": "003a2c1b172079fe8f405c0916566f1c6c8ceada86d2995703b83a5bcf702626",
           "status": "exact",
           "note": "",
           "role": "test",
@@ -4186,9 +4202,9 @@
           "range": {
             "file": "sdk/python/test_codetrail_trace.py",
             "startLine": 1,
-            "endLine": 38
+            "endLine": 40
           },
-          "contentHash": "95729e748d731135d3e594531a0dd33a9fcb96327f55b645a2284c875a451f64",
+          "contentHash": "51689f1851ff78c3c3684a50ad20c1ddb8ee313acb5c5c485363855358390105",
           "status": "exact",
           "note": "",
           "role": "test",
@@ -4202,9 +4218,9 @@
           "range": {
             "file": "docs/RUNTIME_RECORDS.md",
             "startLine": 1,
-            "endLine": 83
+            "endLine": 128
           },
-          "contentHash": "ab73acad55a9580d2a1abca1dff95a80b95bace8ca4ab09877884132959ee523",
+          "contentHash": "c125a2b8f393f9846705380b9c6536d29b9fd5f7c4c50d424f6fc1907b623d61",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -4236,7 +4252,7 @@
             "startLine": 282,
             "endLine": 286
           },
-          "contentHash": "843040fb7c5f536e441911bbb1c7b7888a9dfabc3e639c9611dfb7381e3a2da1",
+          "contentHash": "882e8e0b5f45f08008a7d77f4374344e90f2fad49b42b60ed9ceb2f2833d8830",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -4268,7 +4284,7 @@
             "startLine": 60,
             "endLine": 69
           },
-          "contentHash": "1b3b36d7fd7586ba59f236afcb1ebab3a1046e9e234e7bb5759a229a44c7eed2",
+          "contentHash": "b204d1a54575cb1c720fa81e0d7b8e2d28ade6611dc743dc2f4f431602cbd01f",
           "status": "exact",
           "note": "",
           "role": "constraint",
@@ -4321,12 +4337,252 @@
           "note": "",
           "role": "constraint",
           "responsibility": "切到普通源码时清除运行来源标记，避免把其他代码误标为此次运行。"
+        },
+        {
+          "id": "runtime-verification-summary",
+          "kind": "symbol",
+          "symbolId": "src/components/RuntimePane.tsx::VerificationOverview",
+          "symbolName": "VerificationOverview",
+          "range": {
+            "file": "src/components/RuntimePane.tsx",
+            "startLine": 38,
+            "endLine": 55
+          },
+          "contentHash": "2cbbf0e238a5cd42c47bb847fe0e4bf28b69048a13fe1db9b2f3dbb81eaffd8f",
+          "status": "exact",
+          "note": "",
+          "role": "entry",
+          "responsibility": "以五项摘要解释本次验证，旧数据不推断通过；过程与代码默认折叠，源码变化仍保留历史值。"
+        },
+        {
+          "id": "runtime-reading",
+          "kind": "symbol",
+          "symbolId": "src/components/RuntimePane.tsx::RuntimeReading",
+          "symbolName": "RuntimeReading",
+          "range": {
+            "file": "src/components/RuntimePane.tsx",
+            "startLine": 56,
+            "endLine": 66
+          },
+          "contentHash": "c46e33a89b79925555bff8a95ebe3aeefb3b7bc8a1b5c39ebf7ea0f2ea5ad1f4",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "以五项摘要解释本次验证，旧数据不推断通过；过程与代码默认折叠，源码变化仍保留历史值。"
+        },
+        {
+          "id": "runtime-summary-validation",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/trace.rs::validate_verification",
+          "symbolName": "validate_verification",
+          "range": {
+            "file": "crates/reader-core/src/trace.rs",
+            "startLine": 367,
+            "endLine": 385
+          },
+          "contentHash": "c0fe556e0d563cd29779775f421bb416fb56baa719f81bfd7e0c6a23874c98f4",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "约束验证摘要的比较状态、非空文本、变量数量和重复名称；失败不能标记符合预期，不覆盖已结束记录。"
+        },
+        {
+          "id": "runtime-capture-target",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/src/trace.rs::capture_location",
+          "symbolName": "capture_location",
+          "range": {
+            "file": "crates/reader-core/src/trace.rs",
+            "startLine": 388,
+            "endLine": 403
+          },
+          "contentHash": "814b22d3f5be461831626facbcc79c0739a4787d722bc3edd33b5bb24fb47362",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "在检查前读取项目内受限源码，冻结目标位置与摘要，拒绝内部文件、越界和符号链接。"
+        },
+        {
+          "id": "runtime-validation-begin",
+          "kind": "symbol",
+          "symbolId": "crates/reader-cli/src/workflow.rs::begin_record",
+          "symbolName": "begin_record",
+          "range": {
+            "file": "crates/reader-cli/src/workflow.rs",
+            "startLine": 254,
+            "endLine": 286
+          },
+          "contentHash": "1922a314f267d1b131df52464c24206a894d2b2a6bcc8f489aeb8e868768774d",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "执行前为本次隔离检查创建独立记录并冻结验证目标；目标不是业务调用证据。"
+        },
+        {
+          "id": "runtime-validation-check",
+          "kind": "symbol",
+          "symbolId": "crates/reader-cli/src/workflow.rs::record_check",
+          "symbolName": "record_check",
+          "range": {
+            "file": "crates/reader-cli/src/workflow.rs",
+            "startLine": 288,
+            "endLine": 328
+          },
+          "contentHash": "d9fd614c9de27e18a628038ff6287d5839bf009bcea08ddf64f64fbfedea1669",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "仅从实际进程结果记录退出码、耗时和程序名称，不复制原始输出、参数或环境变量。"
+        },
+        {
+          "id": "runtime-validation-finish",
+          "kind": "symbol",
+          "symbolId": "crates/reader-cli/src/workflow.rs::finish_record",
+          "symbolName": "finish_record",
+          "range": {
+            "file": "crates/reader-cli/src/workflow.rs",
+            "startLine": 330,
+            "endLine": 379
+          },
+          "contentHash": "219b32bd283843b92eb3a43ce62b843965fcd8f43e1910e59fcdef8aa6f49f56",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "由实际成功/失败数量与源码稳定性生成五项摘要，采集不完整不能声称通过。"
+        },
+        {
+          "id": "runtime-sdk-verification",
+          "kind": "symbol",
+          "symbolId": "sdk/python/codetrail_trace.py::verification",
+          "symbolName": "verification",
+          "range": {
+            "file": "sdk/python/codetrail_trace.py",
+            "startLine": 93,
+            "endLine": 96
+          },
+          "contentHash": "7dfe418c3f830e878dcdfdd989e72daedffa6e3fd91385369a67c7894a488543",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "仅整理调用者传入的真实输入、预期、实际和关键值，沿用敏感字段名处理，不自动运行或猜测。"
+        },
+        {
+          "id": "runtime-summary-legacy-test",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/tests/runtime_traces.rs::verification_summary_preserves_legacy_and_retains_actual_values_after_changes",
+          "symbolName": "verification_summary_preserves_legacy_and_retains_actual_values_after_changes",
+          "range": {
+            "file": "crates/reader-core/tests/runtime_traces.rs",
+            "startLine": 198,
+            "endLine": 246
+          },
+          "contentHash": "b489b92c866db39f625fd929d1862158a799c11dd93ec23b1246d5ce9f629187",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "验证真实检查结果、旧记录兼容、默认折叠、失败与过期源码边界；不替人确认阅读。"
+        },
+        {
+          "id": "runtime-summary-invalid-test",
+          "kind": "symbol",
+          "symbolId": "crates/reader-core/tests/runtime_traces.rs::malformed_verification_does_not_overwrite_a_running_record",
+          "symbolName": "malformed_verification_does_not_overwrite_a_running_record",
+          "range": {
+            "file": "crates/reader-core/tests/runtime_traces.rs",
+            "startLine": 247,
+            "endLine": 283
+          },
+          "contentHash": "58510b586aa268b4bc6c1ce852614262679511eb7157160ea25b388727125b24",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "验证真实检查结果、旧记录兼容、默认折叠、失败与过期源码边界；不替人确认阅读。"
+        },
+        {
+          "id": "runtime-command-test",
+          "kind": "symbol",
+          "symbolId": "crates/reader-cli/tests/agent_cli.rs::validate_records_real_exit_codes_without_overwriting_legacy_or_human_data",
+          "symbolName": "validate_records_real_exit_codes_without_overwriting_legacy_or_human_data",
+          "range": {
+            "file": "crates/reader-cli/tests/agent_cli.rs",
+            "startLine": 263,
+            "endLine": 300
+          },
+          "contentHash": "40bc00a34be528ae59efc3efea82a0d0fd217f6b695b940d08e075bc388da168",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "验证真实检查结果、旧记录兼容、默认折叠、失败与过期源码边界；不替人确认阅读。"
+        },
+        {
+          "id": "runtime-source-change-test",
+          "kind": "symbol",
+          "symbolId": "crates/reader-cli/tests/agent_cli.rs::verification_cannot_pass_when_check_commands_change_target_source",
+          "symbolName": "verification_cannot_pass_when_check_commands_change_target_source",
+          "range": {
+            "file": "crates/reader-cli/tests/agent_cli.rs",
+            "startLine": 302,
+            "endLine": 316
+          },
+          "contentHash": "1b4ce2725e5dafa9baf65dd2cccb44c9673437edea44aeb1cc1b36498db870ca",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "验证真实检查结果、旧记录兼容、默认折叠、失败与过期源码边界；不替人确认阅读。"
+        },
+        {
+          "id": "runtime-summary-browser-test",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "scripts/smoke-runtime-summary.mjs",
+            "startLine": 1,
+            "endLine": 61
+          },
+          "contentHash": "6b3b618354c42f3e20cf60bc2bd6912f4ba72ee1d155fb78daadd2691b2a96d9",
+          "status": "exact",
+          "note": "",
+          "role": "test",
+          "responsibility": "验证真实检查结果、旧记录兼容、默认折叠、失败与过期源码边界；不替人确认阅读。"
+        },
+        {
+          "id": "runtime-summary-layout",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "src/styles.css",
+            "startLine": 3318,
+            "endLine": 3328
+          },
+          "contentHash": "8fc91faa8e37c65ee0c98411e0ee782fe74c7286acfbf790afda58fea666d783",
+          "status": "exact",
+          "note": "",
+          "role": "implementation",
+          "responsibility": "以五项摘要解释本次验证，旧数据不推断通过；过程与代码默认折叠，源码变化仍保留历史值。"
+        },
+        {
+          "id": "runtime-simple-user-guide",
+          "kind": "range",
+          "symbolId": null,
+          "symbolName": null,
+          "range": {
+            "file": "docs/USER_GUIDE.md",
+            "startLine": 298,
+            "endLine": 302
+          },
+          "contentHash": "e1bf4b87b04f6bf4630f4903114a86c94b9bd7c82c496ebdc9980feee03cda47",
+          "status": "exact",
+          "note": "",
+          "role": "constraint",
+          "responsibility": "以五项摘要解释本次验证，旧数据不推断通过；过程与代码默认折叠，源码变化仍保留历史值。"
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-031-release",
-        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
-        "evidenceDigest": "b0f813121908142edd56d987f300c55cd51436886e3668a1eada75cfff3fa10e",
+        "deliveryId": "runtime-summary-release-032-final-20261102",
+        "summary": "发布 0.3.2：五项运行验证摘要、真实校验采集与旧记录兼容；同步双平台桌面及配套工具。",
+        "evidenceDigest": "faa58d6e78f5470cc43e8a752b743ece9991dd30c95dd79aa16062f9da8f2650",
         "matchesSource": true
       }
     },
@@ -4464,8 +4720,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-031-release",
-        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
+        "deliveryId": "runtime-summary-release-032-final-20261102",
+        "summary": "发布 0.3.2：五项运行验证摘要、真实校验采集与旧记录兼容；同步双平台桌面及配套工具。",
         "evidenceDigest": "0dfc66ac3779792b31f21ac46e2f82783726c501432be06b566cb47cc4ae95b9",
         "matchesSource": true
       }
@@ -4700,8 +4956,8 @@
         }
       ],
       "delivery": {
-        "deliveryId": "codetrail-031-release",
-        "summary": "发布0.3.1：同步代码搜索、C/C++语法阅读及同版本桌面与CLI工具，保留人工审阅和项目数据边界。",
+        "deliveryId": "runtime-summary-release-032-final-20261102",
+        "summary": "发布 0.3.2：五项运行验证摘要、真实校验采集与旧记录兼容；同步双平台桌面及配套工具。",
         "evidenceDigest": "3a84134664bfa6791dfccc8c549ec3d47fd0f0361b7ba21979b2a8978328c08e",
         "matchesSource": true
       }

@@ -34,7 +34,36 @@ def main():
                              'summary': 'Verify final CLI grammar and delivery.', 'evidence': evidence}]})
         if not call('check')['ok']:
             raise SystemExit('Packaged CLI rejected C/C++ evidence')
-    print(json.dumps({'ok': True, 'scope': 'Final CLI binary, isolated C/C++ inspect/deliver/check',
+        # Execute a real successful command through the packaged CLI, then read its trace.
+        subprocess.run(['git', 'init', '-q', str(root)], check=True)
+        subprocess.run(['git', '-C', str(root), 'add', '.'], check=True)
+        subprocess.run(['git', '-C', str(root), '-c', 'user.name=Release QA',
+                        '-c', 'user.email=qa@example.invalid', 'commit', '-qm', 'Isolated fixture'], check=True)
+        base = subprocess.check_output(['git', '-C', str(root), 'rev-parse', 'HEAD'], text=True).strip()
+        report = call('validate', {'schemaVersion': 1, 'base': base, 'unassociated': [],
+                                  'checks': [{'program': str(cli), 'args': ['agent', 'check', str(root)]}],
+                                  'record': {'goal': 'Verify packaged CLI association checks',
+                                             'path': 'sum.c', 'startLine': 1, 'endLine': 1}})
+        assert report['ok'], report
+        run_id = report['verificationRunId']
+        def trace(command, payload=None):
+            result = subprocess.run([str(cli), 'trace', command, str(root)],
+                                    input=json.dumps(payload) if payload else None,
+                                    text=True, encoding='utf-8', capture_output=True, check=True)
+            return json.loads(result.stdout)['value']
+        recorded = trace('read', {'runId': run_id})
+        assert recorded['run']['verification']['verdict'] == 'matched', recorded
+        assert recorded['run']['verification']['goal'] == 'Verify packaged CLI association checks'
+        trace('start', {'id': 'legacy', 'label': 'Legacy fixture', 'kind': 'isolatedTest',
+                        'producer': 'release acceptance', 'summary': 'No extended summary'})
+        trace('append', {'runId': 'legacy', 'step': {'id': 'check', 'title': 'Observed command',
+              'status': 'ok', 'result': 'The actual association command exited successfully',
+              'reason': 'The preceding validate call completed', 'inputs': [], 'outputs': [], 'elapsedMs': 0,
+              'location': {'path': 'sum.c', 'startLine': 1, 'endLine': 1,
+                           'fileHash': inventory['fileHashes']['sum.c']}}})
+        trace('finish', {'runId': 'legacy', 'status': 'completed', 'summary': 'Legacy shape'})
+        assert 'verification' not in trace('read', {'runId': 'legacy'})['run']
+    print(json.dumps({'ok': True, 'scope': 'Final CLI binary: isolated C/C++ associations, actual validation execution and legacy trace compatibility',
                       'symbols': ['add', 'app::Engine::run']}))
 
 

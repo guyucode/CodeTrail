@@ -1,8 +1,8 @@
-# Windows x64 0.3.1 预览版
+# Windows x64 0.3.2 预览版
 
 本版增加可信局域网共读、共享批注及任务整合，并优化 Git 批量读取、隐藏后台 Git/Node 控制台。两台物理设备联机和 Windows 10/11 人工验收仍待完成。
 
-从 GitHub Releases 下载 `CodeTrail_0.3.1_windows_x64_setup.exe` 安装器；配套工具为 `CodeTrail-tools-0.3.1-windows-x64.zip`，含 reader-cli.exe、Python SDK、协议文档、许可和第三方源码。下载后用 SHA256SUMS-windows.txt 核对。
+从 GitHub Releases 下载 `CodeTrail_0.3.2_windows_x64_setup.exe` 安装器；配套工具为 `CodeTrail-tools-0.3.2-windows-x64.zip`，含 reader-cli.exe、Python SDK、协议文档、许可和第三方源码。下载后用 SHA256SUMS-windows.txt 核对。
 
 基本阅读不需要 Rust、npm、模型或 API Key。Git 差异功能需要 Git；可选 Pyright 语义增强需要 Node.js 22.12+。首次安装如缺少 Microsoft WebView2，安装器从微软下载并安装该运行时，需要联网。
 
@@ -32,3 +32,7 @@ npm run desktop:build -- --bundles nsis --config src-tauri/tauri.windows.conf.js
 ```
 
 发布仍使用 PolyForm Noncommercial 1.0.0，商业授权说明见 COMMERCIAL-LICENSE.md。第三方组件保留各自许可。不要将用户批注、运行数据或项目源码放进安装包。
+
+## 0.3.2 运行记录简化
+
+默认只显示验证目标、输入、预期、实际结果与最多5个关键中间值，详细步骤和代码按需展开。旧运行记录保持原样；未记录预期时不推断通过。Agent 可通过 validate 的可选 record 配置记录真实命令执行结果，业务变量仍须显式采集。请同步更新 reader-cli / SDK 与桌面版。

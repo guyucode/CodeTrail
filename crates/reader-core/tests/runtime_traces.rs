@@ -49,6 +49,7 @@ fn reads_are_readonly_and_append_keeps_frozen_code_when_source_changes() {
     finish(
         root,
         RunFinish {
+            verification: None,
             run_id: "one".into(),
             status: "completed".into(),
             summary: "实际结束".into(),
@@ -79,6 +80,7 @@ fn lifecycle_duplicate_and_separate_runs_are_enforced() {
     finish(
         root,
         RunFinish {
+            verification: None,
             run_id: "one".into(),
             status: "failed".into(),
             summary: "执行失败".into(),
@@ -89,6 +91,7 @@ fn lifecycle_duplicate_and_separate_runs_are_enforced() {
     assert!(finish(
         root,
         RunFinish {
+            verification: None,
             run_id: "one".into(),
             status: "completed".into(),
             summary: "不能覆写".into()
@@ -190,4 +193,91 @@ fn parallel_writers_preserve_all_steps_and_unique_sequences() {
             .collect::<Vec<_>>(),
         (1..=8).collect::<Vec<_>>()
     );
+}
+
+#[test]
+fn verification_summary_preserves_legacy_and_retains_actual_values_after_changes() {
+    let dir = setup();
+    let root = dir.path();
+    start(root, start_request("legacy")).unwrap();
+    append(root, step(root, "legacy", "old")).unwrap();
+    finish(
+        root,
+        RunFinish {
+            run_id: "legacy".into(),
+            status: "completed".into(),
+            summary: "Old run".into(),
+            verification: None,
+        },
+    )
+    .unwrap();
+    assert!(!fs::read_to_string(root.join(".reader/runs.json"))
+        .unwrap()
+        .contains("verification"));
+    start(root, start_request("new")).unwrap();
+    append(root, step(root, "new", "actual")).unwrap();
+    let v = Verification {
+        goal: "Compare actual result".into(),
+        inputs: vec![],
+        expected: "8".into(),
+        actual: "7".into(),
+        key_values: vec![ObservedValue {
+            name: "returned".into(),
+            value: "7".into(),
+        }],
+        verdict: "different".into(),
+    };
+    finish(
+        root,
+        RunFinish {
+            run_id: "new".into(),
+            status: "completed".into(),
+            summary: "Real function returned 7".into(),
+            verification: Some(v),
+        },
+    )
+    .unwrap();
+    assert!(read(root, "legacy").unwrap().run.verification.is_none());
+    fs::write(root.join("logic.py"), "def run():\n    return 99\n").unwrap();
+    let view = read(root, "new").unwrap();
+    assert!(!view.steps[0].source_matches);
+    assert_eq!(view.run.verification.unwrap().actual, "7");
+    assert!(view.steps[0].record.source_excerpt.contains("return 7"));
+}
+#[test]
+fn malformed_verification_does_not_overwrite_a_running_record() {
+    let dir = setup();
+    let root = dir.path();
+    start(root, start_request("run")).unwrap();
+    append(root, step(root, "run", "one")).unwrap();
+    let before = fs::read(root.join(".reader/runs.json")).unwrap();
+    let mut request = RunFinish {
+        run_id: "run".into(),
+        status: "completed".into(),
+        summary: "summary".into(),
+        verification: Some(Verification {
+            goal: "goal".into(),
+            inputs: vec![],
+            expected: "expected".into(),
+            actual: "actual".into(),
+            key_values: vec![],
+            verdict: "guessed".into(),
+        }),
+    };
+    assert!(finish(root, request.clone()).is_err());
+    assert_eq!(before, fs::read(root.join(".reader/runs.json")).unwrap());
+    request.verification.as_mut().unwrap().verdict = "matched".into();
+    request.status = "failed".into();
+    assert!(finish(root, request.clone()).is_err());
+    request.status = "completed".into();
+    request.verification.as_mut().unwrap().key_values = (0..6)
+        .map(|i| ObservedValue {
+            name: i.to_string(),
+            value: "x".into(),
+        })
+        .collect();
+    assert!(finish(root, request).is_err());
+    assert_eq!(before, fs::read(root.join(".reader/runs.json")).unwrap());
+    assert!(capture_location(root, ".reader/runs.json", 1, 1).is_err());
+    assert!(capture_location(root, "logic.py", 1, 201).is_err());
 }

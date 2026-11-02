@@ -7,7 +7,8 @@ interface Record {sequence:number;recordedAt:string;observation:Observation;sour
 interface Info {id:string;label:string;kind:'application'|'isolatedTest';producer:string;summary:string}
 interface Summary {info:Info;status:string;startedAt:string;finishedAt:string|null;revision:number;stepCount:number}
 export interface StepView {record:Record;sourceMatches:boolean;sourceProblem:string|null}
-interface RunView {run:Omit<Summary,'stepCount'>&{steps:Record[]};steps:StepView[]}
+export interface Verification {goal:string;inputs:Value[];expected:string;actual:string;keyValues:Value[];verdict:'matched'|'different'|'notCompared'}
+export interface RunView {run:Omit<Summary,'stepCount'>&{steps:Record[];verification?:Verification|null};steps:StepView[]}
 const status: {[key:string]:string}={running:'运行中',completed:'已结束',failed:'失败',cancelled:'已取消',ok:'已执行',error:'异常',skipped:'已跳过'};
 const time=(value:string)=>new Date(Number(value)).toLocaleString();
 const request=<T,>(root:string,action:string,payload:unknown={})=>invoke<T>('journal_action',{root,action,payload});
@@ -31,6 +32,38 @@ export function RuntimeSteps({steps,onCode}:{steps:StepView[];onCode:(location:R
     </li>;
   })}</ol>;
 }
+function Values({values}:{values:Value[]}) {
+  return values.length ? <dl className="verification-values">{values.map(v=><div key={v.name}><dt>{v.name}</dt><dd>{v.value}</dd></div>)}</dl> : <span>未采集</span>;
+}
+export function VerificationOverview({record}:{record:RunView}) {
+  const v=record.run.verification;
+  const first=record.steps[0]?.record.observation;
+  const last=record.steps.at(-1)?.record.observation;
+  const verdict=record.run.status==='running'?'验证中':v ? {matched:'符合预期',different:'不符合预期',notCompared:'未比较'}[v.verdict] : `${status[record.run.status]||record.run.status} · 未记录预期`;
+  const stale=record.steps.some(s=>!s.sourceMatches);
+  return <article className="verification-overview" aria-label="验证摘要">
+    <header><small>验证目标</small><h3>{v?.goal||record.run.info.label}</h3><span className={v?.verdict==='different'?'runtime-warning':''}>{record.run.status==='failed'&&v?'执行失败 · ':''}{verdict} · {record.run.info.kind==='isolatedTest'?'隔离验证':'应用执行'}</span></header>
+    <dl className="verification-fields">
+      <div><dt>输入</dt><dd><Values values={v?.inputs||first?.inputs.slice(0,5)||[]}/></dd></div>
+      <div><dt>预期</dt><dd>{v?.expected||'未记录预期结果'}</dd></div>
+      <div><dt>实际</dt><dd>{v?.actual||(record.run.status==='running'?'尚未收到最终验证摘要':last?.result||'未采集实际结果')}</dd></div>
+      <div><dt>关键中间值</dt><dd><Values values={v?.keyValues||last?.outputs.slice(0,5)||[]}/></dd></div>
+    </dl>
+    {!v&&<p className="runtime-legacy">旧记录保留原运行名称、首步输入和末步结果；缺少预期时不推断验证通过。其余数据在下方过程里。</p>}
+    {stale&&<p className="runtime-warning">对应源码已有变化，以上保留当时的结果；查看过程可核对历史片段。</p>}
+  </article>;
+}
+export function RuntimeReading({record,onCode}:{record:RunView;onCode:(location:RuntimeLocation)=>void}) {
+  return <>
+    <VerificationOverview record={record}/>
+    <details className="runtime-details"><summary>查看过程与代码</summary>
+      <p>{record.run.info.summary}</p><small>来源：{record.run.info.producer} · 编号：{record.run.info.id}</small>
+      {record.run.status==='running'&&<p>尚未收到结束记录；不据此断言进程仍在运行。</p>}
+      {!record.steps.length&&<p>没有已采集的步骤。</p>}
+      <RuntimeSteps steps={record.steps} onCode={onCode}/>
+    </details>
+  </>;
+}
 export default function RuntimePane({root,demo,onCode,onContext}:{root:string;demo:boolean;onCode:(location:RuntimeLocation)=>void;onContext:(value:string)=>void}) {
   const [runs,setRuns]=useState<Summary[]>([]);const [selected,setSelected]=useState('');
   const [record,setRecord]=useState<RunView|null>(null);const [error,setError]=useState('');const [loading,setLoading]=useState(true);
@@ -53,18 +86,12 @@ export default function RuntimePane({root,demo,onCode,onContext}:{root:string;de
     void refresh();const timer=setInterval(()=>void refresh(),2000);return()=>{alive=false;clearInterval(timer);};
   },[root,demo,selected]);
   return <section className="runtime-pane" aria-label="本次运行">
-    <header><span className="eyebrow">先看发生了什么，再看代码</span><h2>运行记录</h2><p>这里显示程序实际采集的中间结果；没有采集的步骤，不推测为已执行。</p></header>
+    <header><h2>运行记录</h2><p>看这次验证的输入、预期和实际结果。</p></header>
     {error&&<p role="alert" className="runtime-warning">{error}</p>}
-    {loading?<p>读取运行记录…</p>:!runs.length?<div className="runtime-empty"><h3>还没有运行记录</h3><p>需要让程序在关键位置写入记录。Agent 接入采集器后，每次运行都会有独立编号；阅读器不会自动执行项目。</p></div>:<>
+    {loading?<p>读取运行记录…</p>:!runs.length?<div className="runtime-empty"><h3>还没有运行记录</h3><p>请让 Agent 完成一次真实验证并保存记录，之后就能在这里回看结果。</p></div>:<>
       <label className="runtime-picker">选择一次运行<select aria-label="选择一次运行" value={selected} onChange={e=>{selectedRef.current=e.target.value;setSelected(e.target.value);setRecord(null);}}>{runs.map(r=><option key={r.info.id} value={r.info.id}>{time(r.startedAt)} · {r.info.label} · {status[r.status]||r.status}</option>)}</select></label>
-      {record&&<>
-        <div className="runtime-run-summary"><strong>{record.run.info.label}</strong><span>{record.run.info.kind==='isolatedTest'?'隔离测试执行':'应用执行'} · {status[record.run.status]||record.run.status}</span>
-          <p>{record.run.info.summary}</p><small>采集来源：{record.run.info.producer} · 运行编号：{record.run.info.id}</small>
-          {record.run.status==='running'&&<p>尚未收到结束记录；若进程已退出，已有步骤仍可查看，不据此断言仍在运行。</p>}
-        </div>
-        {!record.steps.length&&<p>这次运行还没有采集到步骤。</p>}
-        <RuntimeSteps steps={record.steps} onCode={onCode}/>
-      </>}
+      {record&&<RuntimeReading record={record} onCode={onCode}/>}
+
     </>}
   </section>;
 }

@@ -45,7 +45,20 @@ pub struct StepRequest {
 }
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct Verification {
+    pub goal: String,
+    pub inputs: Vec<ObservedValue>,
+    pub expected: String,
+    pub actual: String,
+    pub key_values: Vec<ObservedValue>,
+    pub verdict: String,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct RunFinish {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub verification: Option<Verification>,
     pub run_id: String,
     pub status: String,
     pub summary: String,
@@ -61,6 +74,8 @@ pub struct RecordedStep {
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct RuntimeRun {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub verification: Option<Verification>,
     pub info: RunStart,
     pub status: String,
     pub started_at: String,
@@ -141,6 +156,11 @@ fn load(root: &Path) -> Result<Store> {
         .context("运行记录损坏，保留原文件，请先备份修复")?;
     ensure!(store.schema_version == 1, "不支持的运行记录版本");
     ensure!(store.runs.len() <= 50, "运行记录数量超限");
+    for run in &store.runs {
+        if let Some(v) = &run.verification {
+            validate_verification(v)?;
+        }
+    }
     Ok(store)
 }
 fn save(root: &Path, store: &Store) -> Result<()> {
@@ -191,6 +211,7 @@ pub fn start(root: &Path, info: RunStart) -> Result<RuntimeRun> {
         "运行 ID 已存在"
     );
     let run = RuntimeRun {
+        verification: None,
         info,
         status: "running".into(),
         started_at: now(),
@@ -273,6 +294,13 @@ pub fn finish(root: &Path, request: RunFinish) -> Result<RuntimeRun> {
     let root = canonical_root(root)?;
     id(&request.run_id)?;
     text(&request.summary, 2000)?;
+    if let Some(v) = &request.verification {
+        validate_verification(v)?;
+        ensure!(
+            request.status == "completed" || v.verdict != "matched",
+            "未成功结束的运行不能标记符合预期"
+        );
+    }
     ensure!(
         ["completed", "failed", "cancelled"].contains(&request.status.as_str()),
         "未知运行结束状态"
@@ -289,6 +317,7 @@ pub fn finish(root: &Path, request: RunFinish) -> Result<RuntimeRun> {
         request.status != "completed" || !run.steps.is_empty(),
         "没有步骤不能标记完成"
     );
+    run.verification = request.verification;
     run.status = request.status;
     run.info.summary = request.summary;
     run.finished_at = Some(now());
@@ -333,4 +362,42 @@ pub fn read(root: &Path, id: &str) -> Result<RunView> {
         })
         .collect();
     Ok(RunView { run, steps })
+}
+
+fn validate_verification(v: &Verification) -> Result<()> {
+    for value in [&v.goal, &v.expected, &v.actual] {
+        text(value, 2000)?;
+    }
+    ensure!(
+        ["matched", "different", "notCompared"].contains(&v.verdict.as_str()),
+        "未知验证比较结果"
+    );
+    for (values, limit) in [(&v.inputs, 10), (&v.key_values, 5)] {
+        ensure!(values.len() <= limit, "验证摘要变量数量超限");
+        let mut names = HashSet::new();
+        for value in values {
+            text(&value.name, 100)?;
+            ensure!(value.value.chars().count() <= 2000, "验证摘要变量过长");
+            ensure!(names.insert(&value.name), "验证摘要变量名重复");
+        }
+    }
+    Ok(())
+}
+
+/// Freeze a verification target before commands execute; this is not a call trace.
+pub fn capture_location(
+    root: &Path,
+    path: &str,
+    start_line: usize,
+    end_line: usize,
+) -> Result<RuntimeLocation> {
+    let file = read_file(root, path)?;
+    let location = RuntimeLocation {
+        path: file.path,
+        start_line,
+        end_line,
+        file_hash: file.hash,
+    };
+    source(root, &location)?;
+    Ok(location)
 }

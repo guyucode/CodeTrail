@@ -3314,3 +3314,15 @@ summary { cursor: pointer; }
 .code-search .file-nav-item { width:100%; text-align:left; }
 .code-search .file-nav-item span { min-width:0; }
 .code-search .file-nav-item strong,.code-search .file-nav-item small { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+.verification-overview { background:#192330; border:1px solid #344257; border-radius:10px; padding:22px; margin:18px 0; }
+.verification-overview h3 { margin:8px 0; font-size:20px; }
+.verification-overview header>span { font-size:12px; color:#a8cabb; }
+.verification-fields>div { display:grid; grid-template-columns:100px minmax(0,1fr); gap:16px; padding:16px 0; border-top:1px solid #344257; }
+.verification-fields>div>dt { color:#9facbf; font-size:13px; }
+.verification-fields dd { margin:0; white-space:pre-wrap; overflow-wrap:anywhere; line-height:1.7; }
+.verification-values { margin:0; }
+.verification-values>div { display:flex; flex-wrap:wrap; column-gap:14px; margin-bottom:5px; }
+.verification-values dt { color:#aab8ca; }
+.runtime-details>summary { cursor:pointer; color:#b9adf3; padding:12px 0; }
+.runtime-legacy { color:#9facbf; font-size:12px!important; }

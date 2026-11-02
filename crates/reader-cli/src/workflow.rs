@@ -50,7 +50,18 @@ pub struct Plan {
     #[serde(default)]
     unassociated: Vec<Exception>,
     checks: Vec<Check>,
+    #[serde(default)]
+    record: Option<ValidationRecord>,
 }
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct ValidationRecord {
+    goal: String,
+    path: String,
+    start_line: usize,
+    end_line: usize,
+}
+
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 struct Exception {
@@ -123,6 +134,14 @@ pub fn validate(root: &Path, bytes: &[u8]) -> Result<Value> {
     let plan: Plan = serde_json::from_slice(bytes).context("无效的交付检查计划")?;
     ensure!(plan.schema_version == 1, "不支持的检查计划版本");
     ensure!(!plan.checks.is_empty(), "必须明确列出实际执行的检查命令");
+    ensure!(
+        plan.checks.iter().all(|c| !c.program.trim().is_empty()),
+        "检查程序不能为空"
+    );
+    ensure!(
+        plan.record.is_none() || plan.checks.len() <= 200,
+        "验证记录最多200条检查"
+    );
     let before = coverage(root, &plan.base)?;
     let files = before["files"].as_array().unwrap();
     let mut used = BTreeSet::new();
@@ -153,9 +172,16 @@ pub fn validate(root: &Path, bytes: &[u8]) -> Result<Value> {
         );
     }
     let inventory_before = agent::inspect(root)?;
+    let recording = plan
+        .record
+        .as_ref()
+        .map(|r| begin_record(root, r))
+        .transpose()?;
+    let mut recording_errors = Vec::new();
     let mut checks = Vec::new();
-    for c in &plan.checks {
+    for (index, c) in plan.checks.iter().enumerate() {
         ensure!(!c.program.trim().is_empty(), "检查程序不能为空");
+        let started = std::time::Instant::now();
         let result = Command::new(&c.program)
             .args(&c.args)
             .current_dir(root)
@@ -165,14 +191,50 @@ pub fn validate(root: &Path, bytes: &[u8]) -> Result<Value> {
                 "exitCode":out.status.code(),"stdout":String::from_utf8_lossy(&out.stdout),"stderr":String::from_utf8_lossy(&out.stderr)})),
             Err(e) => checks.push(json!({"program":c.program,"args":c.args,"ok":false,"error":e.to_string()}))
         }
+        checks.last_mut().unwrap()["elapsedMs"] = json!(started.elapsed().as_millis() as u64);
+        if let Some((id, source)) = &recording {
+            if let Err(error) = record_check(root, id, source, index, checks.last().unwrap()) {
+                recording_errors.push(error.to_string());
+            }
+        }
     }
-    let after = coverage(root, &plan.base)?;
-    let inventory_after = agent::inspect(root)?;
-    let stable = before == after && inventory_before == inventory_after;
-    let ok = stable && association_check(root)? && checks.iter().all(|c| c["ok"] == true);
+    let after_result = coverage(root, &plan.base);
+    let inventory_after = agent::inspect(root);
+    let final_associations = association_check(root);
+    let mut post_check_errors = Vec::new();
+    let stable = after_result.as_ref().is_ok_and(|after| &before == after)
+        && inventory_after
+            .as_ref()
+            .is_ok_and(|after| &inventory_before == after);
+    let associations_ok = final_associations.as_ref().is_ok_and(|ok| *ok);
+    if let Err(e) = &after_result {
+        post_check_errors.push(e.to_string());
+    }
+    if let Err(e) = &inventory_after {
+        post_check_errors.push(e.to_string());
+    }
+    if let Err(e) = &final_associations {
+        post_check_errors.push(e.to_string());
+    }
+    let after = after_result.unwrap_or(Value::Null);
+    let checks_ok = stable && associations_ok && checks.iter().all(|c| c["ok"] == true);
+    if let Some((id, _)) = &recording {
+        if let Err(error) = finish_record(
+            root,
+            id,
+            plan.record.as_ref().unwrap(),
+            &checks,
+            stable,
+            checks_ok && recording_errors.is_empty(),
+        ) {
+            recording_errors.push(error.to_string());
+        }
+    }
+    let ok = checks_ok && recording_errors.is_empty();
     Ok(
-        json!({"ok":ok,"associationsOk":association_check(root)?,"coverage":after,
+        json!({"ok":ok,"associationsOk":associations_ok,"coverage":after,"postCheckErrors":post_check_errors,
         "sourceAndMetadataStable":stable,"checks":checks,
+        "verificationRunId":recording.as_ref().map(|(id,_)| id),"verificationErrors":recording_errors,
         "note":"执行的是调用者明确提供的命令；不推断测试充分性，不产生人工确认。"}),
     )
 }
@@ -187,4 +249,131 @@ pub fn read_input() -> Result<Vec<u8>> {
         bail!("JSON 超出 2 MiB");
     }
     Ok(bytes)
+}
+
+fn begin_record(
+    root: &Path,
+    config: &ValidationRecord,
+) -> Result<(String, reader_core::trace::RuntimeLocation)> {
+    use reader_core::trace;
+    use std::sync::atomic::{AtomicU64, Ordering};
+    static SERIAL: AtomicU64 = AtomicU64::new(0);
+    ensure!(
+        !config.goal.trim().is_empty() && config.goal.chars().count() <= 2000,
+        "验证目标为空或过长"
+    );
+    let source = trace::capture_location(root, &config.path, config.start_line, config.end_line)?;
+    let stamp = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)?
+        .as_nanos();
+    let id = format!(
+        "validation-{}-{stamp}-{}",
+        std::process::id(),
+        SERIAL.fetch_add(1, Ordering::Relaxed)
+    );
+    trace::start(
+        root,
+        trace::RunStart {
+            id: id.clone(),
+            label: config.goal.chars().take(100).collect(),
+            kind: "isolatedTest".into(),
+            producer: "reader-cli agent validate".into(),
+            summary: "实际执行调用者选定的交付检查；代码位置代表验证目标，不推断完整业务调用路径。"
+                .into(),
+        },
+    )?;
+    Ok((id, source))
+}
+
+fn record_check(
+    root: &Path,
+    id: &str,
+    source: &reader_core::trace::RuntimeLocation,
+    index: usize,
+    check: &Value,
+) -> Result<()> {
+    use reader_core::trace::{self, ObservedValue, RuntimeStep, StepRequest};
+    let program = Path::new(check["program"].as_str().unwrap_or("检查程序"))
+        .file_name()
+        .unwrap_or_default()
+        .to_string_lossy();
+    let exit = check["exitCode"]
+        .as_i64()
+        .map(|n| n.to_string())
+        .unwrap_or_else(|| "未正常退出或未启动".into());
+    trace::append(
+        root,
+        StepRequest {
+            run_id: id.into(),
+            step: RuntimeStep {
+                id: format!("check-{}", index + 1),
+                title: format!("检查{}：{program}", index + 1),
+                status: if check["ok"] == true { "ok" } else { "error" }.into(),
+                result: format!("实际退出码：{exit}。"),
+                reason: "实际执行显式检查命令；此处位置仅指验证目标，不证明该函数被调用。".into(),
+                inputs: vec![ObservedValue {
+                    name: "程序".into(),
+                    value: program.into_owned(),
+                }],
+                outputs: vec![ObservedValue {
+                    name: "退出码".into(),
+                    value: exit,
+                }],
+                location: source.clone(),
+                elapsed_ms: check["elapsedMs"].as_u64().unwrap_or(0),
+            },
+        },
+    )?;
+    Ok(())
+}
+
+fn finish_record(
+    root: &Path,
+    id: &str,
+    config: &ValidationRecord,
+    checks: &[Value],
+    stable: bool,
+    ok: bool,
+) -> Result<()> {
+    use reader_core::trace::{self, ObservedValue, RunFinish, Verification};
+    let passed = checks.iter().filter(|c| c["ok"] == true).count();
+    let mut actual = format!(
+        "执行{}条检查：成功{}，失败{}；{}。",
+        checks.len(),
+        passed,
+        checks.len() - passed,
+        if stable {
+            "源码与功能关联保持一致"
+        } else {
+            "源码或功能关联发生变化"
+        }
+    );
+    if !ok && passed == checks.len() && stable {
+        actual.push_str("记录或交付校验未完整通过，不能确认验证成功。");
+    }
+    let value = |name: &str, value: String| ObservedValue {
+        name: name.into(),
+        value,
+    };
+    trace::finish(
+        root,
+        RunFinish {
+            run_id: id.into(),
+            status: if ok { "completed" } else { "failed" }.into(),
+            summary: "实际执行选定的交付检查；不等同于业务验收，不包含未采集的业务中间值。".into(),
+            verification: Some(Verification {
+                goal: config.goal.clone(),
+                inputs: vec![value("检查命令数", checks.len().to_string())],
+                expected: "选定的检查命令全部成功，源码和功能关联在检查期间保持一致。".into(),
+                actual,
+                key_values: vec![
+                    value("成功检查数", passed.to_string()),
+                    value("失败检查数", (checks.len() - passed).to_string()),
+                    value("源码与关联一致", stable.to_string()),
+                ],
+                verdict: if ok { "matched" } else { "different" }.into(),
+            }),
+        },
+    )?;
+    Ok(())
 }

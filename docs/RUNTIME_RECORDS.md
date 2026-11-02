@@ -4,7 +4,7 @@
 
 ## 阅读方式
 
-打开项目后，左侧点“运行记录”，选择一次运行。默认只显示步骤结果与原因；展开可看显式采集的输入、输出、耗时和代码位置。源码 SHA-256 相同时可跳到当前代码，再点“返回本次运行”。源码不同或文件丢失时禁用跳转，保留历史变量与当时的代码片段，避免错配旧行号。
+打开项目后，左侧点“运行记录”，选择一次运行。默认看验证目标、输入、预期、实际和几个关键中间值；完整步骤、来源和代码位置放在“查看过程与代码”中。旧记录缺少预期时明确显示未记录。源码 SHA-256 相同时可跳到当前代码，再点“返回本次运行”。源码不同或文件丢失时禁用跳转，保留历史变量与当时的代码片段，避免错配旧行号。
 
 右侧继续显示 Agent 动态与批注。运行页面的批注上下文包含运行名称和编号，仍由人手动导出与发送。新增运行不会自动抢占已选中的旧运行；当前选择每 2 秒更新。没有结束记录只说明未收到结束，不保证进程仍存活。
 
@@ -47,7 +47,7 @@ finish JSON：`{runId,status,summary}`，status 为 completed/failed/cancelled�
 
 ## Python 接入
 
-标准库采集器在 `sdk/python/codetrail_trace.py`。显式启用并传入可信本机 CLI 路径，不修改 Python 全局环境。默认采集失败只给出可见警告，业务继续、记录可能不完整；strict=True 仅适合隔离验证。
+标准库采集器在 `sdk/python/codetrail_trace.py`。显式启用并传入可信本机 CLI 路径，不修改 Python 全局环境。默认采集失败只给出可见警告，业务继续、记录可能不完整；strict=True 仅适合隔离验证。以下保留旧接口示例；新的交付还应使用下方 verification 摘要填写预期和实际比较。
 
 ```python
 from codetrail_trace import Recorder, location
@@ -81,3 +81,48 @@ recorder.finish("completed", "本次处理结束。")
 单个存储最多 2 MiB、50 次运行、每次 200 步；超限拒绝新写入并提示备份归档，不自动删除历史。重复运行/步骤 ID、已结束运行的追加或二次结束均拒绝；trace.lock 串行跨进程写入，异常残留需确认无进程后人工清理。运行记录默认被项目 .gitignore 排除，不跟随源码提交。
 
 此协议是可信本机采集器之间的约定，不是防伪签名：Agent/其他有文件权限的程序也能构造记录。必须注明生产者、测试替身和执行范围；不能用手填 JSON 冒充本次真实执行。
+
+## 简约验证摘要（可选扩展，旧记录保留）
+
+运行页面默认只看五项：验证目标、输入、预期、实际、关键中间值。完整步骤、来源、代码位置与旧源码片段折叠到“查看过程与代码”。缺少摘要的旧记录不迁移、不改写：保留原运行名称、首步已采集输入和末步实际结果，明确“未记录预期”，不推断验证通过。
+
+`trace finish` 可以增加 verification；旧调用省略时仍能保存旧格式：
+
+```json
+{
+  "runId":"本次真实运行编号",
+  "status":"completed",
+  "summary":"隔离测试，实际调用价格上限函数。",
+  "verification":{
+    "goal":"价格超过上限时返回上限",
+    "inputs":[{"name":"价格","value":"150"}],
+    "expected":"120",
+    "actual":"120",
+    "keyValues":[{"name":"本次上限","value":"120"}],
+    "verdict":"matched"
+  }
+}
+```
+
+上例仅说明格式，不是一次真实运行。调用者应在执行前确定预期，实际调用后填写返回值和实际采集的变量，再用 matched（符合预期）、different（不同）、notCompared（未比较）明确比较结果。执行结束不等于符合预期；failed/cancelled 不能填写 matched。阅读器不独立执行程序或证明生产者未伪造数据。
+
+goal/expected/actual 各最多2000字符且非空，inputs最多10项，keyValues最多5项，名称最多100字符、值最多2000字符，同组名称不得重复。摘要与当前运行原子完成，已结束记录不能补写或覆盖。保存仍为 schemaVersion:1，增加可选字段；新版读取旧记录不要求迁移，旧版软件可能不理解新增字段，CLI和桌面应配套更新。
+
+Python SDK：
+
+```python
+from codetrail_trace import verification
+expected = 120  # 在执行之前确定
+source = location(project_root, final_price)
+actual = final_price(150, 120)  # 本次真实调用
+recorder.step("计算价格", f"实际返回 {actual}", "按本次返回值记录。",
+              source=source, inputs={"价格":150}, outputs={"结果":actual})
+recorder.finish("completed", "实际执行一次隔离函数。", verification=verification(
+    "价格超过上限时返回上限", inputs={"价格":150}, expected=str(expected),
+    actual=str(actual), key_values={"本次上限":120},
+    verdict="matched" if actual == expected else "different"))
+```
+
+示例代码需由实际程序执行才构成观测。敏感数据仍须显式允许清单；SDK的已知敏感字段名处理不是通用脱敏保证，避免向摘要文本写入密钥、用户完整历史或原始请求。
+
+`agent validate` 的 record 选项可自动记录实际检查命令，详见交付协议。默认只保存程序名称、退出码、耗时和计数，不复制命令参数/原始输出。自动中间值属于“检查结果计数”，不能当作业务变量。超过50次/2 MiB等原有限制时明确报错，不自动删除旧记录。

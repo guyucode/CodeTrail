@@ -259,3 +259,58 @@ fn cli_delivers_c_and_cpp_symbols_and_refreshes_moved_evidence() {
     assert!(repo.call("deliver", Some(&draft)).0);
     assert!(repo.call("check", None).0);
 }
+
+#[test]
+fn validate_records_real_exit_codes_without_overwriting_legacy_or_human_data() {
+    let repo = Repo::new();
+    repo.deliver_logic();
+    repo.baseline();
+    let feedback = br#"[{"id":"synthetic-feedback","body":"keep this isolated test note"}]"#;
+    fs::write(repo.0.join(".reader/annotations.json"), feedback).unwrap();
+    let program = env!("CARGO_BIN_EXE_reader-cli");
+    let mut plan = json!({"schemaVersion":1,"base":"HEAD","unassociated":[],"checks":[{"program":program,"args":["agent","check","."]}],"record":{"goal":"Check actual delivered fixture","path":"logic.py","startLine":1,"endLine":2}});
+    let (ok, result) = repo.call("validate", Some(&plan));
+    assert!(ok, "{result}");
+    let id = result["verificationRunId"].as_str().unwrap();
+    let view = reader_core::trace::read(&repo.0, id).unwrap();
+    assert_eq!(view.run.status, "completed");
+    assert_eq!(view.run.verification.unwrap().verdict, "matched");
+    assert_eq!(view.steps[0].record.observation.outputs[0].value, "0");
+    let before = fs::read(repo.0.join(".reader/runs.json")).unwrap();
+    let mut legacy = plan.clone();
+    legacy.as_object_mut().unwrap().remove("record");
+    assert!(repo.call("validate", Some(&legacy)).0);
+    assert_eq!(before, fs::read(repo.0.join(".reader/runs.json")).unwrap());
+    plan["checks"][0]["args"] = json!(["unknown-command"]);
+    let (ok, result) = repo.call("validate", Some(&plan));
+    assert!(!ok);
+    let view =
+        reader_core::trace::read(&repo.0, result["verificationRunId"].as_str().unwrap()).unwrap();
+    assert_eq!(view.run.status, "failed");
+    assert_eq!(view.run.verification.unwrap().verdict, "different");
+    assert_eq!(view.steps[0].record.observation.outputs[0].value, "1");
+    plan["record"]["path"] = json!(".reader/agent.json");
+    let before = fs::read(repo.0.join(".reader/runs.json")).unwrap();
+    assert!(!repo.call("validate", Some(&plan)).0);
+    assert_eq!(before, fs::read(repo.0.join(".reader/runs.json")).unwrap());
+    assert_eq!(
+        feedback.as_slice(),
+        fs::read(repo.0.join(".reader/annotations.json")).unwrap()
+    );
+}
+
+#[test]
+fn verification_cannot_pass_when_check_commands_change_target_source() {
+    let repo = Repo::new();
+    repo.deliver_logic();
+    repo.baseline();
+    let plan = json!({"schemaVersion":1,"base":"HEAD","unassociated":[],"checks":[{"program":"git","args":["mv","logic.py","moved.py"]}],"record":{"goal":"Keep source stable","path":"logic.py","startLine":1,"endLine":2}});
+    let (ok, result) = repo.call("validate", Some(&plan));
+    assert!(!ok, "{result}");
+    assert_eq!(result["sourceAndMetadataStable"], false);
+    let view =
+        reader_core::trace::read(&repo.0, result["verificationRunId"].as_str().unwrap()).unwrap();
+    assert_eq!(view.run.status, "failed");
+    assert_eq!(view.run.verification.unwrap().verdict, "different");
+    assert!(!result["verificationErrors"].as_array().unwrap().is_empty());
+}

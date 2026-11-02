@@ -7,70 +7,8 @@ import sys
 import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
-BASE = 'd9efbc04bdfe71c2561310891db34f71d921ab8f'
-REASONS = {'Cargo.lock': 'Lock the two official C/C++ grammar packages; generated dependency edges are not '
-               'business code.',
- 'crates/reader-core/Cargo.toml': 'Declare C/C++ grammar dependencies; actual extraction and '
-                                  'boundaries are associated with the syntax-index feature.',
- 'crates/reader-core/src/lib.rs': 'Move the existing traversal policy into source_walker; its '
-                                  'implementation is associated. Module registration is shared '
-                                  'plumbing; deleted lines were moved, not removed behavior.',
- 'crates/reader-core/src/parse.rs': 'Imports, grammar dispatch, bounded error counting and shared '
-                                    'symbol-recording refactor support associated C/C++ '
-                                    'extraction. Deleted side moves the existing record logic '
-                                    'without retiring old language identities.',
- 'crates/reader-core/src/search.rs': 'DTO fields, serialization derives and imports support the '
-                                     'associated bounded read-only search implementation.',
- 'crates/reader-core/tests/c_family.rs': 'Shared test imports support five associated grammar, '
-                                         'scope and partial-index regressions.',
- 'crates/reader-core/tests/search.rs': 'Shared test imports; both meaningful text and boundary '
-                                       'regressions are associated.',
- 'docs/USER_GUIDE.md': 'Document C/C++ source-development support, supported extensions, literal '
-                       'search and semantic/call-graph limits; existing full guide evidence covers '
-                       'the instructions.',
- 'src-tauri/Cargo.lock': 'Synchronize the desktop lockfile with the same C/C++ parser packages '
-                         'used by reader-cli.',
- 'src-tauri/src/lib.rs': 'Register the session-bound search command; the command implementation is '
-                         'associated.',
- 'src/App.tsx': 'Import the search component and replace input wording. Existing App evidence '
-                'includes result navigation and review isolation.',
- 'src/api.ts': 'Result type import and desktop/demo dispatch; existing api evidence includes '
-               'literal demo search and native invocation.',
- 'src/components/CodeSearch.tsx': 'Component imports and prop declarations; query cancellation and '
-                                  'result actions are associated with the component.',
- 'src/styles.css': 'Narrow sidebar layout and long-result ellipsis, without data or access '
-                   'semantics.',
- 'src/types.ts': 'Frontend DTO declarations mirror native search results, without separate '
-                 'business behavior.',
- 'README.md': 'Update both platform downloads and matching CLI links to 0.3.1; preserve '
-              'compatibility and signing boundaries.',
- 'docs/MAC_RELEASE.md': 'Document Mac 0.3.1 installers and tools without overstating platform '
-                        'validation.',
- 'docs/WINDOWS_RELEASE.md': 'Document Windows 0.3.1 installer and tool names with the actual '
-                            'validation boundary.',
- 'docs/AGENT_DELIVERY.md': 'Specify matching 0.3.1 C/C++ CLI and desktop support; preserve schema '
-                           'and human review isolation.',
- 'scripts/windows-check-plan.py': 'Update the fixed release baseline and reviewed exceptions for '
-                                  'search, C/C++ and version metadata; reject unknown uncovered '
-                                  'paths.',
- '.github/workflows/windows-preview.yml': 'Run the final release CLI against an isolated C/C++ '
-                                          'delivery fixture before packaging.',
- 'scripts/test-windows-install.ps1': 'Require the new search entry in the installed native '
-                                     'frontend in addition to the existing exact-binary, resource '
-                                     'and rendering checks.',
- 'scripts/check-release-cli.py': 'Synthetic final-binary acceptance fixture: inspect C/C++ symbols '
-                                 'and deliver/check valid associations without real user records.',
- 'package.json': 'Synchronize release package version to 0.3.1.',
- 'package-lock.json': 'Synchronize root npm package version without changing npm dependency '
-                      'resolution.',
- 'crates/reader-cli/Cargo.toml': 'Synchronize CLI version with the 0.3.1 desktop and core.',
- 'crates/reader-collab/Cargo.toml': 'Synchronize local workspace package version; no collaboration '
-                                    'protocol changes.',
- 'src-tauri/Cargo.toml': 'Synchronize the desktop package release version.',
- 'src-tauri/tauri.conf.json': 'Set bundle version 0.3.1 while preserving identifier, data paths '
-                              'and permissions.',
- 'scripts/package-windows.ps1': 'Select only the current-version x64 installer so cached older '
-                                'installers cannot be shipped or block packaging.'}
+BASE = '7db14e3eea166d6996968e5ee9e9a9ce5c358b68'
+REASONS = {'crates/reader-cli/src/workflow.rs': 'Replace post-check short-circuit errors with explicit failure reports and a trace lifecycle; prior validation branches are retained in stricter form.', 'docs/AGENT_DELIVERY.md': 'Replace the old execution description with the explicit reviewed-command boundary and document optional trace recording.', 'docs/RUNTIME_RECORDS.md': 'Replace the old step-first default with the five-field overview; retain old producer and storage compatibility.', 'docs/USER_GUIDE.md': 'Replace the prior step-first reading instructions with the summary-first workflow and clear legacy-data behavior.', 'sdk/python/codetrail_trace.py': 'Extend finish with an optional verification payload; omitting it still sends the unchanged legacy shape.', 'sdk/python/test_codetrail_trace.py': 'Extend the actual-function recorder integration check to verify expected/actual summary and observed values.', 'src/components/RuntimePane.tsx': 'Replace the always-expanded run summary and step list with the five-field overview plus closed process disclosure; legacy details and navigation remain available.', 'package.json': 'Synchronize 0.3.2 package and generated lock metadata; no dependency resolution change.', 'package-lock.json': 'Synchronize 0.3.2 package and generated lock metadata; no dependency resolution change.', 'crates/reader-core/Cargo.toml': 'Synchronize 0.3.2 package and generated lock metadata; no dependency resolution change.', 'crates/reader-cli/Cargo.toml': 'Synchronize 0.3.2 package and generated lock metadata; no dependency resolution change.', 'crates/reader-collab/Cargo.toml': 'Synchronize 0.3.2 package and generated lock metadata; no dependency resolution change.', 'Cargo.lock': 'Synchronize 0.3.2 package and generated lock metadata; no dependency resolution change.', 'src-tauri/Cargo.toml': 'Synchronize 0.3.2 package and generated lock metadata; no dependency resolution change.', 'src-tauri/Cargo.lock': 'Synchronize 0.3.2 package and generated lock metadata; no dependency resolution change.', 'src-tauri/tauri.conf.json': 'Synchronize 0.3.2 package and generated lock metadata; no dependency resolution change.', 'README.md': 'Document matching 0.3.2 downloads, five-field runtime summaries, upgrade compatibility and actual platform validation boundaries.', 'docs/MAC_RELEASE.md': 'Document matching 0.3.2 downloads, five-field runtime summaries, upgrade compatibility and actual platform validation boundaries.', 'docs/WINDOWS_RELEASE.md': 'Document matching 0.3.2 downloads, five-field runtime summaries, upgrade compatibility and actual platform validation boundaries.', 'scripts/windows-check-plan.py': 'Set the fixed runtime-summary release baseline, reviewed delta exceptions and explicit real validation recording.', 'scripts/check-release-cli.py': 'Exercise the actual final CLI on isolated C/C++ associations and real command-generated verification records, without user data.'}
 
 def main():
     cli = ROOT / 'target/debug' / ('reader-cli.exe' if os.name == 'nt' else 'reader-cli')
@@ -91,7 +29,9 @@ def main():
         ('git', ['diff', '--check', BASE]),
     ]
     plan = {'schemaVersion': 1, 'base': BASE, 'unassociated': exceptions,
-            'checks': [{'program': program, 'args': args} for program, args in checks]}
+            'checks': [{'program': program, 'args': args} for program, args in checks],
+            'record': {'goal': 'Validate runtime summaries and release compatibility on Windows',
+                       'path': 'src/components/RuntimePane.tsx', 'startLine': 56, 'endLine': 66}}
     output = Path(os.environ.get('RUNNER_TEMP', tempfile.gettempdir())) / 'codetrail-windows-check-plan.json'
     output.write_text(json.dumps(plan, ensure_ascii=False), encoding='utf-8')
     print(output)

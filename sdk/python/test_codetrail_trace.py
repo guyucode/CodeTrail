@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
-from codetrail_trace import Recorder, location, selected_values
+from codetrail_trace import Recorder, location, selected_values, verification
 CLI=Path(__file__).resolve().parents[2]/"target/debug"/("reader-cli.exe" if os.name == "nt" else "reader-cli")
 
 class RecorderChecks(unittest.TestCase):
@@ -22,11 +22,13 @@ class RecorderChecks(unittest.TestCase):
             recorder=Recorder(root,CLI,'actual strip',kind='isolatedTest',producer='unittest',summary='Execute a real function',strict=True)
             source=location(root,module.run);actual=module.run('  hello  ')
             recorder.step('strip',f'actual result: {actual}','The function returned.',source=source,inputs={'value':'  hello  '},outputs={'actual':actual})
-            recorder.finish('completed','The isolated function returned.')
+            recorder.finish('completed','The isolated function returned.', verification=verification('Strip whitespace', inputs={'value':'  hello  '}, expected='hello', actual=actual, key_values={'length':len(actual)}, verdict='matched'))
             data=json.loads((root/'.reader/runs.json').read_text())['runs'][0]
             self.assertEqual(data['steps'][0]['observation']['outputs'][0]['value'],'"hello"')
             self.assertIn('return value.strip()',data['steps'][0]['sourceExcerpt'])
             self.assertEqual(data['status'],'completed')
+            self.assertEqual(data['verification']['actual'],'hello')
+            self.assertEqual(data['verification']['keyValues'][0]['value'],'5')
 
     def test_unavailable_recorder_is_visible_and_nonfatal_by_default(self):
         with tempfile.TemporaryDirectory() as root:

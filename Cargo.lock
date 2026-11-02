@@ -851,7 +851,7 @@ dependencies = [
 
 [[package]]
 name = "reader-cli"
-version = "0.3.1"
+version = "0.3.2"
 dependencies = [
  "anyhow",
  "reader-core",
@@ -862,7 +862,7 @@ dependencies = [
 
 [[package]]
 name = "reader-collab"
-version = "0.3.1"
+version = "0.3.2"
 dependencies = [
  "anyhow",
  "axum",
@@ -880,7 +880,7 @@ dependencies = [
 
 [[package]]
 name = "reader-core"
-version = "0.3.1"
+version = "0.3.2"
 dependencies = [
  "anyhow",
  "ignore",
